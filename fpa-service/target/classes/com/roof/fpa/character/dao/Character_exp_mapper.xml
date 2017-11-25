@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.character.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.name as name, t1.theme_id as themeId, t1.character_color_id as characterColorId, t1.gender as gender, t1.state as state, t1.description as description, t1.card_unit_id as cardUnitId
+	</sql>
+	
+	<select id="selectCharacterPage" resultType="com.roof.fpa.character.entity.CharacterVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		c_character t1
+		join
+		(SELECT
+		id
+		from
+		c_character
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectCharacterCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from c_character
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

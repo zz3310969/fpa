@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.cardunit.dao">
+
+	<sql id="columns">
+		id, color_code, card_id, name, color_id, image_big, image_mid, image_small, score, description, unit_type
+	</sql>
+
+	<sql id="columns_as">
+		id as id , color_code as colorCode , card_id as cardId , name as name , color_id as colorId , image_big as imageBig , image_mid as imageMid , image_small as imageSmall , score as score , description as description , unit_type as unitType 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{colorCode}, #{cardId}, #{name}, #{colorId}, #{imageBig}, #{imageMid}, #{imageSmall}, #{score}, #{description}, #{unitType}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="colorCode != null and colorCode != ''">
+			and color_code = #{colorCode}
+		</if>
+		<if test="cardId != null">
+			and card_id = #{cardId}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="colorId != null">
+			and color_id = #{colorId}
+		</if>
+		<if test="imageBig != null and imageBig != ''">
+			and image_big = #{imageBig}
+		</if>
+		<if test="imageMid != null and imageMid != ''">
+			and image_mid = #{imageMid}
+		</if>
+		<if test="imageSmall != null and imageSmall != ''">
+			and image_small = #{imageSmall}
+		</if>
+		<if test="score != null">
+			and score = #{score}
+		</if>
+		<if test="description != null and description != ''">
+			and description = #{description}
+		</if>
+		<if test="unitType != null">
+			and unit_type = #{unitType}
+		</if>
+	</sql>
+
+	<insert id="saveCardUnit" parameterType="com.roof.fpa.cardunit.entity.CardUnit" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_card_unit (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCardUnit">
+		delete from c_card_unit
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCardUnit">
+		delete from c_card_unit
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCardUnit">
+		update c_card_unit
+		<set>
+			id=#{id}, 
+			color_code=#{colorCode}, 
+			card_id=#{cardId}, 
+			name=#{name}, 
+			color_id=#{colorId}, 
+			image_big=#{imageBig}, 
+			image_mid=#{imageMid}, 
+			image_small=#{imageSmall}, 
+			score=#{score}, 
+			description=#{description}, 
+			unit_type=#{unitType}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCardUnit">
+		update c_card_unit
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="colorCode != null and colorCode != ''">
+			color_code=#{colorCode}, 
+		</if>
+		<if test="cardId != null">
+			card_id=#{cardId}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="colorId != null">
+			color_id=#{colorId}, 
+		</if>
+		<if test="imageBig != null and imageBig != ''">
+			image_big=#{imageBig}, 
+		</if>
+		<if test="imageMid != null and imageMid != ''">
+			image_mid=#{imageMid}, 
+		</if>
+		<if test="imageSmall != null and imageSmall != ''">
+			image_small=#{imageSmall}, 
+		</if>
+		<if test="score != null">
+			score=#{score}, 
+		</if>
+		<if test="description != null and description != ''">
+			description=#{description}, 
+		</if>
+		<if test="unitType != null">
+			unit_type=#{unitType}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCardUnit">
+		update c_card_unit
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="colorCode != null and colorCode != ''">
+			color_code=#{colorCode}, 
+			</if>
+			<if test="cardId != null">
+			card_id=#{cardId}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="colorId != null">
+			color_id=#{colorId}, 
+			</if>
+			<if test="imageBig != null and imageBig != ''">
+			image_big=#{imageBig}, 
+			</if>
+			<if test="imageMid != null and imageMid != ''">
+			image_mid=#{imageMid}, 
+			</if>
+			<if test="imageSmall != null and imageSmall != ''">
+			image_small=#{imageSmall}, 
+			</if>
+			<if test="score != null">
+			score=#{score}, 
+			</if>
+			<if test="description != null and description != ''">
+			description=#{description}, 
+			</if>
+			<if test="unitType != null">
+			unit_type=#{unitType}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCardUnit" resultType="com.roof.fpa.cardunit.entity.CardUnitVo">
+		select 
+		<include refid="columns_as"/>
+		from c_card_unit
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCardUnit" resultType="com.roof.fpa.cardunit.entity.CardUnitVo">
+		select 
+		<include refid="columns_as"/>
+		from c_card_unit
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
