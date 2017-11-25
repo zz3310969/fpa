@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.theme.dao">
+
+	<sql id="columns">
+		id, numb, name, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , numb as numb , name as name , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{numb}, #{name}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="numb != null and numb != ''">
+			and numb = #{numb}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveTheme" parameterType="com.roof.fpa.theme.entity.Theme" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_theme (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteTheme">
+		delete from c_theme
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleTheme">
+		delete from c_theme
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateTheme">
+		update c_theme
+		<set>
+			id=#{id}, 
+			numb=#{numb}, 
+			name=#{name}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullTheme">
+		update c_theme
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="numb != null and numb != ''">
+			numb=#{numb}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleTheme">
+		update c_theme
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="numb != null and numb != ''">
+			numb=#{numb}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadTheme" resultType="com.roof.fpa.theme.entity.ThemeVo">
+		select 
+		<include refid="columns_as"/>
+		from c_theme
+		where id=#{id} 
+	</select>
+	
+	<select id="selectTheme" resultType="com.roof.fpa.theme.entity.ThemeVo">
+		select 
+		<include refid="columns_as"/>
+		from c_theme
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
