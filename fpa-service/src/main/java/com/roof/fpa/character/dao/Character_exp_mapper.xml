@@ -8,7 +8,10 @@
 	
 	<select id="selectCharacterPage" resultType="com.roof.fpa.character.entity.CharacterVo">
 		select
-		<include refid="columnsAs"/>
+		<include refid="columnsAs"/>,
+		(SELECT NAME FROM c_character_color WHERE id = t1.character_color_id) AS characterColorName,
+		(SELECT NAME FROM c_theme WHERE id = t1.theme_id) AS themeName,
+		(SELECT NAME FROM c_card_unit WHERE id = t1.card_unit_id) AS cardUnitName
 		from
 		c_character t1
 		join

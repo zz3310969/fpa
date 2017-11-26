@@ -20,7 +20,7 @@
 			and id = #{id}
 		</if>
 		<if test="name != null and name != ''">
-			and name = #{name}
+			and name like CONCAT('%', #{name}, '%')
 		</if>
 		<if test="themeId != null">
 			and theme_id = #{themeId}
@@ -35,7 +35,7 @@
 			and state = #{state}
 		</if>
 		<if test="description != null and description != ''">
-			and description = #{description}
+			and description like CONCAT('%', #{description}, '%')
 		</if>
 		<if test="cardUnitId != null">
 			and card_unit_id = #{cardUnitId}

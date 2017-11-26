@@ -1,8 +1,23 @@
 package com.roof.fpa.character.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
+import com.roof.fpa.DefaultStateEnum;
+import com.roof.fpa.GenderEnum;
+import com.roof.fpa.cardunit.entity.CardUnit;
+import com.roof.fpa.cardunit.entity.CardUnitVo;
+import com.roof.fpa.cardunit.service.api.ICardUnitService;
+import com.roof.fpa.charactercolor.entity.CharacterColor;
+import com.roof.fpa.charactercolor.entity.CharacterColorVo;
+import com.roof.fpa.charactercolor.service.api.ICharacterColorService;
+import com.roof.fpa.theme.entity.Theme;
+import com.roof.fpa.theme.entity.ThemeVo;
+import com.roof.fpa.theme.service.api.IThemeService;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
@@ -12,19 +27,45 @@ import com.roof.fpa.character.service.api.ICharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("fpa")
 public class CharacterController {
 	private ICharacterService characterService;
+	@Autowired
+	private ICharacterColorService characterColorService;
+	@Autowired
+	private IThemeService themeService;
+	@Autowired
+	private ICardUnitService cardUnitService;
+
+	@RequestMapping(value = "character/base", method = {RequestMethod.GET})
+	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
+		Map<String,Object> map = Maps.newHashMap();
+		Theme theme =  new Theme();
+		theme.setState(DefaultStateEnum.usable.getCode());
+		List<ThemeVo> themeVos = themeService.selectForList(theme);
+		map.put("themes",themeVos);
+		CharacterColor characterColor = new CharacterColor();
+		characterColor.setState(DefaultStateEnum.usable.getCode());
+		List<CharacterColorVo> characterColorVos = characterColorService.selectForList(characterColor);
+		map.put("colors",characterColorVos);
+		CardUnit cardUnit = new CardUnit();
+		List<CardUnitVo> cardUnitVos = cardUnitService.selectForList(cardUnit);
+		map.put("cardUnits",cardUnitVos);
+		DefaultStateEnum[] stateEnums = DefaultStateEnum.values();
+		map.put("states", stateEnums);
+		GenderEnum[] genderEnums = GenderEnum.values();
+		map.put("genders",genderEnums);
+		return new Result(Result.SUCCESS, map);
+	}
 
 
 
 
     @RequestMapping(value = "character", method = {RequestMethod.GET})
-    public @ResponseBody Result<Page> list(Character character, HttpServletRequest request, Model model) {
+    public @ResponseBody Result<Page> list(Character character, HttpServletRequest request) {
 	    Page page = PageUtils.createPage(request);
 	    page = characterService.page(page, character);
 	    return new Result(Result.SUCCESS, page);

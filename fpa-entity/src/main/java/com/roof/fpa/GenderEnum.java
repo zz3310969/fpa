@@ -10,27 +10,26 @@ import java.lang.reflect.Type;
 /**
  * Created by zhenglt on 2017/11/25.
  */
-public enum DefaultStateEnum implements JSONSerializable {
+public enum GenderEnum implements JSONSerializable {
 
-    usable(1, "可用","success"),
-    unusable(0, "不可用","error");
+    MALE(1, "男"),
+    FEMALE(2, "女"),
+    NONE(0, "所有");
 
 
 
     private Integer code;
     private String display;
-    private  String value;
 
-    private DefaultStateEnum(Integer code, String display, String value){
+    private GenderEnum(Integer code, String display){
         this.code = code;
         this.display = display;
-        this.value = value;
     }
 
-    public static DefaultStateEnum getEnumByCode(Integer code){
-        for(DefaultStateEnum stateEnum:values()){
-            if(stateEnum.getCode().equals(code)){
-                return stateEnum;
+    public static GenderEnum getEnumByCode(Integer code){
+        for(GenderEnum genderEnum:values()){
+            if(genderEnum.getCode().equals(code)){
+                return genderEnum;
             }
         }
         return null;
@@ -52,14 +51,6 @@ public enum DefaultStateEnum implements JSONSerializable {
         this.display = display;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     @Override
     public void write(JSONSerializer serializer, Object fieldName, Type fieldType, int features) throws IOException {
 
@@ -69,4 +60,5 @@ public enum DefaultStateEnum implements JSONSerializable {
         serializer.write(object);
 
     }
+
 }
