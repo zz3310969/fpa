@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.cardgroup.dao">
+
+	<sql id="columns">
+		id, name, amount, usable
+	</sql>
+
+	<sql id="columns_as">
+		id as id , name as name , amount as amount , usable as usable 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{name}, #{amount}, #{usable}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="name != null">
+			and name = #{name}
+		</if>
+		<if test="amount != null">
+			and amount = #{amount}
+		</if>
+		<if test="usable != null">
+			and usable = #{usable}
+		</if>
+	</sql>
+
+	<insert id="saveCardGroup" parameterType="com.roof.fpa.cardgroup.entity.CardGroup" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_card_group (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCardGroup">
+		delete from c_card_group
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCardGroup">
+		delete from c_card_group
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCardGroup">
+		update c_card_group
+		<set>
+			id=#{id}, 
+			name=#{name}, 
+			amount=#{amount}, 
+			usable=#{usable}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCardGroup">
+		update c_card_group
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="name != null">
+			name=#{name}, 
+		</if>
+		<if test="amount != null">
+			amount=#{amount}, 
+		</if>
+		<if test="usable != null">
+			usable=#{usable}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCardGroup">
+		update c_card_group
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="name != null">
+			name=#{name}, 
+			</if>
+			<if test="amount != null">
+			amount=#{amount}, 
+			</if>
+			<if test="usable != null">
+			usable=#{usable}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCardGroup" resultType="com.roof.fpa.cardgroup.entity.CardGroupVo">
+		select 
+		<include refid="columns_as"/>
+		from c_card_group
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCardGroup" resultType="com.roof.fpa.cardgroup.entity.CardGroupVo">
+		select 
+		<include refid="columns_as"/>
+		from c_card_group
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

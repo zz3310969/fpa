@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.card.dao">
+
+	<sql id="columns">
+		id, card_group_id
+	</sql>
+
+	<sql id="columns_as">
+		id as id , card_group_id as cardGroupId 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{cardGroupId}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="cardGroupId != null">
+			and card_group_id = #{cardGroupId}
+		</if>
+	</sql>
+
+	<insert id="saveCard" parameterType="com.roof.fpa.card.entity.Card" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_card (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCard">
+		delete from c_card
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCard">
+		delete from c_card
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCard">
+		update c_card
+		<set>
+			id=#{id}, 
+			card_group_id=#{cardGroupId}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCard">
+		update c_card
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="cardGroupId != null">
+			card_group_id=#{cardGroupId}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCard">
+		update c_card
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="cardGroupId != null">
+			card_group_id=#{cardGroupId}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCard" resultType="com.roof.fpa.card.entity.CardVo">
+		select 
+		<include refid="columns_as"/>
+		from c_card
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCard" resultType="com.roof.fpa.card.entity.CardVo">
+		select 
+		<include refid="columns_as"/>
+		from c_card
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
