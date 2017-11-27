@@ -9,23 +9,33 @@ import java.util.List;
  */
 public class CharacterColorVo extends CharacterColor {
 
-	private List<CharacterColorVo> characterColorList;
+    private List<CharacterColorVo> characterColorList;
 
-	public CharacterColorVo() {
-		super();
-	}
+    private List<Long> colorIds;
 
-	public CharacterColorVo(Long id) {
-		super();
-		this.id = id;
-	}
+    public CharacterColorVo() {
+        super();
+    }
 
-	public List<CharacterColorVo> getCharacterColorList() {
-		return characterColorList;
-	}
+    public CharacterColorVo(Long id) {
+        super();
+        this.id = id;
+    }
 
-	public void setCharacterColorList(List<CharacterColorVo> characterColorList) {
-		this.characterColorList = characterColorList;
-	}
+    public List<CharacterColorVo> getCharacterColorList() {
+        return characterColorList;
+    }
+
+    public void setCharacterColorList(List<CharacterColorVo> characterColorList) {
+        this.characterColorList = characterColorList;
+    }
+
+    public List<Long> getColorIds() {
+        return colorIds;
+    }
+
+    public void setColorIds(List<Long> colorIds) {
+        this.colorIds = colorIds;
+    }
 
 }
