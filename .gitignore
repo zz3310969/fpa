@@ -33,5 +33,3 @@ app/app_
 jetty-web.xml
 
 *.iml
-*selin-web/selin-web.iml
-*selinwechat/src/main/webapp/WEB-INF/jetty-web.xml
