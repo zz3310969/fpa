@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.cardtestresult.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.scene_id as sceneId, t1.share_customer_id as shareCustomerId, t1.customer_id as customerId, t1.test_date as testDate, t1.result as result, t1.result_temp_id as resultTempId
+	</sql>
+	
+	<select id="selectCardTestResultPage" resultType="com.roof.fpa.cardtestresult.entity.CardTestResultVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		c_card_test_result t1
+		join
+		(SELECT
+		id
+		from
+		c_card_test_result
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectCardTestResultCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from c_card_test_result
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

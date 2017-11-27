@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.cardtestresult.dao">
+
+	<sql id="columns">
+		id, scene_id, share_customer_id, customer_id, test_date, result, result_temp_id
+	</sql>
+
+	<sql id="columns_as">
+		id as id , scene_id as sceneId , share_customer_id as shareCustomerId , customer_id as customerId , test_date as testDate , result as result , result_temp_id as resultTempId 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{sceneId}, #{shareCustomerId}, #{customerId}, #{testDate}, #{result}, #{resultTempId}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="sceneId != null">
+			and scene_id = #{sceneId}
+		</if>
+		<if test="shareCustomerId != null">
+			and share_customer_id = #{shareCustomerId}
+		</if>
+		<if test="customerId != null">
+			and customer_id = #{customerId}
+		</if>
+		<if test="testDate != null">
+			and test_date = #{testDate}
+		</if>
+		<if test="result != null and result != ''">
+			and result = #{result}
+		</if>
+		<if test="resultTempId != null">
+			and result_temp_id = #{resultTempId}
+		</if>
+	</sql>
+
+	<insert id="saveCardTestResult" parameterType="com.roof.fpa.cardtestresult.entity.CardTestResult" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_card_test_result (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCardTestResult">
+		delete from c_card_test_result
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCardTestResult">
+		delete from c_card_test_result
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCardTestResult">
+		update c_card_test_result
+		<set>
+			id=#{id}, 
+			scene_id=#{sceneId}, 
+			share_customer_id=#{shareCustomerId}, 
+			customer_id=#{customerId}, 
+			test_date=#{testDate}, 
+			result=#{result}, 
+			result_temp_id=#{resultTempId}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCardTestResult">
+		update c_card_test_result
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="sceneId != null">
+			scene_id=#{sceneId}, 
+		</if>
+		<if test="shareCustomerId != null">
+			share_customer_id=#{shareCustomerId}, 
+		</if>
+		<if test="customerId != null">
+			customer_id=#{customerId}, 
+		</if>
+		<if test="testDate != null">
+			test_date=#{testDate}, 
+		</if>
+		<if test="result != null and result != ''">
+			result=#{result}, 
+		</if>
+		<if test="resultTempId != null">
+			result_temp_id=#{resultTempId}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCardTestResult">
+		update c_card_test_result
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="sceneId != null">
+			scene_id=#{sceneId}, 
+			</if>
+			<if test="shareCustomerId != null">
+			share_customer_id=#{shareCustomerId}, 
+			</if>
+			<if test="customerId != null">
+			customer_id=#{customerId}, 
+			</if>
+			<if test="testDate != null">
+			test_date=#{testDate}, 
+			</if>
+			<if test="result != null and result != ''">
+			result=#{result}, 
+			</if>
+			<if test="resultTempId != null">
+			result_temp_id=#{resultTempId}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCardTestResult" resultType="com.roof.fpa.cardtestresult.entity.CardTestResultVo">
+		select 
+		<include refid="columns_as"/>
+		from c_card_test_result
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCardTestResult" resultType="com.roof.fpa.cardtestresult.entity.CardTestResultVo">
+		select 
+		<include refid="columns_as"/>
+		from c_card_test_result
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
