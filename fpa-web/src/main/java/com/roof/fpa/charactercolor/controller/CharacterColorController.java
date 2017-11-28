@@ -84,9 +84,9 @@ public class CharacterColorController {
     @RequestMapping(value = "charactercolor/{id}", method = {RequestMethod.PUT})
     public @ResponseBody
     Result update(@PathVariable Long id, @RequestBody CharacterColorVo characterColorVo) {
-        if (id != null && characterColor != null) {
-            characterColor.setId(id);
-            characterColorService.updateIgnoreNull(characterColor);
+        if (id != null && characterColorVo != null) {
+            characterColorVo.setId(id);
+            characterColorService.updateIgnoreNull(characterColorVo);
             return new Result("保存成功!");
         } else {
             return new Result(Result.FAIL, "数据传输失败!");
