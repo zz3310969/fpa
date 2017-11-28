@@ -35,6 +35,8 @@ public interface ICharacterColorService {
 	 * 按对象中的主键进行所有非空属性的修改，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract void updateIgnoreNull(CharacterColor characterColor);
+
+	public void updateIgnoreNullVo(CharacterColorVo characterColorVo) throws ApplicationException;
 	
 	/**
 	 * 按对象中的非空属性作为条件，进行修改
