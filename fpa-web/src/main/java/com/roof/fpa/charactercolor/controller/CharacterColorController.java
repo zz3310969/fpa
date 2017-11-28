@@ -6,6 +6,7 @@ import com.roof.fpa.charactercolor.entity.CharacterColor;
 import com.roof.fpa.charactercolor.entity.CharacterColorVo;
 import com.roof.fpa.charactercolor.entity.ColorDicVo;
 import com.roof.fpa.charactercolor.service.api.ICharacterColorService;
+import io.swagger.annotations.Api;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.ApplicationException;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Api(value = "charactercolor", description = "性格色彩管理")
 @Controller
 @RequestMapping("fpa")
 public class CharacterColorController {

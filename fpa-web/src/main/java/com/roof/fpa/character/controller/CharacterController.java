@@ -18,6 +18,7 @@ import com.roof.fpa.charactercolor.service.api.ICharacterColorService;
 import com.roof.fpa.theme.entity.Theme;
 import com.roof.fpa.theme.entity.ThemeVo;
 import com.roof.fpa.theme.service.api.IThemeService;
+import io.swagger.annotations.Api;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
@@ -29,6 +30,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Api(value = "character", description = "性格管理")
 @Controller
 @RequestMapping("fpa")
 public class CharacterController {

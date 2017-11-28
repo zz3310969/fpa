@@ -19,6 +19,7 @@
         <module>fpa-service</module>
         <module>fpa-entity</module>
         <module>fpa-web</module>
+        <module>fpa-wechat</module>
     </modules>
 
     <properties>

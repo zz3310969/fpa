@@ -1,5 +1,8 @@
 package com.roof.fpa.cardtestresult.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,6 +13,15 @@ import java.util.List;
 public class CardTestResultVo extends CardTestResult {
 
 	private List<CardTestResultVo> cardTestResultList;
+
+	private String customerName;
+
+	private String sceneName;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date testDateStart;// 测试时间
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date testDateEnd;// 测试时间
+
 
 	public CardTestResultVo() {
 		super();
@@ -28,4 +40,35 @@ public class CardTestResultVo extends CardTestResult {
 		this.cardTestResultList = cardTestResultList;
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getSceneName() {
+		return sceneName;
+	}
+
+	public void setSceneName(String sceneName) {
+		this.sceneName = sceneName;
+	}
+
+	public Date getTestDateStart() {
+		return testDateStart;
+	}
+
+	public void setTestDateStart(Date testDateStart) {
+		this.testDateStart = testDateStart;
+	}
+
+	public Date getTestDateEnd() {
+		return testDateEnd;
+	}
+
+	public void setTestDateEnd(Date testDateEnd) {
+		this.testDateEnd = testDateEnd;
+	}
 }

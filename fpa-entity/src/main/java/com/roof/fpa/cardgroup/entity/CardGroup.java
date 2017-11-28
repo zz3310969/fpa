@@ -19,7 +19,7 @@ public class CardGroup implements Serializable {
 	@ApiModelProperty(value = "主键")
 	protected Long id;// 主键
 	@ApiModelProperty(value = "名称")
-	protected Long name;// 名称
+	protected String name;// 名称
 	@ApiModelProperty(value = "张数")
 	protected Integer amount;// 张数
 	@ApiModelProperty(value = "是否可用")
@@ -42,10 +42,10 @@ public class CardGroup implements Serializable {
 		this.id = id;
 	}
 	
-	public Long getName() {
+	public String getName() {
 		return name;
 	}
-	public void setName(Long name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	

@@ -3,6 +3,8 @@ package com.roof.fpa.scene.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import io.swagger.annotations.Api;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@Api(value = "scene", description = "场景管理")
 @Controller
 @RequestMapping("fpa")
 public class SceneController {

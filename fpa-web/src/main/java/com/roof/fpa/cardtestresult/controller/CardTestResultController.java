@@ -1,8 +1,22 @@
 package com.roof.fpa.cardtestresult.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.google.common.collect.Maps;
+import com.roof.fpa.DefaultStateEnum;
+import com.roof.fpa.GenderEnum;
+import com.roof.fpa.cardunit.entity.CardUnit;
+import com.roof.fpa.cardunit.entity.CardUnitVo;
+import com.roof.fpa.charactercolor.entity.CharacterColor;
+import com.roof.fpa.charactercolor.entity.CharacterColorVo;
+import com.roof.fpa.scene.entity.Scene;
+import com.roof.fpa.scene.entity.SceneVo;
+import com.roof.fpa.scene.service.api.ISceneService;
+import com.roof.fpa.theme.entity.Theme;
+import com.roof.fpa.theme.entity.ThemeVo;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
@@ -19,11 +33,23 @@ import org.springframework.web.bind.annotation.*;
 public class CardTestResultController {
 	private ICardTestResultService cardTestResultService;
 
+	@Autowired
+	private ISceneService sceneService;
 
+
+	@RequestMapping(value = "cardtestresult/base", method = {RequestMethod.GET})
+	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
+		Map<String,Object> map = Maps.newHashMap();
+		Scene scene =  new Scene();
+		scene.setState(DefaultStateEnum.usable.getCode());
+		List<SceneVo> sceneVos = sceneService.selectForList(scene);
+		map.put("scenes",sceneVos);
+		return new Result(Result.SUCCESS, map);
+	}
 
 
     @RequestMapping(value = "cardtestresult", method = {RequestMethod.GET})
-    public @ResponseBody Result<Page> list(CardTestResult cardTestResult, HttpServletRequest request) {
+    public @ResponseBody Result<Page> list(CardTestResultVo cardTestResult, HttpServletRequest request) {
 	    Page page = PageUtils.createPage(request);
 	    page = cardTestResultService.page(page, cardTestResult);
 	    return new Result(Result.SUCCESS, page);

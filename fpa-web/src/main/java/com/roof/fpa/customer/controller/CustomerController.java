@@ -14,6 +14,7 @@ import com.roof.fpa.charactercolor.entity.CharacterColor;
 import com.roof.fpa.charactercolor.entity.CharacterColorVo;
 import com.roof.fpa.theme.entity.Theme;
 import com.roof.fpa.theme.entity.ThemeVo;
+import io.swagger.annotations.Api;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Api(value = "customer", description = "顾客管理")
 @Controller
 @RequestMapping("fpa")
 public class CustomerController {

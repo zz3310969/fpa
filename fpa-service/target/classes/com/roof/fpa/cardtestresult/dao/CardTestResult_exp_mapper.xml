@@ -8,7 +8,9 @@
 	
 	<select id="selectCardTestResultPage" resultType="com.roof.fpa.cardtestresult.entity.CardTestResultVo">
 		select
-		<include refid="columnsAs"/>
+		<include refid="columnsAs"/>,
+		(SELECT name FROM c_scene WHERE id = t1.scene_id) as scenName,
+		(SELECT name FROM c_customer WHERE id = t1.customer_id) as customerName
 		from
 		c_card_test_result t1
 		join
@@ -18,6 +20,11 @@
 		c_card_test_result
 		where 1=1
 		<include refid="conds" />
+		<if test="testDateStart != null and testDateEnd !=null">
+			<![CDATA[
+			and test_date >= #{testDateStart} and test_date <= #{testDateEnd}
+			]]>
+		</if>
 		order by id desc
 		limit #{firstrownum}, #{limit}) t2
 		where t1.id = t2.id
@@ -29,5 +36,10 @@
 		from c_card_test_result
 		where 1=1
 		<include refid="conds" />
+		<if test="testDateStart != null and testDateEnd !=null">
+			<![CDATA[
+			and test_date >= #{testDateStart} and test_date <= #{testDateEnd}
+			]]>
+		</if>
 	</select>
 </mapper>
