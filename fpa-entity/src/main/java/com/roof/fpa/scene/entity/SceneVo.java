@@ -11,6 +11,10 @@ public class SceneVo extends Scene {
 
 	private List<SceneVo> sceneList;
 
+	private String cardGroupName;// 套牌id
+	private String themeName;// 主题ID
+
+
 	public SceneVo() {
 		super();
 	}
@@ -28,4 +32,19 @@ public class SceneVo extends Scene {
 		this.sceneList = sceneList;
 	}
 
+	public String getCardGroupName() {
+		return cardGroupName;
+	}
+
+	public void setCardGroupName(String cardGroupName) {
+		this.cardGroupName = cardGroupName;
+	}
+
+	public String getThemeName() {
+		return themeName;
+	}
+
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
+	}
 }

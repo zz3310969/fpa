@@ -1,9 +1,19 @@
 package com.roof.fpa.scene.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.collect.Maps;
+import com.roof.fpa.DefaultStateEnum;
+import com.roof.fpa.cardgroup.entity.CardGroup;
+import com.roof.fpa.cardgroup.entity.CardGroupVo;
+import com.roof.fpa.cardgroup.service.api.ICardGroupService;
+import com.roof.fpa.scene.entity.SceneStateEnum;
+import com.roof.fpa.theme.entity.Theme;
+import com.roof.fpa.theme.entity.ThemeVo;
+import com.roof.fpa.theme.service.api.IThemeService;
 import io.swagger.annotations.Api;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
@@ -23,7 +33,28 @@ import org.springframework.web.bind.annotation.*;
 public class SceneController {
 	private ISceneService sceneService;
 
+	@Autowired
+	private ICardGroupService cardGroupService;
 
+	@Autowired
+	private IThemeService themeService;
+
+
+	@RequestMapping(value = "scene/base", method = {RequestMethod.GET})
+	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
+		Map<String,Object> map = Maps.newHashMap();
+		CardGroup cardGroup =  new CardGroup();
+		cardGroup.setUsable(DefaultStateEnum.usable.getCode());
+		List<CardGroupVo> cardGroupVos = cardGroupService.selectForList(cardGroup);
+		map.put("cardGroups",cardGroupVos);
+		Theme theme = new Theme();
+		theme.setState(DefaultStateEnum.usable.getCode());
+		List<ThemeVo> themeVos = themeService.selectForList(theme);
+		map.put("themes",themeVos);
+		SceneStateEnum[] states = SceneStateEnum.values();
+		map.put("states",states);
+		return new Result(Result.SUCCESS, map);
+	}
 
 
     @RequestMapping(value = "scene", method = {RequestMethod.GET})
