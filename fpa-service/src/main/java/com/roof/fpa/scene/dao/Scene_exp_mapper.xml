@@ -8,7 +8,9 @@
 	
 	<select id="selectScenePage" resultType="com.roof.fpa.scene.entity.SceneVo">
 		select
-		<include refid="columnsAs"/>
+		<include refid="columnsAs"/>,
+		(SELECT name FROM c_card_group where id = t1.card_group_id) as cardGroupName,
+		(SELECT name FROM c_theme where id = t1.theme_id) as themeName
 		from
 		c_scene t1
 		join
