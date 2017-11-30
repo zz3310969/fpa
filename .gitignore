@@ -31,5 +31,5 @@ hs_err_pid*
 .sass-cache/
 app/app_
 jetty-web.xml
-
+target/
 *.iml
