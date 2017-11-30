@@ -1,8 +1,22 @@
 package com.roof.fpa.cardgroup.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.google.common.collect.Maps;
+import com.roof.fpa.DefaultStateEnum;
+import com.roof.fpa.GenderEnum;
+import com.roof.fpa.cardunit.entity.CardUnit;
+import com.roof.fpa.cardunit.entity.CardUnitVo;
+import com.roof.fpa.cardunit.service.api.ICardUnitService;
+import com.roof.fpa.charactercolor.entity.CharacterColor;
+import com.roof.fpa.charactercolor.entity.CharacterColorVo;
+import com.roof.fpa.charactercolor.service.api.ICharacterColorService;
+import com.roof.fpa.theme.entity.Theme;
+import com.roof.fpa.theme.entity.ThemeVo;
+import com.roof.fpa.theme.service.api.IThemeService;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
@@ -20,6 +34,34 @@ public class CardGroupController {
 	private ICardGroupService cardGroupService;
 
 
+
+	@Autowired
+	private ICharacterColorService characterColorService;
+	@Autowired
+	private IThemeService themeService;
+	@Autowired
+	private ICardUnitService cardUnitService;
+
+	@RequestMapping(value = "cardgroup/base", method = {RequestMethod.GET})
+	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
+		Map<String,Object> map = Maps.newHashMap();
+		Theme theme =  new Theme();
+		theme.setState(DefaultStateEnum.usable.getCode());
+		List<ThemeVo> themeVos = themeService.selectForList(theme);
+		map.put("themes",themeVos);
+		CharacterColor characterColor = new CharacterColor();
+		characterColor.setState(DefaultStateEnum.usable.getCode());
+		List<CharacterColorVo> characterColorVos = characterColorService.selectForList(characterColor);
+		map.put("colors",characterColorVos);
+		CardUnit cardUnit = new CardUnit();
+		List<CardUnitVo> cardUnitVos = cardUnitService.selectForList(cardUnit);
+		map.put("cardUnits",cardUnitVos);
+		DefaultStateEnum[] stateEnums = DefaultStateEnum.values();
+		map.put("states", stateEnums);
+		GenderEnum[] genderEnums = GenderEnum.values();
+		map.put("genders",genderEnums);
+		return new Result(Result.SUCCESS, map);
+	}
 
 
     @RequestMapping(value = "cardgroup", method = {RequestMethod.GET})

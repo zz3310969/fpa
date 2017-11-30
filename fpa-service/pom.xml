@@ -21,6 +21,18 @@
             <artifactId>roof-web-base-service-impl</artifactId>
             <version>${roof-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.roof</groupId>
+            <artifactId>roof-file-upload-impl</artifactId>
+            <version>${roof-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
+        </dependency>
+
     </dependencies>
 
 

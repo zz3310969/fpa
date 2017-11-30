@@ -42,6 +42,7 @@
 
 	<import resource="spring-oauth2-service.xml" />
 
+	<import resource="spring-fileupload.xml" />
 
 
 
