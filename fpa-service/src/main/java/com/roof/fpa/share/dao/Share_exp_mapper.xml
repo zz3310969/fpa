@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.share.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.customer_id as customerId, t1.scene_id as sceneId, t1.path as path, t1.template_id as templateId, t1.result_id as resultId, t1.share_time as shareTime
+	</sql>
+	
+	<select id="selectSharePage" resultType="com.roof.fpa.share.entity.ShareVo">
+		select
+		<include refid="columnsAs"/>,
+		(SELECT NAME FROM c_customer WHERE id = t1.customer_id) as customerName,
+		(SELECT NAME FROM c_scene WHERE id = t1.scene_id) as sceneName,
+		(SELECT NAME FROM c_transmit_template WHERE id = t1.template_id) as templateName
+		from
+		c_share t1
+		join
+		(SELECT
+		id
+		from
+		c_share
+		where 1=1
+		<include refid="conds" />
+		<if test="shareTimeStart != null and shareTimeEnd !=null">
+			<![CDATA[
+			and share_time >= #{shareTimeStart} and share_time <= #{shareTimeEnd}
+			]]>
+		</if>
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectShareCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from c_share
+		where 1=1
+		<include refid="conds" />
+		<if test="shareTimeStart != null and shareTimeEnd !=null">
+			<![CDATA[
+			and share_time >= #{shareTimeStart} and share_time <= #{shareTimeEnd}
+			]]>
+		</if>
+	</select>
+</mapper>

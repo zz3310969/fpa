@@ -42,6 +42,8 @@ public class CardGroupController {
 	@Autowired
 	private ICardUnitService cardUnitService;
 
+
+
 	@RequestMapping(value = "cardgroup/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
 		Map<String,Object> map = Maps.newHashMap();

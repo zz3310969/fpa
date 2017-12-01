@@ -31,7 +31,7 @@ public class CardTestResult implements Serializable {
 	@ApiModelProperty(value = "测试结果")
 	protected String result;// 测试结果
 	@ApiModelProperty(value = "结果模板ID")
-	protected Long resultTempId;// 结果模板ID
+	protected Long templateId;// 结果模板ID
 
 	public CardTestResult() {
 		super();
@@ -84,11 +84,12 @@ public class CardTestResult implements Serializable {
 	public void setResult(String result) {
 		this.result = result;
 	}
-	
-	public Long getResultTempId() {
-		return resultTempId;
+
+	public Long getTemplateId() {
+		return templateId;
 	}
-	public void setResultTempId(Long resultTempId) {
-		this.resultTempId = resultTempId;
+
+	public void setTemplateId(Long templateId) {
+		this.templateId = templateId;
 	}
 }

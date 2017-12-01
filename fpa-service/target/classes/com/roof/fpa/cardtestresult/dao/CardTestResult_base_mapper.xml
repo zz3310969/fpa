@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.cardtestresult.dao">
 
 	<sql id="columns">
-		id, scene_id, share_customer_id, customer_id, test_date, result, result_temp_id
+		id, scene_id, share_customer_id, customer_id, test_date, result, template_id
 	</sql>
 
 	<sql id="columns_as">
-		id as id , scene_id as sceneId , share_customer_id as shareCustomerId , customer_id as customerId , test_date as testDate , result as result , result_temp_id as resultTempId 
+		id as id , scene_id as sceneId , share_customer_id as shareCustomerId , customer_id as customerId , test_date as testDate , result as result , template_id as templateId
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{sceneId}, #{shareCustomerId}, #{customerId}, #{testDate}, #{result}, #{resultTempId}
+		#{id}, #{sceneId}, #{shareCustomerId}, #{customerId}, #{testDate}, #{result}, #{templateId}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -34,8 +34,8 @@
 		<if test="result != null and result != ''">
 			and result = #{result}
 		</if>
-		<if test="resultTempId != null">
-			and result_temp_id = #{resultTempId}
+		<if test="templateId != null">
+			and template_id = #{templateId}
 		</if>
 	</sql>
 
@@ -67,7 +67,7 @@
 			customer_id=#{customerId}, 
 			test_date=#{testDate}, 
 			result=#{result}, 
-			result_temp_id=#{resultTempId}
+			template_id=#{templateId}
 		</set>
 		where id=#{id} 
 	</update>
@@ -93,8 +93,8 @@
 		<if test="result != null and result != ''">
 			result=#{result}, 
 		</if>
-		<if test="resultTempId != null">
-			result_temp_id=#{resultTempId}
+		<if test="templateId != null">
+			template_id=#{templateId}
 		</if>
 		</set>
 		where id=#{id} 
@@ -121,8 +121,8 @@
 			<if test="result != null and result != ''">
 			result=#{result}, 
 			</if>
-			<if test="resultTempId != null">
-			result_temp_id=#{resultTempId}
+			<if test="templateId != null">
+			template_id=#{templateId}
 			</if>
 		</set>
 		where 1=1

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.share.dao">
+
+	<sql id="columns">
+		id, customer_id, scene_id, path, template_id, result_id, share_time
+	</sql>
+
+	<sql id="columns_as">
+		id as id , customer_id as customerId , scene_id as sceneId , path as path , template_id as templateId , result_id as resultId , share_time as shareTime 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{customerId}, #{sceneId}, #{path}, #{templateId}, #{resultId}, #{shareTime}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="customerId != null">
+			and customer_id = #{customerId}
+		</if>
+		<if test="sceneId != null">
+			and scene_id = #{sceneId}
+		</if>
+		<if test="path != null and path != ''">
+			and path = #{path}
+		</if>
+		<if test="templateId != null">
+			and template_id = #{templateId}
+		</if>
+		<if test="resultId != null">
+			and result_id = #{resultId}
+		</if>
+		<if test="shareTime != null">
+			and share_time = #{shareTime}
+		</if>
+	</sql>
+
+	<insert id="saveShare" parameterType="com.roof.fpa.share.entity.Share" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_share (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteShare">
+		delete from c_share
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleShare">
+		delete from c_share
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateShare">
+		update c_share
+		<set>
+			id=#{id}, 
+			customer_id=#{customerId}, 
+			scene_id=#{sceneId}, 
+			path=#{path}, 
+			template_id=#{templateId}, 
+			result_id=#{resultId}, 
+			share_time=#{shareTime}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullShare">
+		update c_share
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="customerId != null">
+			customer_id=#{customerId}, 
+		</if>
+		<if test="sceneId != null">
+			scene_id=#{sceneId}, 
+		</if>
+		<if test="path != null and path != ''">
+			path=#{path}, 
+		</if>
+		<if test="templateId != null">
+			template_id=#{templateId}, 
+		</if>
+		<if test="resultId != null">
+			result_id=#{resultId}, 
+		</if>
+		<if test="shareTime != null">
+			share_time=#{shareTime}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleShare">
+		update c_share
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="customerId != null">
+			customer_id=#{customerId}, 
+			</if>
+			<if test="sceneId != null">
+			scene_id=#{sceneId}, 
+			</if>
+			<if test="path != null and path != ''">
+			path=#{path}, 
+			</if>
+			<if test="templateId != null">
+			template_id=#{templateId}, 
+			</if>
+			<if test="resultId != null">
+			result_id=#{resultId}, 
+			</if>
+			<if test="shareTime != null">
+			share_time=#{shareTime}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadShare" resultType="com.roof.fpa.share.entity.ShareVo">
+		select 
+		<include refid="columns_as"/>
+		from c_share
+		where id=#{id} 
+	</select>
+	
+	<select id="selectShare" resultType="com.roof.fpa.share.entity.ShareVo">
+		select 
+		<include refid="columns_as"/>
+		from c_share
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
