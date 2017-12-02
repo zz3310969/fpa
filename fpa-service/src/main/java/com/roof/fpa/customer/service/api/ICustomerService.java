@@ -69,6 +69,6 @@ public interface ICustomerService {
 	 * @param customer
 	 * @return
 	 */
-	public Serializable saveOrUpdate(Customer customer);
+	public Serializable saveOrUpdate(CustomerVo customer);
 
 	}

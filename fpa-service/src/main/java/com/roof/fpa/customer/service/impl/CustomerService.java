@@ -7,6 +7,7 @@ import com.roof.fpa.customer.dao.api.ICustomerDao;
 import com.roof.fpa.customer.entity.Customer;
 import com.roof.fpa.customer.entity.CustomerVo;
 import com.roof.fpa.customer.service.api.ICustomerService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -64,14 +65,18 @@ public class CustomerService implements ICustomerService {
 	}
 
 
-	public Serializable saveOrUpdate(Customer customer){
+	public Serializable saveOrUpdate(CustomerVo customerVo){
+		Customer customer = new Customer();
+		BeanUtils.copyProperties(customerVo,customer);
+
 		Assert.notNull(customer.getWeixinOpenId(),"openid不能为空");
-		CustomerVo customerVo = loadByOpenid(customer.getWeixinOpenId());
-		if(customerVo == null){
+		CustomerVo vo = loadByOpenid(customer.getWeixinOpenId());
+		if(vo == null){
 			return customerDao.save(customer);
 		}else{
-			 updateIgnoreNull(customer);
-			return customerVo.getId();
+			customer.setId(vo.getId());
+			updateIgnoreNull(customer);
+			return vo.getId();
 		}
 	}
 

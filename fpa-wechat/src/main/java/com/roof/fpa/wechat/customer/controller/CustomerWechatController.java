@@ -36,10 +36,10 @@ public class CustomerWechatController {
 
 
 	@RequestMapping(value = "customer", method = {RequestMethod.POST})
-	public @ResponseBody Result create(@RequestBody Customer customer) {
+	public @ResponseBody Result create(@RequestBody CustomerVo customer) {
 		if (customer != null) {
-			if(StringUtils.isEmpty(customer.getWeixinOpenId())){
-				return new Result(Result.FAIL,"openid不能为空");
+			if(StringUtils.isEmpty(customer.getCode())){
+				return new Result(Result.FAIL,"code不能为空");
 			}
 			customerService.saveOrUpdate(customer);
 			return new Result("保存成功!");

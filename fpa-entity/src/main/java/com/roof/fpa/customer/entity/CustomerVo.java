@@ -20,6 +20,8 @@ public class CustomerVo extends Customer {
 	private Date followTimeEnd;
 	private GenderEnum genderEnum;
 
+	private String code;
+
 
 	public CustomerVo() {
 		super();
@@ -60,5 +62,13 @@ public class CustomerVo extends Customer {
 
 	public void setGenderEnum(GenderEnum genderEnum) {
 		this.genderEnum = genderEnum;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }
