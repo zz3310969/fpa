@@ -40,4 +40,11 @@
 			]]>
 		</if>
 	</select>
+
+	<select id="loadCustomerByOpenId" resultType="com.roof.fpa.customer.entity.CustomerVo">
+		select
+		<include refid="columns_as"/>
+		from c_customer
+		where weixin_open_id=#{weixinOpenId}
+	</select>
 </mapper>

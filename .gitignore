@@ -33,3 +33,4 @@ app/app_
 jetty-web.xml
 target/
 *.iml
+overlays/

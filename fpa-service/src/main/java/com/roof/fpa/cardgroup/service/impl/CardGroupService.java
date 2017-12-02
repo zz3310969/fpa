@@ -2,6 +2,13 @@ package com.roof.fpa.cardgroup.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.roof.fpa.card.entity.Card;
+import com.roof.fpa.card.entity.CardVo;
+import com.roof.fpa.card.service.api.ICardService;
+import com.roof.fpa.cardunit.entity.CardUnit;
+import com.roof.fpa.cardunit.entity.CardUnitVo;
+import com.roof.fpa.cardunit.service.api.ICardUnitService;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.cardgroup.dao.api.ICardGroupDao;
 import com.roof.fpa.cardgroup.entity.CardGroup;
@@ -14,6 +21,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CardGroupService implements ICardGroupService {
 	private ICardGroupDao cardGroupDao;
+
+	@Autowired
+	private ICardUnitService cardUnitService;
+	@Autowired
+	private ICardService cardService;
 
 	public Serializable save(CardGroup cardGroup){
 		return cardGroupDao.save(cardGroup);
@@ -53,6 +65,22 @@ public class CardGroupService implements ICardGroupService {
 	
 	public Page page(Page page, CardGroup cardGroup) {
 		return cardGroupDao.page(page, cardGroup);
+	}
+
+	@Override
+	public CardGroupVo loadCardByCardGroupId(Long cardGroupId) {
+		CardGroupVo vo = load(new CardGroup(cardGroupId));
+		Card card = new Card();
+		card.setCardGroupId(cardGroupId);
+		List<CardVo> cardVos = cardService.selectForList(card);
+		for (CardVo cardVo :cardVos){
+			CardUnit cardUnit = new CardUnit();
+			cardUnit.setCardId(cardVo.getId());
+			List<CardUnitVo> cardUnitVos = cardUnitService.selectForList(cardUnit);
+			cardVo.setCardUnitList(cardUnitVos);
+		}
+		vo.setCardList(cardVos);
+		return vo;
 	}
 
 	@Autowired

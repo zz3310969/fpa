@@ -1,5 +1,7 @@
 package com.roof.fpa.cardgroup.entity;
 
+import com.roof.fpa.card.entity.CardVo;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,8 @@ import java.util.List;
 public class CardGroupVo extends CardGroup {
 
 	private List<CardGroupVo> cardGroupList;
+
+	List<CardVo> cardList;
 
 	public CardGroupVo() {
 		super();
@@ -28,4 +32,11 @@ public class CardGroupVo extends CardGroup {
 		this.cardGroupList = cardGroupList;
 	}
 
+	public List<CardVo> getCardList() {
+		return cardList;
+	}
+
+	public void setCardList(List<CardVo> cardList) {
+		this.cardList = cardList;
+	}
 }

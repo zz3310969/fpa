@@ -10,12 +10,14 @@ import com.roof.fpa.customer.service.api.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 public class CustomerService implements ICustomerService {
 	private ICustomerDao customerDao;
 
 	public Serializable save(Customer customer){
+		Assert.notNull(customer.getWeixinOpenId(),"opid不能为空");
 		return customerDao.save(customer);
 	}
 
@@ -53,6 +55,24 @@ public class CustomerService implements ICustomerService {
 	
 	public Page page(Page page, Customer customer) {
 		return customerDao.page(page, customer);
+	}
+
+	public CustomerVo loadByOpenid(String openId){
+		Customer customer = new Customer();
+		customer.setWeixinOpenId(openId);
+		return (CustomerVo)customerDao.selectForObject("",customer);
+	}
+
+
+	public Serializable saveOrUpdate(Customer customer){
+		Assert.notNull(customer.getWeixinOpenId(),"openid不能为空");
+		CustomerVo customerVo = loadByOpenid(customer.getWeixinOpenId());
+		if(customerVo == null){
+			return customerDao.save(customer);
+		}else{
+			 updateIgnoreNull(customer);
+			return customerVo.getId();
+		}
 	}
 
 	@Autowired

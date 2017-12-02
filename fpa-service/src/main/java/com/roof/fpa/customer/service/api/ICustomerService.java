@@ -59,4 +59,16 @@ public interface ICustomerService {
 	 */
 	public abstract Page page(Page page, Customer customer);
 
-}
+	/**
+	 * 根据openId查询
+	 */
+	public CustomerVo loadByOpenid(String openId);
+
+	/**
+	 * 存在openid就更新，没有就保存
+	 * @param customer
+	 * @return
+	 */
+	public Serializable saveOrUpdate(Customer customer);
+
+	}

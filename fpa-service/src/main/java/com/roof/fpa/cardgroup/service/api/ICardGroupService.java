@@ -59,4 +59,7 @@ public interface ICardGroupService {
 	 */
 	public abstract Page page(Page page, CardGroup cardGroup);
 
+	public abstract CardGroupVo loadCardByCardGroupId(Long id);
+
+
 }

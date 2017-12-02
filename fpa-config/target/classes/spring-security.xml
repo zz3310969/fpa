@@ -21,6 +21,7 @@
 
 	<http pattern="/fpa/pic/**" security="none" />
 
+	<http pattern="/fpa/wechat/**" security="none" />
 
 
 	<http pattern="/mainAction/login.action*" security="none" />
