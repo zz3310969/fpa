@@ -32,7 +32,7 @@ import java.util.Map;
 
 @Api(value = "scene", description = "场景管理")
 @Controller
-@RequestMapping("fpa")
+@RequestMapping("fpa/wechat")
 public class SceneWechatController {
 	private ISceneService sceneService;
 
