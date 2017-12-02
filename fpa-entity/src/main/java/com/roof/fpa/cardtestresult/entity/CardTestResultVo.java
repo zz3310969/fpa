@@ -14,6 +14,8 @@ public class CardTestResultVo extends CardTestResult {
 
 	private List<CardTestResultVo> cardTestResultList;
 
+	private List<CardTestResultDto> resultDtoList;
+
 	private String customerName;
 
 	private String sceneName;
@@ -70,5 +72,13 @@ public class CardTestResultVo extends CardTestResult {
 
 	public void setTestDateEnd(Date testDateEnd) {
 		this.testDateEnd = testDateEnd;
+	}
+
+	public List<CardTestResultDto> getResultDtoList() {
+		return resultDtoList;
+	}
+
+	public void setResultDtoList(List<CardTestResultDto> resultDtoList) {
+		this.resultDtoList = resultDtoList;
 	}
 }

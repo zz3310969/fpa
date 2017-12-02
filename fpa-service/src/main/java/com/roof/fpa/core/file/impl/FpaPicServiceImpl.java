@@ -68,7 +68,7 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
 
         if(!Files.exists(path)){
             try {
-                minImage(fileInfo.getRealPath(),minPath);
+                smallImage(fileInfo.getRealPath(),minPath);
             } catch (IOException e) {
                 logger.error("生成缩略图出错:",e);
                 return null;
@@ -88,7 +88,7 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
 
         ByteArrayInputStream in = new ByteArrayInputStream(file.getBytes());
         FileInfo fileinfo = fileManager.saveFile(in, xdata);
-        this.smallImage(fileinfo.getRealPath(),toMiddlePath(fileinfo.getRealPath()));
+        this.middleImage(fileinfo.getRealPath(),toMiddlePath(fileinfo.getRealPath()));
         return fileinfo;
     }
 
@@ -104,7 +104,7 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
 
         if(!Files.exists(path)){
             try {
-                smallImage(fileInfo.getRealPath(),smallPath);
+                middleImage(fileInfo.getRealPath(),smallPath);
             } catch (IOException e) {
                 logger.error("生成缩略图出错:",e);
                 return null;
@@ -116,7 +116,7 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
         return new ByteArrayInputStream(bs);
     }
 
-    public void smallImage(String filePath,String toPath) throws IOException {
+    public void middleImage(String filePath,String toPath) throws IOException {
         Thumbnails.of(filePath)
                 .scale(1f)
                 .outputQuality(0.5f)
@@ -145,7 +145,7 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
     }
 
 
-    public void minImage(String filePath,String toPath) throws IOException {
+    public void smallImage(String filePath,String toPath) throws IOException {
         Thumbnails.of(filePath)
                 .scale(0.25)
                 .outputQuality(0.5f)

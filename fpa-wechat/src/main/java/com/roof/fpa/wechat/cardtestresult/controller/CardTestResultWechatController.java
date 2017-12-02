@@ -11,6 +11,7 @@ import com.roof.fpa.scene.service.api.ISceneService;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -30,10 +31,12 @@ public class CardTestResultWechatController {
 
 
 	@RequestMapping(value = "cardtestresult", method = {RequestMethod.POST})
-	public @ResponseBody Result create(@RequestBody CardTestResult cardTestResult) {
-		if (cardTestResult != null) {
-			cardTestResultService.save(cardTestResult);
-			return new Result("保存成功!");
+	public @ResponseBody Result create(@RequestBody CardTestResultVo cardTestResultVo) {
+		if (cardTestResultVo != null) {
+			CardTestResult cardTestResult = new CardTestResult();
+			BeanUtils.copyProperties(cardTestResultVo,cardTestResult);
+			Long id = (Long) cardTestResultService.save(cardTestResult);
+			return new Result("保存成功!",id);
 		} else {
 			return new Result(Result.FAIL,"数据传输失败!");
 		}

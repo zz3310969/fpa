@@ -43,6 +43,7 @@ public class FpaPicController {
     private void flush(InputStream in, HttpServletResponse response) {
         if (in == null) {
             logger.error("流为空");
+            return;
         }
         response.setContentType("image/png");
         OutputStream out = null;
