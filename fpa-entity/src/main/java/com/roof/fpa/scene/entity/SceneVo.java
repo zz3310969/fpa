@@ -1,5 +1,8 @@
 package com.roof.fpa.scene.entity;
 
+import com.roof.fpa.cardgroup.entity.CardGroupVo;
+import com.roof.fpa.cardslot.entity.CardSlotVo;
+
 import java.util.List;
 
 /**
@@ -13,6 +16,10 @@ public class SceneVo extends Scene {
 
 	private String cardGroupName;// 套牌id
 	private String themeName;// 主题ID
+
+
+	private List<CardSlotVo> cardSlotList;
+	private CardGroupVo cardGroup;
 
 
 	public SceneVo() {
@@ -46,5 +53,21 @@ public class SceneVo extends Scene {
 
 	public void setThemeName(String themeName) {
 		this.themeName = themeName;
+	}
+
+	public List<CardSlotVo> getCardSlotList() {
+		return cardSlotList;
+	}
+
+	public void setCardSlotList(List<CardSlotVo> cardSlotList) {
+		this.cardSlotList = cardSlotList;
+	}
+
+	public CardGroupVo getCardGroup() {
+		return cardGroup;
+	}
+
+	public void setCardGroup(CardGroupVo cardGroup) {
+		this.cardGroup = cardGroup;
 	}
 }
