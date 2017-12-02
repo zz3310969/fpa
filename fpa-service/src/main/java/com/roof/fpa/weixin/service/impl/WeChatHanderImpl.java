@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import com.roof.fpa.core.http.HttpClientUtil;
+import com.roof.fpa.weixin.service.api.IWeChatHander;
 import org.apache.commons.lang3.StringUtils;
 import org.roof.commons.PropertiesUtil;
 import org.slf4j.Logger;
@@ -23,32 +24,30 @@ import java.util.concurrent.TimeUnit;
  * Created by lenovo on 2017/8/17.
  */
 @Service
-public class WeChatHander {
-    private Logger LOGGER = LoggerFactory.getLogger(WeChatHander.class);
+public class WeChatHanderImpl implements IWeChatHander {
+    private Logger LOGGER = LoggerFactory.getLogger(WeChatHanderImpl.class);
 
     private RedisTemplate<String,String> redisTemplate;
 
-    private String appid = PropertiesUtil.getPorpertyString("fpa.wx.appid");
-    private String secret = PropertiesUtil.getPorpertyString("fpa.wx.secret");
-    private String token_url = PropertiesUtil.getPorpertyString("fpa.wx.access_token_url");
-    private String html_token_url = PropertiesUtil.getPorpertyString("fpa.wx.html_access_token_url");
-    private String grant_type = PropertiesUtil.getPorpertyString("fpa.wx.grant_type");
+    private String appid = PropertiesUtil.getPorpertyString("fpa.mini.appid");
+    private String secret = PropertiesUtil.getPorpertyString("fpa.mini.secret");
+    private String html_token_url = PropertiesUtil.getPorpertyString("fpa.mini.openid.url");
+    private String grant_type = PropertiesUtil.getPorpertyString("fpa.mini.grant_type");
 
     private String redis_key = "wechat:token";
 
 
 
 
-    /**
-     * 发送 post请求访问本地应用并根据传递参数不同返回不同结果
-     */
-    public String post(String url, String code) throws IOException {
-        Map<String, Object> postData = new HashMap<String, Object>();
-        postData.put("appid", appid);
-        postData.put("secret", secret);
-        postData.put("code", code);
-        postData.put("grant_type", grant_type);
-        return HttpClientUtil.post(url, postData);
+
+
+    public String getOpenid(String url, String code) throws IOException {
+        StringBuilder str = new StringBuilder(url);
+        str.append("?appid="+appid);
+        str.append("&secret="+secret);
+        str.append("&js_code"+code);
+        str.append("&grant_type"+grant_type);
+        return HttpClientUtil.get(str.toString());
     }
 
     /**
@@ -58,7 +57,7 @@ public class WeChatHander {
      * @return
      */
     public String getOpenid(String code) throws IOException {
-        String body = this.post(html_token_url, code);
+        String body = this.getOpenid(html_token_url, code);
         JSONObject obj = JSON.parseObject(body);
         String openid = null;
         if (obj.containsKey("openid")) {

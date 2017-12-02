@@ -45,7 +45,7 @@ public class FpaPicController {
             logger.error("流为空");
             return;
         }
-        response.setContentType("image/png");
+        response.setContentType("image/jpeg");
         OutputStream out = null;
         try {
             out = response.getOutputStream();

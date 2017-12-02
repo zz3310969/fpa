@@ -1,12 +1,17 @@
 package com.roof.fpa.customer.service.impl;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+
+import com.roof.fpa.weixin.service.api.IWeChatHander;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.customer.dao.api.ICustomerDao;
 import com.roof.fpa.customer.entity.Customer;
 import com.roof.fpa.customer.entity.CustomerVo;
 import com.roof.fpa.customer.service.api.ICustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,7 +20,12 @@ import org.springframework.util.Assert;
 
 @Service
 public class CustomerService implements ICustomerService {
+
+	private static Logger logger = LoggerFactory.getLogger(CustomerService.class);
+
 	private ICustomerDao customerDao;
+
+	private IWeChatHander weChatHander;
 
 	public Serializable save(Customer customer){
 		Assert.notNull(customer.getWeixinOpenId(),"opid不能为空");
@@ -68,8 +78,12 @@ public class CustomerService implements ICustomerService {
 	public Serializable saveOrUpdate(CustomerVo customerVo){
 		Customer customer = new Customer();
 		BeanUtils.copyProperties(customerVo,customer);
-
-		//Assert.notNull(customer.getWeixinOpenId(),"openid不能为空");
+		try {
+			customer.setWeixinOpenId(weChatHander.getOpenid(customerVo.getCode()));
+		} catch (IOException e) {
+			logger.error("获取微信Openid出错:",e.getCause());
+		}
+		Assert.notNull(customer.getWeixinOpenId(),"openid不能为空");
 		CustomerVo vo =null;// loadByOpenid(customer.getWeixinOpenId());
 		if(vo == null){
 			return customerDao.save(customer);
