@@ -21,7 +21,7 @@ public class CardSlotWechatController {
 
 
     @RequestMapping(value = "cardslot", method = {RequestMethod.GET})
-    public @ResponseBody Result<Page> list(CardSlot cardSlot, HttpServletRequest request) {
+    public @ResponseBody Result<List<CardSlotVo>> list(CardSlot cardSlot, HttpServletRequest request) {
     	if(cardSlot.getSceneId() == null){
 			return new Result(Result.FAIL,"场景不能为空");
 		}
