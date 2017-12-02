@@ -41,8 +41,8 @@ public class CustomerWechatController {
 			if(StringUtils.isEmpty(customer.getCode())){
 				return new Result(Result.FAIL,"code不能为空");
 			}
-			customerService.saveOrUpdate(customer);
-			return new Result("保存成功!");
+			Long id = (Long) customerService.saveOrUpdate(customer);
+			return new Result("保存成功!",id);
 		} else {
 			return new Result(Result.FAIL,"数据传输失败!");
 		}
