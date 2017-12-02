@@ -69,8 +69,8 @@ public class CustomerService implements ICustomerService {
 		Customer customer = new Customer();
 		BeanUtils.copyProperties(customerVo,customer);
 
-		Assert.notNull(customer.getWeixinOpenId(),"openid不能为空");
-		CustomerVo vo = loadByOpenid(customer.getWeixinOpenId());
+		//Assert.notNull(customer.getWeixinOpenId(),"openid不能为空");
+		CustomerVo vo =null;// loadByOpenid(customer.getWeixinOpenId());
 		if(vo == null){
 			return customerDao.save(customer);
 		}else{

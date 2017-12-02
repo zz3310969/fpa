@@ -32,10 +32,18 @@ public class Customer implements Serializable {
 	protected Integer gender;// 性别
 	@ApiModelProperty(value = "地区")
 	protected String area;// 地区
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@ApiModelProperty(value = "关注时间")
 	protected Date followTime;// 关注时间
+	@ApiModelProperty(value = "国家")
+	protected String country;// 国家
+	@ApiModelProperty(value = "省")
+	protected String province;// 省
+	@ApiModelProperty(value = "市")
+	protected String city;// 市
+	@ApiModelProperty(value = "语言")
+	protected String language;// 语言
 
 	public Customer() {
 		super();
@@ -45,7 +53,7 @@ public class Customer implements Serializable {
 		super();
 		this.id = id;
 	}
-	
+
 	@Id// 主键
 	public Long getId() {
 		return id;
@@ -53,60 +61,88 @@ public class Customer implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getWeixinOpenId() {
 		return weixinOpenId;
 	}
 	public void setWeixinOpenId(String weixinOpenId) {
 		this.weixinOpenId = weixinOpenId;
 	}
-	
+
 	public String getWeixinHeadImage() {
 		return weixinHeadImage;
 	}
 	public void setWeixinHeadImage(String weixinHeadImage) {
 		this.weixinHeadImage = weixinHeadImage;
 	}
-	
+
 	public String getNickName() {
 		return nickName;
 	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getMobile() {
 		return mobile;
 	}
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-	
+
 	public Integer getGender() {
 		return gender;
 	}
 	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
-	
+
 	public String getArea() {
 		return area;
 	}
 	public void setArea(String area) {
 		this.area = area;
 	}
-	
+
 	public Date getFollowTime() {
 		return followTime;
 	}
 	public void setFollowTime(Date followTime) {
 		this.followTime = followTime;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 }
