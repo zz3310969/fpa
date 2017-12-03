@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.template.dao">
+
+	<sql id="columns">
+		id, content
+	</sql>
+
+	<sql id="columns_as">
+		id as id , content as content 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{content}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="content != null and content != ''">
+			and content = #{content}
+		</if>
+	</sql>
+
+	<insert id="saveTemplate" parameterType="com.roof.fpa.template.entity.Template" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_template (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteTemplate">
+		delete from c_template
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleTemplate">
+		delete from c_template
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateTemplate">
+		update c_template
+		<set>
+			id=#{id}, 
+			content=#{content}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullTemplate">
+		update c_template
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="content != null and content != ''">
+			content=#{content}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleTemplate">
+		update c_template
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="content != null and content != ''">
+			content=#{content}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadTemplate" resultType="com.roof.fpa.template.entity.TemplateVo">
+		select 
+		<include refid="columns_as"/>
+		from c_template
+		where id=#{id} 
+	</select>
+	
+	<select id="selectTemplate" resultType="com.roof.fpa.template.entity.TemplateVo">
+		select 
+		<include refid="columns_as"/>
+		from c_template
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
