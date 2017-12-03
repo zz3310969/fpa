@@ -25,7 +25,7 @@ public class CardSlot implements Serializable {
 	@ApiModelProperty(value = "x偏移系数")
 	protected Double xVal;// x偏移系数
 	@ApiModelProperty(value = "y偏移系数")
-	protected Double yVal;// y偏移系数
+		protected Double yVal;// y偏移系数
 	@ApiModelProperty(value = "x偏移量")
 	protected Double xOffset;// x偏移量
 	@ApiModelProperty(value = "y偏移量")

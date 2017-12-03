@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.customer.dao">
 
 	<sql id="columns">
-		id, weixin_open_id, weixin_head_image, nick_name, name, mobile, gender, area, follow_time, country, province, city, language
+		id, weixin_open_id, weixin_head_image, nick_name, name, mobile, gender, area, follow_time, country, province, city, language,useable
 	</sql>
 
 	<sql id="columns_as">
-		id as id , weixin_open_id as weixinOpenId , weixin_head_image as weixinHeadImage , nick_name as nickName , name as name , mobile as mobile , gender as gender , area as area , follow_time as followTime , country as country , province as province , city as city , language as language 
+		id as id , weixin_open_id as weixinOpenId , weixin_head_image as weixinHeadImage , nick_name as nickName , name as name , mobile as mobile , gender as gender , area as area , follow_time as followTime , country as country , province as province , city as city , language as language ,useable as useable
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{weixinOpenId}, #{weixinHeadImage}, #{nickName}, #{name}, #{mobile}, #{gender}, #{area}, #{followTime}, #{country}, #{province}, #{city}, #{language}
+		#{id}, #{weixinOpenId}, #{weixinHeadImage}, #{nickName}, #{name}, #{mobile}, #{gender}, #{area}, #{followTime}, #{country}, #{province}, #{city}, #{language},#{useable}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -36,6 +36,9 @@
 		</if>
 		<if test="gender != null">
 			and gender = #{gender}
+		</if>
+		<if test="useable != null">
+			and useable = #{useable}
 		</if>
 		<if test="area != null and area != ''">
 			and area = #{area}
@@ -85,8 +88,9 @@
 			nick_name=#{nickName}, 
 			name=#{name}, 
 			mobile=#{mobile}, 
-			gender=#{gender}, 
-			area=#{area}, 
+			gender=#{gender},
+			useable=#{useable},
+			area=#{area},
 			follow_time=#{followTime}, 
 			country=#{country}, 
 			province=#{province}, 
@@ -119,6 +123,9 @@
 		</if>
 		<if test="gender != null">
 			gender=#{gender}, 
+		</if>
+		<if test="useable != null">
+			useable=#{useable},
 		</if>
 		<if test="area != null and area != ''">
 			area=#{area}, 
@@ -166,6 +173,9 @@
 			<if test="gender != null">
 			gender=#{gender}, 
 			</if>
+			<if test="useable != null">
+				useable=#{useable},
+			</if>
 			<if test="area != null and area != ''">
 			area=#{area}, 
 			</if>
@@ -201,6 +211,7 @@
 		<include refid="columns_as"/>
 		from c_customer
 		where 1=1
+		and useable = 1
 		<include refid="conds" />
 	</select>
 </mapper>

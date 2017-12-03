@@ -32,6 +32,8 @@ public class Scene implements Serializable {
 	protected Long themeId;// 主题ID
 	@ApiModelProperty(value = "状态")
 	protected Integer state;// 状态
+	@ApiModelProperty(value = "模板ID")
+	private Long templateId; //模板ID
 
 	public Scene() {
 		super();
@@ -97,5 +99,13 @@ public class Scene implements Serializable {
 	}
 	public void setState(Integer state) {
 		this.state = state;
+	}
+
+	public Long getTemplateId() {
+		return templateId;
+	}
+
+	public void setTemplateId(Long templateId) {
+		this.templateId = templateId;
 	}
 }

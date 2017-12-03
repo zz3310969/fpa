@@ -3,7 +3,10 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.customer.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.weixin_open_id as weixinOpenId, t1.weixin_head_image as weixinHeadImage, t1.nick_name as nickName, t1.name as name, t1.mobile as mobile, t1.gender as gender, t1.area as area, t1.follow_time as followTime, t1.country as country, t1.province as province, t1.city as city, t1.language as language
+		t1.id as id, t1.weixin_open_id as weixinOpenId, t1.weixin_head_image as weixinHeadImage,
+		t1.nick_name as nickName, t1.name as name, t1.mobile as mobile, t1.gender as gender,
+		t1.area as area, t1.follow_time as followTime, t1.country as country, t1.province as province,
+		t1.city as city, t1.language as language ,t1.useable as useable
 	</sql>
 	
 	<select id="selectCustomerPage" resultType="com.roof.fpa.customer.entity.CustomerVo">
@@ -17,6 +20,7 @@
 		from
 		c_customer
 		where 1=1
+		and useable = 1
 		<include refid="conds" />
 		<if test="followTimeStart != null and followTimeEnd !=null">
 			<![CDATA[
@@ -33,6 +37,7 @@
 		count(id)
 		from c_customer
 		where 1=1
+		and useable = 1
 		<include refid="conds" />
 		<if test="followTimeStart != null and followTimeEnd !=null">
 			<![CDATA[

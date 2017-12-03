@@ -39,6 +39,11 @@ public class CardUnitService implements ICardUnitService {
 		cardUnitDao.update("updateByExampleCardUnit", cardUnit);
 	}
 
+	@Override
+	public CardUnitVo load(Long id) {
+		return load(new CardUnit(id));
+	}
+
 	public CardUnitVo load(CardUnit cardUnit){
 		return (CardUnitVo)cardUnitDao.reload(cardUnit);
 	}

@@ -12,6 +12,8 @@ import com.roof.fpa.charactercolor.service.api.ICharacterColorService;
 import org.roof.spring.ApplicationException;
 import org.roof.web.dictionary.entity.Dictionary;
 import org.roof.web.dictionary.service.api.IDictionaryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CharacterColorService implements ICharacterColorService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CharacterColorService.class);
     private ICharacterColorDao characterColorDao;
 
     @Autowired
@@ -97,6 +100,22 @@ public class CharacterColorService implements ICharacterColorService {
         return (List<CharacterColorVo>) characterColorDao.selectForList("selectCharacterColor", characterColor);
     }
 
+    @Override
+    public CharacterColorVo selectByColorId(Long colorId) {
+        //TODO add Cache
+        CharacterColor characterColor = new CharacterColor();
+        characterColor.setColorId(colorId);
+        List<CharacterColorVo> characterColorVos = selectForList(characterColor);
+        if (characterColorVos == null || characterColorVos.size() == 0) {
+            LOGGER.error("[selectByColorId ] error colorId: {}, size == 0", colorId);
+            return null;
+        }
+        if (characterColorVos.size() > 1) {
+            LOGGER.error("[selectByColorId ] error colorId: {}, size > 1", colorId);
+        }
+        return characterColorVos.get(0);
+    }
+
     public Page page(Page page, CharacterColor characterColor) {
         return characterColorDao.page(page, characterColor);
     }
@@ -106,6 +125,5 @@ public class CharacterColorService implements ICharacterColorService {
             @Qualifier("characterColorDao") ICharacterColorDao characterColorDao) {
         this.characterColorDao = characterColorDao;
     }
-
 
 }

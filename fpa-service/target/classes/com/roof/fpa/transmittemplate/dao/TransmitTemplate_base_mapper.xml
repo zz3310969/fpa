@@ -4,16 +4,15 @@
 <mapper namespace="com.roof.fpa.transmittemplate.dao">
 
 	<sql id="columns">
-		id, code, name, title, path, imageurl, state
+		id, code, name, title, path, imageurl, state,useable
 	</sql>
 
 	<sql id="columns_as">
-		id as id , code as code , name as name , title as title , path as path , imageurl as imageurl , state as state 
+		id as id , code as code , name as name , title as title , path as path , imageurl as imageurl , state as state ,useable as useable
 	</sql>
 
-
 	<sql id="vals">
-		#{id}, #{code}, #{name}, #{title}, #{path}, #{imageurl}, #{state}
+		#{id}, #{code}, #{name}, #{title}, #{path}, #{imageurl}, #{state},#{useable}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -29,13 +28,16 @@
 			and title like CONCAT('%', #{title}, '%')
 		</if>
 		<if test="path != null and path != ''">
-			and path = #{path}
+			and path like CONCAT('%', #{path}, '%')
 		</if>
 		<if test="imageurl != null and imageurl != ''">
 			and imageurl = #{imageurl}
 		</if>
 		<if test="state != null">
 			and state = #{state}
+		</if>
+		<if test="useable != null">
+			and useable = #{useable}
 		</if>
 	</sql>
 
@@ -61,13 +63,14 @@
 	<update id="updateTransmitTemplate">
 		update c_transmit_template
 		<set>
-			id=#{id}, 
-			code=#{code}, 
-			name=#{name}, 
-			title=#{title}, 
-			path=#{path}, 
-			imageurl=#{imageurl}, 
-			state=#{state}
+			id=#{id},
+			code=#{code},
+			name=#{name},
+			title=#{title},
+			path=#{path},
+			imageurl=#{imageurl},
+			state=#{state},
+			useable=#{useable}
 		</set>
 		where id=#{id} 
 	</update>
@@ -94,7 +97,10 @@
 			imageurl=#{imageurl}, 
 		</if>
 		<if test="state != null">
-			state=#{state}
+			state=#{state},
+		</if>
+		<if test="useable != null">
+			useable=#{useable}
 		</if>
 		</set>
 		where id=#{id} 
@@ -122,7 +128,10 @@
 			imageurl=#{imageurl}, 
 			</if>
 			<if test="state != null">
-			state=#{state}
+			state=#{state},
+			</if>
+			<if test="useable != null">
+				useable=#{useable}
 			</if>
 		</set>
 		where 1=1
@@ -133,7 +142,7 @@
 		select 
 		<include refid="columns_as"/>
 		from c_transmit_template
-		where id=#{id} 
+		where id=#{id}
 	</select>
 	
 	<select id="selectTransmitTemplate" resultType="com.roof.fpa.transmittemplate.entity.TransmitTemplateVo">
@@ -141,6 +150,7 @@
 		<include refid="columns_as"/>
 		from c_transmit_template
 		where 1=1
+		and useable =1
 		<include refid="conds" />
 	</select>
 </mapper>

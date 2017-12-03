@@ -57,8 +57,10 @@ public interface ICharacterColorService {
 	 * 按对象中的非空属性作为条件，进行查询列表
 	 */
 	public abstract List<CharacterColorVo> selectForList(CharacterColor characterColor);
-	
-	/**
+
+    CharacterColorVo selectByColorId(Long colorId);
+
+    /**
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */
 	public abstract Page page(Page page, CharacterColor characterColor);

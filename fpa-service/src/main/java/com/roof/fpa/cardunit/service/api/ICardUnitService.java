@@ -39,7 +39,9 @@ public interface ICardUnitService {
 	 */
 	public abstract void updateByExample(CardUnit cardUnit);
 
-	/**
+    CardUnitVo load(Long id);
+
+    /**
 	 * 按对象中的主键进行数据加载，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract CardUnitVo load(CardUnit cardUnit);
