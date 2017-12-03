@@ -32,7 +32,7 @@ public class DescriptionCalculator {
         for (CardTestResultDto cardTestResultDto : cardTestResultVo.getResultDtoList()) {
             CardUnit cardUnit = cardUnitService.load(cardTestResultDto.getCardUnitId());
             CardSlot cardSlot = cardSlotService.load(cardTestResultDto.getCardSlotId());//selectBySceneIdAndNumb(cardTestResultVo.getSceneId(), cardTestResultDto.getCardSlotId());
-            if (cardUnit.getScore().equals(cardScore) && BigDecimal.valueOf(cardSlot.getYVal()).equals(yVal)) {
+            if (cardUnit.getScore().equals(cardScore) && cardSlot.getYVal().intValue() == yVal.intValue()) {
                 try {
                     PropertyUtils.setProperty(generalCardTestCustomerResult, propertyName, cardUnit.getDescription());
                 } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
