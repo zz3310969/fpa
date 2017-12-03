@@ -25,6 +25,7 @@ public class CustomerService implements ICustomerService {
 
 	private ICustomerDao customerDao;
 
+	@Autowired
 	private IWeChatHander weChatHander;
 
 	public Serializable save(Customer customer){
@@ -71,7 +72,7 @@ public class CustomerService implements ICustomerService {
 	public CustomerVo loadByOpenid(String openId){
 		Customer customer = new Customer();
 		customer.setWeixinOpenId(openId);
-		return (CustomerVo)customerDao.selectForObject("",customer);
+		return (CustomerVo)customerDao.selectForObject("loadCustomerByOpenId",customer);
 	}
 
 
@@ -84,7 +85,7 @@ public class CustomerService implements ICustomerService {
 			logger.error("获取微信Openid出错:",e.getCause());
 		}
 		Assert.notNull(customer.getWeixinOpenId(),"openid不能为空");
-		CustomerVo vo =null;// loadByOpenid(customer.getWeixinOpenId());
+		CustomerVo vo = loadByOpenid(customer.getWeixinOpenId());
 		if(vo == null){
 			return customerDao.save(customer);
 		}else{
