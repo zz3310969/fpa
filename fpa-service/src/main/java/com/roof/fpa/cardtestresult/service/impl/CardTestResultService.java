@@ -1,6 +1,7 @@
 package com.roof.fpa.cardtestresult.service.impl;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.cardtestresult.dao.api.ICardTestResultDao;
@@ -16,6 +17,7 @@ public class CardTestResultService implements ICardTestResultService {
 	private ICardTestResultDao cardTestResultDao;
 
 	public Serializable save(CardTestResult cardTestResult){
+		cardTestResult.setTestDate(new Date());
 		return cardTestResultDao.save(cardTestResult);
 	}
 

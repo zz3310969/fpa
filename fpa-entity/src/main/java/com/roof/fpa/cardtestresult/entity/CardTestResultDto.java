@@ -6,15 +6,15 @@ import java.util.List;
  * Created by zhenglt on 2017/12/2.
  */
 public class CardTestResultDto {
-    protected Integer numb;// 编号
+    protected Long cardSlotId;// 编号
     protected Long cardUnitId;// 编号
 
-    public Integer getNumb() {
-        return numb;
+    public Long getCardSlotId() {
+        return cardSlotId;
     }
 
-    public void setNumb(Integer numb) {
-        this.numb = numb;
+    public void setCardSlotId(Long cardSlotId) {
+        this.cardSlotId = cardSlotId;
     }
 
     public Long getCardUnitId() {
