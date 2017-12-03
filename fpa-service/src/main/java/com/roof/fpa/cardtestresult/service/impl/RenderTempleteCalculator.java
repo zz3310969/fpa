@@ -26,12 +26,13 @@ public class RenderTempleteCalculator {
     public NodeResult doNode(CardTestResultVo cardTestResultVo, GeneralCardTestCustomerResult generalCardTestCustomerResult) {
         Scene scene = sceneService.load(new Scene(cardTestResultVo.getSceneId()));
         com.roof.fpa.template.entity.Template template = templateService.load(new com.roof.fpa.template.entity.Template(scene.getTemplateId()));
+        generalCardTestCustomerResult.setTemplateId(String.valueOf(template.getId()));
         NodeResult nodeResult = new NodeResult(NodeResult.SUCCESS);
-        try {
-            nodeResult.setMessage(mergeTemplate(template.getContent(), generalCardTestCustomerResult));
-        } catch (TemplateException | IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
+//        try {
+//            nodeResult.setMessage(mergeTemplate(template.getContent(), generalCardTestCustomerResult));
+//        } catch (TemplateException | IOException e) {
+//            LOGGER.error(e.getMessage(), e);
+//        }
         return nodeResult;
     }
 
