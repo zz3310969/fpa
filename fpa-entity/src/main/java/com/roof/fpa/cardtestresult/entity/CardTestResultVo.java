@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 模版生成 <br/>
@@ -28,6 +29,8 @@ public class CardTestResultVo extends CardTestResult {
 	private Date testDateEnd;// 测试时间
 
 	private CustomerVo customer;
+
+	private List<Map<String,Object>> chats;
 
 
 	public CardTestResultVo() {
@@ -101,5 +104,13 @@ public class CardTestResultVo extends CardTestResult {
 
 	public void setCardTestResultDetailVoList(List<CardTestResultDetailVo> cardTestResultDetailVoList) {
 		this.cardTestResultDetailVoList = cardTestResultDetailVoList;
+	}
+
+	public List<Map<String, Object>> getChats() {
+		return chats;
+	}
+
+	public void setChats(List<Map<String, Object>> chats) {
+		this.chats = chats;
 	}
 }
