@@ -44,11 +44,32 @@ public class MaxScoreCalculator {
         generalCardTestCustomerResult.setScoreMax(String.valueOf(scoreMax));
         generalCardTestCustomerResult.setCharacterCare(color);
         generalCardTestCustomerResult.setScoreMaxColorId(colorDic.getId());
-
         CharacterColor characterColor = characterColorService.selectByColorId(colorDic.getId());
         generalCardTestCustomerResult.setCharacterColorDefn(characterColor.getDescription());
-        if (characterColor.getDescriptionLack()  != null) {
-            generalCardTestCustomerResult.setCharacterColorLows(characterColor.getDescriptionLack());
+
+        String colorMin = RED;
+        int scoreMin = Integer.MAX_VALUE;
+        if (NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore()) < scoreMin) {
+            scoreMin = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
+            colorMin = RED;
+        }
+        if (NumberUtils.createInteger(generalCardTestCustomerResult.getYellowScore()) < scoreMin) {
+            scoreMin = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
+            colorMin = YELLOW;
+        }
+        if (NumberUtils.createInteger(generalCardTestCustomerResult.getBlueScore()) < scoreMin) {
+            scoreMin = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
+            colorMin = BLUE;
+        }
+        if (NumberUtils.createInteger(generalCardTestCustomerResult.getGreenScore()) < scoreMin) {
+            scoreMin = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
+            colorMin = GREEN;
+        }
+
+        Dictionary colorDicMin = dictionaryService.load("COLOR", colorMin);
+        CharacterColor characterColorMin = characterColorService.selectByColorId(colorDicMin.getId());
+        if (characterColorMin.getDescriptionLack() != null) {
+            generalCardTestCustomerResult.setCharacterColorLows(characterColorMin.getDescriptionLack());
         }
         return toSuccess();
     }
