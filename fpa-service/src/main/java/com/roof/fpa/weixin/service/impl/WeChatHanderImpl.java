@@ -45,8 +45,8 @@ public class WeChatHanderImpl implements IWeChatHander {
         StringBuilder str = new StringBuilder(url);
         str.append("?appid="+appid);
         str.append("&secret="+secret);
-        str.append("&js_code"+code);
-        str.append("&grant_type"+grant_type);
+        str.append("&js_code="+code);
+        str.append("&grant_type="+grant_type);
         return HttpClientUtil.get(str.toString());
     }
 
