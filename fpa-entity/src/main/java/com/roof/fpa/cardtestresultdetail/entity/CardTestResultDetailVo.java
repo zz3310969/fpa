@@ -11,6 +11,8 @@ public class CardTestResultDetailVo extends CardTestResultDetail {
 
 	private List<CardTestResultDetailVo> cardTestResultDetailList;
 
+	private String cardUnitImage;
+
 	public CardTestResultDetailVo() {
 		super();
 	}
@@ -28,4 +30,11 @@ public class CardTestResultDetailVo extends CardTestResultDetail {
 		this.cardTestResultDetailList = cardTestResultDetailList;
 	}
 
+	public String getCardUnitImage() {
+		return cardUnitImage;
+	}
+
+	public void setCardUnitImage(String cardUnitImage) {
+		this.cardUnitImage = cardUnitImage;
+	}
 }

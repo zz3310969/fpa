@@ -5,13 +5,18 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.roof.fpa.DefaultStateEnum;
 import com.roof.fpa.GenderEnum;
+import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetail;
+import com.roof.fpa.cardtestresultdetail.service.api.ICardTestResultDetailService;
 import com.roof.fpa.cardunit.entity.CardUnit;
 import com.roof.fpa.cardunit.entity.CardUnitVo;
 import com.roof.fpa.charactercolor.entity.CharacterColor;
 import com.roof.fpa.charactercolor.entity.CharacterColorVo;
+import com.roof.fpa.customer.entity.Customer;
+import com.roof.fpa.customer.service.api.ICustomerService;
 import com.roof.fpa.scene.entity.Scene;
 import com.roof.fpa.scene.entity.SceneVo;
 import com.roof.fpa.scene.service.api.ISceneService;
@@ -35,6 +40,10 @@ public class CardTestResultController {
 
 	@Autowired
 	private ISceneService sceneService;
+	@Autowired
+	private ICustomerService customerService;
+	@Autowired
+	private ICardTestResultDetailService cardTestResultDetailService;
 
 
 	@RequestMapping(value = "cardtestresult/base", method = {RequestMethod.GET})
@@ -70,6 +79,29 @@ public class CardTestResultController {
     @RequestMapping(value = "cardtestresult/{id}", method = {RequestMethod.GET})
     public @ResponseBody Result<CardTestResultVo> load(@PathVariable Long id) {
 		CardTestResultVo cardTestResultVo = cardTestResultService.load(new CardTestResult(id));
+		cardTestResultVo.setCustomer(customerService.load(new Customer(cardTestResultVo.getCustomerId())));
+		CardTestResultDetail detail = new CardTestResultDetail();
+		detail.setResultId(cardTestResultVo.getId());
+		cardTestResultVo.setCardTestResultDetailVoList(cardTestResultDetailService.selectForList(detail));
+		List<Map<String,Object>> mapList = Lists.newArrayList();
+		Map<String,Object> red = Maps.newHashMap();
+		red.put("x","红");
+		red.put("y",Integer.valueOf(cardTestResultVo.getRedScore()));
+		Map<String,Object> yellow = Maps.newHashMap();
+		yellow.put("x","黄");
+		yellow.put("y",Integer.valueOf(cardTestResultVo.getYellowScore()));
+		Map<String,Object> blue = Maps.newHashMap();
+		blue.put("x","蓝");
+		blue.put("y",Integer.valueOf(cardTestResultVo.getBlueScore()));
+		Map<String,Object> green = Maps.newHashMap();
+		green.put("x","绿");
+		green.put("y",Integer.valueOf(cardTestResultVo.getGreenScore()));
+		mapList.add(red);
+		mapList.add(yellow);
+		mapList.add(blue);
+		mapList.add(green);
+		cardTestResultVo.setChats(mapList);
+
         return new Result(Result.SUCCESS,cardTestResultVo);
     }
 	

@@ -1,9 +1,12 @@
 package com.roof.fpa.cardtestresult.entity;
 
+import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetailVo;
+import com.roof.fpa.customer.entity.CustomerVo;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 模版生成 <br/>
@@ -15,6 +18,7 @@ public class CardTestResultVo extends CardTestResult {
 	private List<CardTestResultVo> cardTestResultList;
 
 	private List<CardTestResultDto> resultDtoList;
+	private List<CardTestResultDetailVo> cardTestResultDetailVoList;
 
 	private String customerName;
 
@@ -23,6 +27,10 @@ public class CardTestResultVo extends CardTestResult {
 	private Date testDateStart;// 测试时间
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date testDateEnd;// 测试时间
+
+	private CustomerVo customer;
+
+	private List<Map<String,Object>> chats;
 
 
 	public CardTestResultVo() {
@@ -80,5 +88,29 @@ public class CardTestResultVo extends CardTestResult {
 
 	public void setResultDtoList(List<CardTestResultDto> resultDtoList) {
 		this.resultDtoList = resultDtoList;
+	}
+
+	public CustomerVo getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(CustomerVo customer) {
+		this.customer = customer;
+	}
+
+	public List<CardTestResultDetailVo> getCardTestResultDetailVoList() {
+		return cardTestResultDetailVoList;
+	}
+
+	public void setCardTestResultDetailVoList(List<CardTestResultDetailVo> cardTestResultDetailVoList) {
+		this.cardTestResultDetailVoList = cardTestResultDetailVoList;
+	}
+
+	public List<Map<String, Object>> getChats() {
+		return chats;
+	}
+
+	public void setChats(List<Map<String, Object>> chats) {
+		this.chats = chats;
 	}
 }

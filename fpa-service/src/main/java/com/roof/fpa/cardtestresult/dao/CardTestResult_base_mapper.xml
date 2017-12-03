@@ -181,7 +181,8 @@
 
 	<select id="loadCardTestResult" resultType="com.roof.fpa.cardtestresult.entity.CardTestResultVo">
 		select
-		<include refid="columns_as"/>
+		<include refid="columns_as"/>,
+		(SELECT NAME FROM c_scene where id = scene_id) as sceneName
 		from c_card_test_result
 		where id=#{id}
 	</select>

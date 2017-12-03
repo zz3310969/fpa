@@ -6,9 +6,15 @@ import com.roof.fpa.cardtestresult.entity.CardTestResultVo;
 import com.roof.fpa.cardtestresult.entity.GeneralCardTestCustomerResult;
 import com.roof.fpa.cardtestresult.service.api.ICardTestResultService;
 import com.roof.fpa.cardtestresultdetail.service.api.ICardTestResultDetailService;
+import com.roof.fpa.template.entity.Template;
+import com.roof.fpa.template.entity.TemplateVo;
+import com.roof.fpa.template.service.api.ITemplateService;
+import freemarker.template.TemplateException;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 
 @Controller
 @RequestMapping("fpa/wechat")
@@ -24,6 +33,9 @@ public class CardTestResultWechatController {
 
 	@Autowired
 	private ICardTestResultDetailService cardTestResultDetailService;
+	@Autowired
+	private ITemplateService templateService;
+	private static Logger LOGGER = LoggerFactory.getLogger(CardTestResultWechatController.class);
 
 
 	@RequestMapping(value = "cardtestresult", method = {RequestMethod.GET})
@@ -33,10 +45,23 @@ public class CardTestResultWechatController {
 		return new Result(Result.SUCCESS, page);
 	}
 
+	protected String mergeTemplate(String templateStr, Object param) throws TemplateException, IOException {
+		freemarker.template.Template t = new freemarker.template.Template(null, new StringReader(templateStr), null);
+		StringWriter writer = new StringWriter();
+		t.process(param, writer);
+		return writer.toString();
+	}
 
 	@RequestMapping(value = "cardtestresult/{id}", method = {RequestMethod.GET})
 	public @ResponseBody Result<CardTestResultVo> load(@PathVariable Long id) {
 		CardTestResultVo cardTestResultVo = cardTestResultService.load(new CardTestResult(id));
+		TemplateVo templateVo = templateService.load( new Template(cardTestResultVo.getTemplateId()));
+		       try {
+				   cardTestResultVo.setResult(mergeTemplate(templateVo.getContent(), JSON.parseObject(cardTestResultVo.getResult())));
+       } catch (TemplateException | IOException e) {
+            LOGGER.error(e.getMessage(), e);
+       }
+
 		return new Result(Result.SUCCESS,cardTestResultVo);
 	}
 
