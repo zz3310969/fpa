@@ -2,15 +2,15 @@ package com.roof.fpa.cardtestresult.entity;
 
 public class GeneralCardTestCustomerResult extends CardTestCustomerResult {
     private Long scoreMaxColorId; //得分最高的colorId
-    private String scoreMax; //分数最高
-    private String CharacterColorLows; //缺少
-    private String characterAdvantage; //突出的优势
-    private String characterAdvantageOther;
-    private String characterInsufficient;
-    private String characterInsufficientOther;
-    private String characterCare;
-    private String characterCareOther;
-    private String templateId;
+    private String scoreMax =""; //分数最高
+    private String characterColorLows=""; //缺少
+    private String characterAdvantage=""; //突出的优势
+    private String characterAdvantageOther="";
+    private String characterInsufficient="";
+    private String characterInsufficientOther="";
+    private String characterCare="";
+    private String characterCareOther="";
+    private String templateId="";
 
     public Long getScoreMaxColorId() {
         return scoreMaxColorId;
@@ -29,11 +29,11 @@ public class GeneralCardTestCustomerResult extends CardTestCustomerResult {
     }
 
     public String getCharacterColorLows() {
-        return CharacterColorLows;
+        return characterColorLows;
     }
 
     public void setCharacterColorLows(String characterColorLows) {
-        CharacterColorLows = characterColorLows;
+        this.characterColorLows = characterColorLows;
     }
 
     public String getCharacterAdvantage() {
@@ -91,4 +91,5 @@ public class GeneralCardTestCustomerResult extends CardTestCustomerResult {
     public void setTemplateId(String templateId) {
         this.templateId = templateId;
     }
+
 }

@@ -31,7 +31,7 @@ public class DescriptionCalculator {
         }
         for (CardTestResultDto cardTestResultDto : cardTestResultVo.getResultDtoList()) {
             CardUnit cardUnit = cardUnitService.load(cardTestResultDto.getCardUnitId());
-            CardSlot cardSlot = cardSlotService.selectBySceneIdAndNumb(cardTestResultVo.getSceneId(), cardTestResultDto.getNumb());
+            CardSlot cardSlot = cardSlotService.load(cardTestResultDto.getCardSlotId());//selectBySceneIdAndNumb(cardTestResultVo.getSceneId(), cardTestResultDto.getCardSlotId());
             if (cardUnit.getScore().equals(cardScore) && BigDecimal.valueOf(cardSlot.getYVal()).equals(yVal)) {
                 try {
                     PropertyUtils.setProperty(generalCardTestCustomerResult, propertyName, cardUnit.getDescription());

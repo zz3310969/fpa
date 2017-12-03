@@ -23,6 +23,9 @@ public class CardTestResultDetail implements Serializable {
 	@ApiModelProperty(value = "卡牌单元id")
 	protected Long cardUnitId;// 卡牌单元id
 
+	protected Long resultId;// 结果id
+
+
 	public CardTestResultDetail() {
 		super();
 	}
@@ -52,5 +55,13 @@ public class CardTestResultDetail implements Serializable {
 	}
 	public void setCardUnitId(Long cardUnitId) {
 		this.cardUnitId = cardUnitId;
+	}
+
+	public Long getResultId() {
+		return resultId;
+	}
+
+	public void setResultId(Long resultId) {
+		this.resultId = resultId;
 	}
 }

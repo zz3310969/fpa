@@ -16,7 +16,7 @@
                             <property name="cardSlotService" ref="cardSlotService"/>
                             <property name="cardUnitService" ref="cardUnitService"/>
                             <property name="dictionaryService" ref="dictionaryService"/>
-                            <property name="color" value="RED"/>
+                            <property name="color" value="red"/>
                             <property name="valPropertyName" value="redScore"/>
                         </bean>
                     </property>
@@ -34,7 +34,7 @@
                             <property name="cardSlotService" ref="cardSlotService"/>
                             <property name="cardUnitService" ref="cardUnitService"/>
                             <property name="dictionaryService" ref="dictionaryService"/>
-                            <property name="color" value="YELLOW"/>
+                            <property name="color" value="yellow"/>
                             <property name="valPropertyName" value="yellowScore"/>
                         </bean>
                     </property>
@@ -52,7 +52,7 @@
                             <property name="cardSlotService" ref="cardSlotService"/>
                             <property name="cardUnitService" ref="cardUnitService"/>
                             <property name="dictionaryService" ref="dictionaryService"/>
-                            <property name="color" value="Blue"/>
+                            <property name="color" value="blue"/>
                             <property name="valPropertyName" value="blueScore"/>
                         </bean>
                     </property>
@@ -70,8 +70,8 @@
                             <property name="cardSlotService" ref="cardSlotService"/>
                             <property name="cardUnitService" ref="cardUnitService"/>
                             <property name="dictionaryService" ref="dictionaryService"/>
-                            <property name="color" value="Blue"/>
-                            <property name="valPropertyName" value="blueScore"/>
+                            <property name="color" value="green"/>
+                            <property name="valPropertyName" value="greenScore"/>
                         </bean>
                     </property>
                     <property name="forwards">

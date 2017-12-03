@@ -5,9 +5,9 @@
 		<New class="org.eclipse.jetty.util.resource.ResourceCollection">
 			<Arg>
 				<Array type="java.lang.String">
-					<Item>E:\Users\hc_workspace_2016\webc</Item>
-					<Item>E:\git\fpa\fpa-web\src\main\webapp</Item>
-					<Item>E:\git\roof\roof-web-base\roof-web-base-webapp\src\main\webapp</Item>
+					<!--<Item>E:\Users\hc_workspace_2016\webc</Item>-->
+					<Item>D:\workspace\fpa-car\fpa-web\src\main\webapp</Item>
+					<!--<Item>E:\git\roof\roof-web-base\roof-web-base-webapp\src\main\webapp</Item>-->
 				</Array>
 			</Arg>
 		</New>

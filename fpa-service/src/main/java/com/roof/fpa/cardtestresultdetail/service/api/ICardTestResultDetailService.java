@@ -3,6 +3,7 @@ package com.roof.fpa.cardtestresultdetail.service.api;
 import java.util.List;
 import java.io.Serializable;
 
+import com.roof.fpa.cardtestresult.entity.CardTestResultDto;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetail;
 import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetailVo;
@@ -58,5 +59,8 @@ public interface ICardTestResultDetailService {
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */
 	public abstract Page page(Page page, CardTestResultDetail cardTestResultDetail);
+
+	public abstract void saveList(List<CardTestResultDto> cardTestResultDtoList,Long resultId);
+
 
 }

@@ -65,22 +65,22 @@ public class CardSlotService implements ICardSlotService {
 	 * 通过场景ID和编号查找卡槽
 	 *
 	 * @param sceneId 场景ID
-	 * @param numb    编号
+	 * @param id    编号
 	 * @return 卡槽
 	 */
 	@Override
-	public CardSlotVo selectBySceneIdAndNumb(Long sceneId, Integer numb) {
+	public CardSlotVo selectBySceneIdAndNumb(Long sceneId, Long id) {
 		//TODO add cache
 		CardSlot cardSlot = new CardSlot();
-		cardSlot.setNumb(numb);
+		cardSlot.setId(id);
 		cardSlot.setSceneId(sceneId);
 		List<CardSlotVo> cardSlotVos = selectForList(cardSlot);
 		if (cardSlotVos == null || cardSlotVos.size() == 0) {
-			LOGGER.error("[selectBySceneIdAndNumb error] sceneId: {}, numb: {} size == 0", sceneId, numb);
+			LOGGER.error("[selectBySceneIdAndNumb error] sceneId: {}, numb: {} size == 0", sceneId, id);
 			return null;
 		}
 		if (cardSlotVos.size() > 1) {
-			LOGGER.error("[selectBySceneIdAndNumb error] sceneId: {}, numb: {} size > 1", sceneId, numb);
+			LOGGER.error("[selectBySceneIdAndNumb error] sceneId: {}, numb: {} size > 1", sceneId, id);
 		}
 		return cardSlotVos.get(0);
 

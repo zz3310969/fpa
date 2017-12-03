@@ -46,7 +46,10 @@ public class MaxScoreCalculator {
         generalCardTestCustomerResult.setScoreMaxColorId(colorDic.getId());
 
         CharacterColor characterColor = characterColorService.selectByColorId(colorDic.getId());
-        generalCardTestCustomerResult.setCharacterColorLows(characterColor.getDescription_lack());
+        generalCardTestCustomerResult.setCharacterColorDefn(characterColor.getDescription());
+        if (characterColor.getDescriptionLack()  != null) {
+            generalCardTestCustomerResult.setCharacterColorLows(characterColor.getDescriptionLack());
+        }
         return toSuccess();
     }
 

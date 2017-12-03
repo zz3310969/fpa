@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.cardtestresultdetail.dao">
 
 	<sql id="columns">
-		id, card_slot_id, card_unit_id
+		id, card_slot_id, card_unit_id, result_id
 	</sql>
 
 	<sql id="columns_as">
-		id as id , card_slot_id as cardSlotId , card_unit_id as cardUnitId 
+		id as id , card_slot_id as cardSlotId , card_unit_id as cardUnitId , result_id as resultId 
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{cardSlotId}, #{cardUnitId}
+		#{id}, #{cardSlotId}, #{cardUnitId}, #{resultId}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -24,6 +24,9 @@
 		</if>
 		<if test="cardUnitId != null">
 			and card_unit_id = #{cardUnitId}
+		</if>
+		<if test="resultId != null">
+			and result_id = #{resultId}
 		</if>
 	</sql>
 
@@ -51,7 +54,8 @@
 		<set>
 			id=#{id}, 
 			card_slot_id=#{cardSlotId}, 
-			card_unit_id=#{cardUnitId}
+			card_unit_id=#{cardUnitId}, 
+			result_id=#{resultId}
 		</set>
 		where id=#{id} 
 	</update>
@@ -66,7 +70,10 @@
 			card_slot_id=#{cardSlotId}, 
 		</if>
 		<if test="cardUnitId != null">
-			card_unit_id=#{cardUnitId}
+			card_unit_id=#{cardUnitId}, 
+		</if>
+		<if test="resultId != null">
+			result_id=#{resultId}
 		</if>
 		</set>
 		where id=#{id} 
@@ -82,7 +89,10 @@
 			card_slot_id=#{cardSlotId}, 
 			</if>
 			<if test="cardUnitId != null">
-			card_unit_id=#{cardUnitId}
+			card_unit_id=#{cardUnitId}, 
+			</if>
+			<if test="resultId != null">
+			result_id=#{resultId}
 			</if>
 		</set>
 		where 1=1

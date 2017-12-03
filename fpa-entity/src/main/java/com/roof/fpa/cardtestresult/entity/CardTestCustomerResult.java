@@ -4,11 +4,11 @@ package com.roof.fpa.cardtestresult.entity;
  * 客户展示性格色彩
  */
 public class CardTestCustomerResult {
-    protected String redScore; //红色得分
-    protected String yellowScore; //黄色得分
-    protected String blueScore; //蓝色得分
-    protected String greenScore; //蓝色得分
-    protected String CharacterColor; //性格色彩
+    protected String redScore ="0"; //红色得分
+    protected String yellowScore ="0"; //黄色得分
+    protected String blueScore ="0"; //蓝色得分
+    protected String greenScore ="0"; //蓝色得分
+    protected String characterColorDefn=""; //性格色彩
 
     public String getRedScore() {
         return redScore;
@@ -42,11 +42,11 @@ public class CardTestCustomerResult {
         this.greenScore = greenScore;
     }
 
-    public String getCharacterColor() {
-        return CharacterColor;
+    public String getCharacterColorDefn() {
+        return characterColorDefn;
     }
 
-    public void setCharacterColor(String characterColor) {
-        CharacterColor = characterColor;
+    public void setCharacterColorDefn(String characterColorDefn) {
+        this.characterColorDefn = characterColorDefn;
     }
 }

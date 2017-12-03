@@ -56,7 +56,7 @@ public interface ICardSlotService {
 	 */
 	public abstract List<CardSlotVo> selectForList(CardSlot cardSlot);
 
-	CardSlotVo selectBySceneIdAndNumb(Long sceneId, Integer numb);
+	CardSlotVo selectBySceneIdAndNumb(Long sceneId, Long numb);
 
 	/**
 	 * 按对象中的非空属性作为条件，进行分页查询

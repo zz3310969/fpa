@@ -4,11 +4,11 @@
 <mapper namespace="com.roof.fpa.charactercolor.dao">
 
     <sql id="columns">
-		id, numb, name, color_id, color_code, description, color2_id, color2_code, state,useable
+		id, numb, name, color_id, color_code, description, color2_id, color2_code, state,useable,description_lack
 	</sql>
 
     <sql id="columns_as">
-		id as id , numb as numb , name as name , color_id as colorId , color_code as colorCode , description as description , color2_id as color2Id , color2_code as color2Code , state as state ,useable as useable
+		id as id , numb as numb , name as name , color_id as colorId , color_code as colorCode , description as description , color2_id as color2Id , color2_code as color2Code , state as state ,useable as useable,description_lack as descriptionLack
 	</sql>
 
 
@@ -42,6 +42,9 @@
         </if>
         <if test="state != null">
             and state = #{state}
+        </if>
+        <if test="descriptionLack != null and descriptionLack != ''">
+            and description_lack = #{descriptionLack}
         </if>
         <if test="useable != null">
             and useable = #{useable}
@@ -116,7 +119,10 @@
                 useable=#{useable},
             </if>
             <if test="state != null">
-                state=#{state}
+                state=#{state},
+            </if>
+            <if test="descriptionLack != null and descriptionLack != ''">
+                description_lack = #{descriptionLack}
             </if>
         </set>
         where id=#{id}
@@ -153,7 +159,10 @@
                 useable=#{useable},
             </if>
             <if test="state != null">
-                state=#{state}
+                state=#{state},
+            </if>
+            <if test="descriptionLack != null and descriptionLack != ''">
+                description_lack = #{descriptionLack}
             </if>
         </set>
         where 1=1

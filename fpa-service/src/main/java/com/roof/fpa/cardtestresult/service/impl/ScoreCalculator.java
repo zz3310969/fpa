@@ -36,9 +36,10 @@ public class ScoreCalculator {
             CardUnit cardUnit = cardUnitService.load(cardTestResultDto.getCardUnitId());
             Dictionary colorDic = dictionaryService.load(new Dictionary(cardUnit.getColorId()));
             if (StringUtils.equalsIgnoreCase(colorDic.getVal(), color)) {
-                CardSlot cardSlot = cardSlotService.selectBySceneIdAndNumb(cardTestResultVo.getSceneId(), cardTestResultDto.getNumb());
+                CardSlot cardSlot = cardSlotService.load(cardTestResultDto.getCardSlotId());
                 //TODO 使用场景配置的操作符
                 score += cardUnit.getScore() + cardSlot.getWeight();
+                LOGGER.info("color:{}, cardUnitScore:{}, cardSlotWeight:{}, score:{}", color, cardUnit.getScore(), cardSlot.getWeight(), score);
             }
         }
         return toSuccess(score, generalCardTestCustomerResult);

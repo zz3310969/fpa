@@ -2,6 +2,8 @@ package com.roof.fpa.cardtestresultdetail.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.roof.fpa.cardtestresult.entity.CardTestResultDto;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.cardtestresultdetail.dao.api.ICardTestResultDetailDao;
 import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetail;
@@ -53,6 +55,17 @@ public class CardTestResultDetailService implements ICardTestResultDetailService
 	
 	public Page page(Page page, CardTestResultDetail cardTestResultDetail) {
 		return cardTestResultDetailDao.page(page, cardTestResultDetail);
+	}
+
+	@Override
+	public void saveList(List<CardTestResultDto> cardTestResultDtoList, Long resultId) {
+		for (CardTestResultDto dto :cardTestResultDtoList){
+			CardTestResultDetail detail = new CardTestResultDetail();
+			detail.setCardSlotId(dto.getCardSlotId());
+			detail.setCardUnitId(dto.getCardUnitId());
+			detail.setResultId(resultId);
+			this.save(detail);
+		}
 	}
 
 	@Autowired
