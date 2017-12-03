@@ -2,6 +2,7 @@ package com.roof.fpa.customer.service.impl;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import com.roof.fpa.weixin.service.api.IWeChatHander;
@@ -87,6 +88,7 @@ public class CustomerService implements ICustomerService {
 		Assert.notNull(customer.getWeixinOpenId(),"openid不能为空");
 		CustomerVo vo = loadByOpenid(customer.getWeixinOpenId());
 		if(vo == null){
+			customer.setFollowTime(new Date());
 			return customerDao.save(customer);
 		}else{
 			customer.setId(vo.getId());
