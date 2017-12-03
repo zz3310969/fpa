@@ -42,7 +42,7 @@ public class CustomerWechatController {
 				return new Result(Result.FAIL,"code不能为空");
 			}
 			Long id = (Long) customerService.saveOrUpdate(customer);
-			return new Result("保存成功!",id);
+			return new Result(Result.SUCCESS,id);
 		} else {
 			return new Result(Result.FAIL,"数据传输失败!");
 		}

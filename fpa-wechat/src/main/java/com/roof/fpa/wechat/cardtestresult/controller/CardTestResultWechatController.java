@@ -36,7 +36,7 @@ public class CardTestResultWechatController {
 			CardTestResult cardTestResult = new CardTestResult();
 			BeanUtils.copyProperties(cardTestResultVo,cardTestResult);
 			Long id = (Long) cardTestResultService.save(cardTestResult);
-			return new Result("保存成功!",id);
+			return new Result(Result.SUCCESS,id);
 		} else {
 			return new Result(Result.FAIL,"数据传输失败!");
 		}
