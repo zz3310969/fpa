@@ -2,6 +2,7 @@ package com.roof.fpa.charactercolor.controller;
 
 import com.google.common.collect.Maps;
 import com.roof.fpa.DefaultStateEnum;
+import com.roof.fpa.DefaultUseableEnum;
 import com.roof.fpa.charactercolor.entity.CharacterColor;
 import com.roof.fpa.charactercolor.entity.CharacterColorVo;
 import com.roof.fpa.charactercolor.entity.ColorDicVo;
@@ -98,11 +99,9 @@ public class CharacterColorController {
     @RequestMapping(value = "charactercolor/{id}", method = {RequestMethod.DELETE})
     public @ResponseBody
     Result delete(@PathVariable Long id) {
-        // TODO 有些关键数据是不能物理删除的，需要改为逻辑删除
         CharacterColor c = new CharacterColor(id);
-        c.setState(0);//标记为不可用
+        c.setUseable(DefaultUseableEnum.unusable.getCode());//标记为已删
         characterColorService.updateIgnoreNull(c);
-//        characterColorService.delete(new CharacterColor(id));
         return new Result("删除成功!");
     }
 

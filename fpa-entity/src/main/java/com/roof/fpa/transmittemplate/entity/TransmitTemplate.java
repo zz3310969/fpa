@@ -30,6 +30,8 @@ public class TransmitTemplate implements Serializable {
 	protected String imageurl;// 自定义图片路径
 	@ApiModelProperty(value = "状态")
 	protected Integer state;// 状态
+	@ApiModelProperty(value = "逻辑删除")
+	protected Integer useable;// 逻辑删除
 
 	public TransmitTemplate() {
 		super();
@@ -88,5 +90,13 @@ public class TransmitTemplate implements Serializable {
 	}
 	public void setState(Integer state) {
 		this.state = state;
+	}
+
+	public Integer getUseable() {
+		return useable;
+	}
+
+	public void setUseable(Integer useable) {
+		this.useable = useable;
 	}
 }

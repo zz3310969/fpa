@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.character.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.name as name, t1.theme_id as themeId, t1.character_color_id as characterColorId, t1.gender as gender, t1.state as state, t1.description as description, t1.card_unit_id as cardUnitId
+		t1.id as id, t1.name as name, t1.theme_id as themeId, t1.character_color_id as characterColorId, t1.gender as gender, t1.state as state, t1.description as description, t1.card_unit_id as cardUnitId ,t1.useable as useable
 	</sql>
 	
 	<select id="selectCharacterPage" resultType="com.roof.fpa.character.entity.CharacterVo">
@@ -20,6 +20,7 @@
 		from
 		c_character
 		where 1=1
+		and useable =1
 		<include refid="conds" />
 		order by id desc
 		limit #{firstrownum}, #{limit}) t2
@@ -31,6 +32,7 @@
 		count(id)
 		from c_character
 		where 1=1
+		and useable =1
 		<include refid="conds" />
 	</select>
 </mapper>

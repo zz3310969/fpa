@@ -59,4 +59,6 @@ public interface IShareService {
 	 */
 	public abstract Page page(Page page, Share share);
 
+	public abstract Page pageByVo(Page page, ShareVo shareVo);
+
 }

@@ -2,6 +2,8 @@ package com.roof.fpa.transmittemplate.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.roof.fpa.DefaultUseableEnum;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.transmittemplate.dao.api.ITransmitTemplateDao;
 import com.roof.fpa.transmittemplate.entity.TransmitTemplate;
@@ -16,6 +18,7 @@ public class TransmitTemplateService implements ITransmitTemplateService {
 	private ITransmitTemplateDao transmitTemplateDao;
 
 	public Serializable save(TransmitTemplate transmitTemplate){
+		transmitTemplate.setUseable(DefaultUseableEnum.usable.getCode());
 		return transmitTemplateDao.save(transmitTemplate);
 	}
 

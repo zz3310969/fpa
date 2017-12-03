@@ -3,6 +3,7 @@ package com.roof.fpa.charactercolor.service.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import com.roof.fpa.DefaultUseableEnum;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.charactercolor.dao.api.ICharacterColorDao;
 import com.roof.fpa.charactercolor.entity.CharacterColor;
@@ -34,6 +35,7 @@ public class CharacterColorService implements ICharacterColorService {
 
     private void copyProperties(CharacterColorVo characterColorVo, CharacterColor characterColor) {
         BeanUtils.copyProperties(characterColorVo, characterColor);
+        characterColor.setUseable(DefaultUseableEnum.usable.getCode());
         if (characterColorVo.getColorIds().size() == 1) {
             characterColor.setColorId(characterColorVo.getColorIds().get(0));
             characterColor.setColorCode(dictionaryService.load(new Dictionary(characterColorVo.getColorIds().get(0))).getVal());
@@ -48,6 +50,7 @@ public class CharacterColorService implements ICharacterColorService {
     }
 
     public Serializable save(CharacterColor characterColor) {
+        characterColor.setUseable(DefaultUseableEnum.usable.getCode());
         return characterColorDao.save(characterColor);
     }
 
@@ -70,7 +73,7 @@ public class CharacterColorService implements ICharacterColorService {
         CharacterColor characterColor = new CharacterColor();
         characterColor.setId(characterColorVo.getId());
         copyProperties(characterColorVo, characterColor);
-        characterColorDao.updateIgnoreNull(characterColor);
+        characterColorDao.update(characterColor);
     }
 
 

@@ -55,6 +55,10 @@ public class ShareService implements IShareService {
 		return shareDao.page(page, share);
 	}
 
+	public Page pageByVo(Page page, ShareVo sharevo) {
+		return shareDao.pageVo(page, sharevo);
+	}
+
 	@Autowired
 	public void setIShareDao(
 			@Qualifier("shareDao") IShareDao  shareDao) {

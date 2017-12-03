@@ -54,10 +54,18 @@ public class ShareController {
 
 	@ApiOperation(value = "获得c_share分页列表")
     @RequestMapping(value = "share", method = {RequestMethod.GET})
-    public @ResponseBody Result<Page> list(Share share, HttpServletRequest request) {
+    public @ResponseBody Result<Page> list(ShareVo share, HttpServletRequest request) {
 	    Page page = PageUtils.createPage(request);
 	    page = shareService.page(page, share);
 	    return new Result(Result.SUCCESS, page);
+	}
+
+	@ApiOperation(value = "获得c_share分页列表Vo")
+	@RequestMapping(value = "sharevo", method = {RequestMethod.GET})
+	public @ResponseBody Result<Page> listvo(ShareVo shareVo, HttpServletRequest request) {
+		Page page = PageUtils.createPage(request);
+		page = shareService.pageByVo(page, shareVo);
+		return new Result(Result.SUCCESS, page);
 	}
 
 

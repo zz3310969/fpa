@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.theme.dao">
 
 	<sql id="columns">
-		id, numb, name, state
+		id, numb, name, state,useable
 	</sql>
 
 	<sql id="columns_as">
-		id as id , numb as numb , name as name , state as state 
+		id as id , numb as numb , name as name , state as state  ,useable as useable
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{numb}, #{name}, #{state}
+		#{id}, #{numb}, #{name}, #{state},#{useable}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -23,10 +23,13 @@
 			and numb = #{numb}
 		</if>
 		<if test="name != null and name != ''">
-			and name = #{name}
+			and name like CONCAT('%', #{name}, '%')
 		</if>
 		<if test="state != null">
 			and state = #{state}
+		</if>
+		<if test="useable != null">
+			and useable = #{useable}
 		</if>
 	</sql>
 
@@ -55,7 +58,8 @@
 			id=#{id}, 
 			numb=#{numb}, 
 			name=#{name}, 
-			state=#{state}
+			state=#{state},
+			useable=#{useable}
 		</set>
 		where id=#{id} 
 	</update>
@@ -73,7 +77,10 @@
 			name=#{name}, 
 		</if>
 		<if test="state != null">
-			state=#{state}
+			state=#{state},
+		</if>
+		<if test="useable != null">
+			useable=#{useable}
 		</if>
 		</set>
 		where id=#{id} 
@@ -92,7 +99,10 @@
 			name=#{name}, 
 			</if>
 			<if test="state != null">
-			state=#{state}
+			state=#{state},
+			</if>
+			<if test="useable != null">
+				useable=#{useable}
 			</if>
 		</set>
 		where 1=1
@@ -111,6 +121,7 @@
 		<include refid="columns_as"/>
 		from c_theme
 		where 1=1
+		and useable = 1
 		<include refid="conds" />
 	</select>
 </mapper>

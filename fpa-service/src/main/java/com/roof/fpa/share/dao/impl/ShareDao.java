@@ -3,6 +3,7 @@ package com.roof.fpa.share.dao.impl;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import com.roof.fpa.share.entity.ShareVo;
 import org.apache.commons.lang3.StringUtils;
 import org.roof.dataaccess.PageQuery;
 import org.roof.roof.dataaccess.api.AbstractDao;
@@ -25,6 +26,12 @@ public class ShareDao extends AbstractDao implements IShareDao {
 		IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectSharePage", "selectShareCount");
 		//IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectSharePage", null);
 		return pageQuery.select(share);
+	}
+
+	public Page pageVo(Page page, ShareVo shareVo) {
+		IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectSharePage", "selectShareCount");
+		//IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectSharePage", null);
+		return pageQuery.select(shareVo);
 	}
 	
 	@Autowired

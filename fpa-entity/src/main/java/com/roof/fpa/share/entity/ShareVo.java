@@ -14,70 +14,70 @@ import java.util.List;
  */
 public class ShareVo extends Share {
 
-	private List<ShareVo> shareList;
+    private List<ShareVo> shareList;
 
-	private Long customerName;// 分享人
-	private Long sceneName;// 场景ID
-	private Long templateName;// 模板id
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date shareTimeStart;// 分享时间
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date shareTimeEnd;// 分享时间
+    private String customerName;// 分享人
+    private String sceneName;// 场景ID
+    private String templateName;// 模板id
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date shareTimeStart;// 分享时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date shareTimeEnd;// 分享时间
 
-	public ShareVo() {
-		super();
-	}
+    public ShareVo() {
+        super();
+    }
 
-	public ShareVo(Long id) {
-		super();
-		this.id = id;
-	}
+    public ShareVo(Long id) {
+        super();
+        this.id = id;
+    }
 
-	public List<ShareVo> getShareList() {
-		return shareList;
-	}
+    public List<ShareVo> getShareList() {
+        return shareList;
+    }
 
-	public void setShareList(List<ShareVo> shareList) {
-		this.shareList = shareList;
-	}
+    public void setShareList(List<ShareVo> shareList) {
+        this.shareList = shareList;
+    }
 
-	public Long getCustomerName() {
-		return customerName;
-	}
+    public Date getShareTimeStart() {
+        return shareTimeStart;
+    }
 
-	public void setCustomerName(Long customerName) {
-		this.customerName = customerName;
-	}
+    public void setShareTimeStart(Date shareTimeStart) {
+        this.shareTimeStart = shareTimeStart;
+    }
 
-	public Long getSceneName() {
-		return sceneName;
-	}
+    public Date getShareTimeEnd() {
+        return shareTimeEnd;
+    }
 
-	public void setSceneName(Long sceneName) {
-		this.sceneName = sceneName;
-	}
+    public void setShareTimeEnd(Date shareTimeEnd) {
+        this.shareTimeEnd = shareTimeEnd;
+    }
 
-	public Long getTemplateName() {
-		return templateName;
-	}
+    public String getCustomerName() {
+        return customerName;
+    }
 
-	public void setTemplateName(Long templateName) {
-		this.templateName = templateName;
-	}
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
-	public Date getShareTimeStart() {
-		return shareTimeStart;
-	}
+    public String getSceneName() {
+        return sceneName;
+    }
 
-	public void setShareTimeStart(Date shareTimeStart) {
-		this.shareTimeStart = shareTimeStart;
-	}
+    public void setSceneName(String sceneName) {
+        this.sceneName = sceneName;
+    }
 
-	public Date getShareTimeEnd() {
-		return shareTimeEnd;
-	}
+    public String getTemplateName() {
+        return templateName;
+    }
 
-	public void setShareTimeEnd(Date shareTimeEnd) {
-		this.shareTimeEnd = shareTimeEnd;
-	}
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
+    }
 }

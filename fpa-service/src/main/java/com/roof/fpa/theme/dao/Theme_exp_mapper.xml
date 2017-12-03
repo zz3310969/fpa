@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.theme.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.numb as numb, t1.name as name, t1.state as state
+		t1.id as id, t1.numb as numb, t1.name as name, t1.state as state ,t1.useable as useable
 	</sql>
 	
 	<select id="selectThemePage" resultType="com.roof.fpa.theme.entity.ThemeVo">
@@ -17,6 +17,7 @@
 		from
 		c_theme
 		where 1=1
+		and useable = 1
 		<include refid="conds" />
 		order by id desc
 		limit #{firstrownum}, #{limit}) t2
@@ -28,6 +29,7 @@
 		count(id)
 		from c_theme
 		where 1=1
+		and useable = 1
 		<include refid="conds" />
 	</select>
 </mapper>

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.collect.Maps;
 import com.roof.fpa.DefaultStateEnum;
+import com.roof.fpa.DefaultUseableEnum;
 import com.roof.fpa.GenderEnum;
 import com.roof.fpa.cardunit.entity.CardUnit;
 import com.roof.fpa.cardunit.entity.CardUnitVo;
@@ -81,8 +82,9 @@ public class CustomerController {
 	
 	@RequestMapping(value = "customer/{id}", method = {RequestMethod.DELETE})
 	public @ResponseBody Result delete(@PathVariable Long id ) {
-		// TODO 有些关键数据是不能物理删除的，需要改为逻辑删除
-		customerService.delete(new Customer(id));
+		Customer customer = new Customer(id);
+		customer.setUseable(DefaultUseableEnum.unusable.getCode());
+		customerService.updateIgnoreNull(customer);
 		return new Result("删除成功!");
 	}
 

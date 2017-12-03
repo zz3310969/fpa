@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.roof.fpa.DefaultStateEnum;
+import com.roof.fpa.DefaultUseableEnum;
 import com.roof.fpa.GenderEnum;
 import com.roof.fpa.cardunit.entity.CardUnit;
 import com.roof.fpa.cardunit.entity.CardUnitVo;
@@ -104,8 +105,9 @@ public class CharacterController {
 	
 	@RequestMapping(value = "character/{id}", method = {RequestMethod.DELETE})
 	public @ResponseBody Result delete(@PathVariable Long id ) {
-		// TODO 有些关键数据是不能物理删除的，需要改为逻辑删除
-		characterService.delete(new Character(id));
+		Character character = new Character(id);
+		character.setUseable(DefaultUseableEnum.unusable.getCode());
+		characterService.updateIgnoreNull(character);
 		return new Result("删除成功!");
 	}
 

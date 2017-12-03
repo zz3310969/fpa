@@ -33,6 +33,10 @@ public class Character implements Serializable {
 	@ApiModelProperty(value = "所属卡牌")
 	protected Long cardUnitId;// 所属卡牌
 
+	@ApiModelProperty(value = "逻辑删除")
+	protected Integer useable;// 逻辑删除
+
+
 	public Character() {
 		super();
 	}
@@ -97,5 +101,13 @@ public class Character implements Serializable {
 	}
 	public void setCardUnitId(Long cardUnitId) {
 		this.cardUnitId = cardUnitId;
+	}
+
+	public void setUseable(Integer useable) {
+		this.useable = useable;
+	}
+
+	public Integer getUseable() {
+		return useable;
 	}
 }

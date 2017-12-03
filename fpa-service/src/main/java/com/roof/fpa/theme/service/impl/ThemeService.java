@@ -2,6 +2,8 @@ package com.roof.fpa.theme.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.roof.fpa.DefaultUseableEnum;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.theme.dao.api.IThemeDao;
 import com.roof.fpa.theme.entity.Theme;
@@ -16,6 +18,7 @@ public class ThemeService implements IThemeService {
 	private IThemeDao themeDao;
 
 	public Serializable save(Theme theme){
+		theme.setUseable(DefaultUseableEnum.usable.getCode());
 		return themeDao.save(theme);
 	}
 

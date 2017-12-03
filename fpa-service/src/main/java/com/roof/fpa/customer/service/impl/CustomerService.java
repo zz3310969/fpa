@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.roof.fpa.DefaultUseableEnum;
 import com.roof.fpa.weixin.service.api.IWeChatHander;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.customer.dao.api.ICustomerDao;
@@ -31,6 +32,7 @@ public class CustomerService implements ICustomerService {
 
 	public Serializable save(Customer customer){
 		Assert.notNull(customer.getWeixinOpenId(),"opid不能为空");
+		customer.setUseable(DefaultUseableEnum.usable.getCode());
 		return customerDao.save(customer);
 	}
 

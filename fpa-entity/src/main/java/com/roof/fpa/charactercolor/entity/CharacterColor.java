@@ -36,6 +36,9 @@ public class CharacterColor implements Serializable {
     protected String color2Code;// 性格色彩2编码
     @ApiModelProperty(value = "状态")
     protected Integer state;// 状态
+    @ApiModelProperty(value = "是否逻辑删除")
+    protected Integer useable;// 状态
+
 
     public CharacterColor() {
         super();
@@ -117,5 +120,13 @@ public class CharacterColor implements Serializable {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Integer getUseable() {
+        return useable;
+    }
+
+    public void setUseable(Integer useable) {
+        this.useable = useable;
     }
 }

@@ -2,6 +2,8 @@ package com.roof.fpa.character.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.roof.fpa.DefaultUseableEnum;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.character.dao.api.ICharacterDao;
 import com.roof.fpa.character.entity.Character;
@@ -16,6 +18,7 @@ public class CharacterService implements ICharacterService {
 	private ICharacterDao characterDao;
 
 	public Serializable save(Character character){
+		character.setUseable(DefaultUseableEnum.usable.getCode());
 		return characterDao.save(character);
 	}
 

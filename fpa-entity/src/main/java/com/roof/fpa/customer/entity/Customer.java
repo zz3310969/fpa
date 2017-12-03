@@ -44,6 +44,8 @@ public class Customer implements Serializable {
 	protected String city;// 市
 	@ApiModelProperty(value = "语言")
 	protected String language;// 语言
+	@ApiModelProperty(value = "逻辑删除")
+	protected Integer useable;// 逻辑删除
 
 	public Customer() {
 		super();
@@ -144,5 +146,13 @@ public class Customer implements Serializable {
 	}
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public void setUseable(Integer useable) {
+		this.useable = useable;
+	}
+
+	public Integer getUseable() {
+		return useable;
 	}
 }
