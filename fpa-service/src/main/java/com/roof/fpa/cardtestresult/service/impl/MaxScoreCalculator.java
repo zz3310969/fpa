@@ -9,6 +9,9 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.roof.web.dictionary.entity.Dictionary;
 import org.roof.web.dictionary.service.api.IDictionaryService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 最大分值计算和性格色彩
  */
@@ -18,8 +21,16 @@ public class MaxScoreCalculator {
     private static final String YELLOW = "YELLOW";
     private static final String BLUE = "BLUE";
     private static final String GREEN = "GREEN";
+    private static final Map<String, String> colorMap = new HashMap<>();
     private IDictionaryService dictionaryService;
     private ICharacterColorService characterColorService;
+
+    static {
+        colorMap.put(RED, "红色");
+        colorMap.put(YELLOW, "黄色");
+        colorMap.put(BLUE, "蓝色");
+        colorMap.put(GREEN, "绿色");
+    }
 
     public String doNode(CardTestResultVo cardTestResultVo, GeneralCardTestCustomerResult generalCardTestCustomerResult) {
         int scoreMax = 0;
@@ -44,6 +55,7 @@ public class MaxScoreCalculator {
         generalCardTestCustomerResult.setScoreMax(String.valueOf(scoreMax));
         generalCardTestCustomerResult.setCharacterCare(color);
         generalCardTestCustomerResult.setScoreMaxColorId(colorDic.getId());
+        generalCardTestCustomerResult.setScoreMaxColorName(colorMap.get(color));
         CharacterColor characterColor = characterColorService.selectByColorId(colorDic.getId());
         generalCardTestCustomerResult.setCharacterColorDefn(characterColor.getDescription());
 
