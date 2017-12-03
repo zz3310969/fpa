@@ -53,7 +53,6 @@ public class MaxScoreCalculator {
         }
         Dictionary colorDic = dictionaryService.load("COLOR", color);
         generalCardTestCustomerResult.setScoreMax(String.valueOf(scoreMax));
-        generalCardTestCustomerResult.setCharacterCare(color);
         generalCardTestCustomerResult.setScoreMaxColorId(colorDic.getId());
         generalCardTestCustomerResult.setScoreMaxColorName(colorMap.get(color));
         CharacterColor characterColor = characterColorService.selectByColorId(colorDic.getId());
