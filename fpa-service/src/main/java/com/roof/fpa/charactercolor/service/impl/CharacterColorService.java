@@ -38,14 +38,14 @@ public class CharacterColorService implements ICharacterColorService {
         characterColor.setUseable(DefaultUseableEnum.usable.getCode());
         if (characterColorVo.getColorIds().size() == 1) {
             characterColor.setColorId(characterColorVo.getColorIds().get(0));
-            characterColor.setColorCode(dictionaryService.load(new Dictionary(characterColorVo.getColorIds().get(0))).getVal());
+            characterColor.setColorCode(dictionaryService.load(new Dictionary(characterColorVo.getColorIds().get(0))).getDescription());
             characterColor.setColor2Id(null);
             characterColor.setColor2Code(null);
         } else if (characterColorVo.getColorIds().size() == 2) {
             characterColor.setColorId(characterColorVo.getColorIds().get(0));
-            characterColor.setColorCode(dictionaryService.load(new Dictionary(characterColorVo.getColorIds().get(0))).getVal());
+            characterColor.setColorCode(dictionaryService.load(new Dictionary(characterColorVo.getColorIds().get(0))).getDescription());
             characterColor.setColor2Id(characterColorVo.getColorIds().get(1));
-            characterColor.setColor2Code(dictionaryService.load(new Dictionary(characterColorVo.getColorIds().get(1))).getVal());
+            characterColor.setColor2Code(dictionaryService.load(new Dictionary(characterColorVo.getColorIds().get(1))).getDescription());
         }
     }
 
