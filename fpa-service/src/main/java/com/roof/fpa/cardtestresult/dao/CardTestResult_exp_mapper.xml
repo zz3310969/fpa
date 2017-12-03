@@ -9,7 +9,7 @@
 	<select id="selectCardTestResultPage" resultType="com.roof.fpa.cardtestresult.entity.CardTestResultVo">
 		select
 		<include refid="columnsAs"/>,
-		(SELECT name FROM c_scene WHERE id = t1.scene_id) as scenName,
+		(SELECT name FROM c_scene WHERE id = t1.scene_id) as sceneName,
 		(SELECT name FROM c_customer WHERE id = t1.customer_id) as customerName
 		from
 		c_card_test_result t1
