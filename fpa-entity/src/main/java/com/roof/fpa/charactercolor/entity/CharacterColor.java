@@ -40,6 +40,9 @@ public class CharacterColor implements Serializable {
     protected Integer useable;// 状态
 
 
+    @ApiModelProperty(value = "在你的性格中比较缺少的")
+    protected String descriptionLack;
+
     public CharacterColor() {
         super();
     }
@@ -128,5 +131,15 @@ public class CharacterColor implements Serializable {
 
     public void setUseable(Integer useable) {
         this.useable = useable;
+    }
+
+
+
+    public String getDescriptionLack() {
+        return descriptionLack;
+    }
+
+    public void setDescriptionLack(String descriptionLack) {
+        this.descriptionLack = descriptionLack;
     }
 }

@@ -44,6 +44,8 @@
 
 	<import resource="spring-fileupload.xml" />
 
+	<import resource="classpath*:spring-customer-result-chain.xml"/>
+
 
 
 </beans>

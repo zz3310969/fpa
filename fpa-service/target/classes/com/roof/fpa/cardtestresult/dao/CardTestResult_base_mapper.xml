@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.cardtestresult.dao">
 
 	<sql id="columns">
-		id, scene_id, share_customer_id, customer_id, test_date, result, template_id
+		id, scene_id, share_customer_id, customer_id, test_date, result, template_id, character_color, red_score, blue_score, yellow_score, green_score
 	</sql>
 
 	<sql id="columns_as">
-		id as id , scene_id as sceneId , share_customer_id as shareCustomerId , customer_id as customerId , test_date as testDate , result as result , template_id as templateId
+		id as id , scene_id as sceneId , share_customer_id as shareCustomerId , customer_id as customerId , test_date as testDate , result as result , template_id as templateId , character_color as characterColor , red_score as redScore , blue_score as blueScore , yellow_score as yellowScore , green_score as greenScore
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{sceneId}, #{shareCustomerId}, #{customerId}, #{testDate}, #{result}, #{templateId}
+		#{id}, #{sceneId}, #{shareCustomerId}, #{customerId}, #{testDate}, #{result}, #{templateId}, #{characterColor}, #{redScore}, #{blueScore}, #{yellowScore}, #{greenScore}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -37,19 +37,34 @@
 		<if test="templateId != null">
 			and template_id = #{templateId}
 		</if>
+		<if test="characterColor != null and characterColor != ''">
+			and character_color = #{characterColor}
+		</if>
+		<if test="redScore != null and redScore != ''">
+			and red_score = #{redScore}
+		</if>
+		<if test="blueScore != null and blueScore != ''">
+			and blue_score = #{blueScore}
+		</if>
+		<if test="yellowScore != null and yellowScore != ''">
+			and yellow_score = #{yellowScore}
+		</if>
+		<if test="greenScore != null and greenScore != ''">
+			and green_score = #{greenScore}
+		</if>
 	</sql>
 
 	<insert id="saveCardTestResult" parameterType="com.roof.fpa.cardtestresult.entity.CardTestResult" useGeneratedKeys="true" keyProperty="id">
 		<selectKey keyProperty="id" resultType="Long" order="AFTER">
 			select last_insert_id()
 		</selectKey>
-		insert into c_card_test_result (<include refid="columns" />) 
+		insert into c_card_test_result (<include refid="columns" />)
 		values (<include refid="vals" />)
 	</insert>
 
 	<delete id="deleteCardTestResult">
 		delete from c_card_test_result
-		where id=#{id} 
+		where id=#{id}
 	</delete>
 
 	<delete id="deleteByExampleCardTestResult">
@@ -61,83 +76,118 @@
 	<update id="updateCardTestResult">
 		update c_card_test_result
 		<set>
-			id=#{id}, 
-			scene_id=#{sceneId}, 
-			share_customer_id=#{shareCustomerId}, 
-			customer_id=#{customerId}, 
-			test_date=#{testDate}, 
-			result=#{result}, 
-			template_id=#{templateId}
+			id=#{id},
+			scene_id=#{sceneId},
+			share_customer_id=#{shareCustomerId},
+			customer_id=#{customerId},
+			test_date=#{testDate},
+			result=#{result},
+			template_id=#{templateId},
+			character_color=#{characterColor},
+			red_score=#{redScore},
+			blue_score=#{blueScore},
+			yellow_score=#{yellowScore},
+			green_score=#{greenScore}
 		</set>
-		where id=#{id} 
+		where id=#{id}
 	</update>
 
 	<update id="updateIgnoreNullCardTestResult">
 		update c_card_test_result
 		<set>
-		<if test="id != null">
-			id=#{id}, 
-		</if>
-		<if test="sceneId != null">
-			scene_id=#{sceneId}, 
-		</if>
-		<if test="shareCustomerId != null">
-			share_customer_id=#{shareCustomerId}, 
-		</if>
-		<if test="customerId != null">
-			customer_id=#{customerId}, 
-		</if>
-		<if test="testDate != null">
-			test_date=#{testDate}, 
-		</if>
-		<if test="result != null and result != ''">
-			result=#{result}, 
-		</if>
-		<if test="templateId != null">
-			template_id=#{templateId}
-		</if>
+			<if test="id != null">
+				id=#{id},
+			</if>
+			<if test="sceneId != null">
+				scene_id=#{sceneId},
+			</if>
+			<if test="shareCustomerId != null">
+				share_customer_id=#{shareCustomerId},
+			</if>
+			<if test="customerId != null">
+				customer_id=#{customerId},
+			</if>
+			<if test="testDate != null">
+				test_date=#{testDate},
+			</if>
+			<if test="result != null and result != ''">
+				result=#{result},
+			</if>
+			<if test="templateId != null">
+				template_id=#{templateId},
+			</if>
+			<if test="characterColor != null and characterColor != ''">
+				character_color=#{characterColor},
+			</if>
+			<if test="redScore != null and redScore != ''">
+				red_score=#{redScore},
+			</if>
+			<if test="blueScore != null and blueScore != ''">
+				blue_score=#{blueScore},
+			</if>
+			<if test="yellowScore != null and yellowScore != ''">
+				yellow_score=#{yellowScore},
+			</if>
+			<if test="greenScore != null and greenScore != ''">
+				green_score=#{greenScore}
+			</if>
 		</set>
-		where id=#{id} 
+		where id=#{id}
 	</update>
 
 	<update id="updateByExampleCardTestResult">
 		update c_card_test_result
 		<set>
 			<if test="id != null">
-			id=#{id}, 
+				id=#{id},
 			</if>
 			<if test="sceneId != null">
-			scene_id=#{sceneId}, 
+				scene_id=#{sceneId},
 			</if>
 			<if test="shareCustomerId != null">
-			share_customer_id=#{shareCustomerId}, 
+				share_customer_id=#{shareCustomerId},
 			</if>
 			<if test="customerId != null">
-			customer_id=#{customerId}, 
+				customer_id=#{customerId},
 			</if>
 			<if test="testDate != null">
-			test_date=#{testDate}, 
+				test_date=#{testDate},
 			</if>
 			<if test="result != null and result != ''">
-			result=#{result}, 
+				result=#{result},
 			</if>
 			<if test="templateId != null">
-			template_id=#{templateId}
+				template_id=#{templateId},
+			</if>
+			<if test="characterColor != null and characterColor != ''">
+				character_color=#{characterColor},
+			</if>
+			<if test="redScore != null and redScore != ''">
+				red_score=#{redScore},
+			</if>
+			<if test="blueScore != null and blueScore != ''">
+				blue_score=#{blueScore},
+			</if>
+			<if test="yellowScore != null and yellowScore != ''">
+				yellow_score=#{yellowScore},
+			</if>
+			<if test="greenScore != null and greenScore != ''">
+				green_score=#{greenScore}
 			</if>
 		</set>
 		where 1=1
 		<include refid="conds" />
 	</update>
-	
+
 	<select id="loadCardTestResult" resultType="com.roof.fpa.cardtestresult.entity.CardTestResultVo">
-		select 
+		select
 		<include refid="columns_as"/>
 		from c_card_test_result
-		where id=#{id} 
+		where id=#{id}
 	</select>
-	
+
 	<select id="selectCardTestResult" resultType="com.roof.fpa.cardtestresult.entity.CardTestResultVo">
-		select 
+		select
 		<include refid="columns_as"/>
 		from c_card_test_result
 		where 1=1

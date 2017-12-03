@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.scene.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.name as name, t1.numb as numb, t1.card_group_id as cardGroupId, t1.repeat_count as repeatCount, t1.version as version, t1.theme_id as themeId, t1.state as state
+		t1.id as id, t1.name as name, t1.numb as numb, t1.card_group_id as cardGroupId, t1.repeat_count as repeatCount, t1.version as version, t1.theme_id as themeId, t1.state as state, t1.template_id as templateId, t1.weight_operator as weightOperator
 	</sql>
 	
 	<select id="selectScenePage" resultType="com.roof.fpa.scene.entity.SceneVo">

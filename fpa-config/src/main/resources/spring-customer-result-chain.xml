@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="customerResultChain" class="com.roof.chain.support.GenericChain">
+        <property name="startNodeName" value="scoreCalculatorRed"/>
+        <property name="nodes">
+            <list>
+                <!--规则一：你的四种性格色彩分数是：-->
+                <!--红=sum（红色卡牌分值+卡槽权重）-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="scoreCalculatorRed"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.ScoreCalculator">
+                            <property name="cardSlotService" ref="cardSlotService"/>
+                            <property name="cardUnitService" ref="cardUnitService"/>
+                            <property name="dictionaryService" ref="dictionaryService"/>
+                            <property name="color" value="red"/>
+                            <property name="valPropertyName" value="redScore"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="scoreCalculatorYellow"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--黄sum（黄色卡牌分值+卡槽权重）-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="scoreCalculatorYellow"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.ScoreCalculator">
+                            <property name="cardSlotService" ref="cardSlotService"/>
+                            <property name="cardUnitService" ref="cardUnitService"/>
+                            <property name="dictionaryService" ref="dictionaryService"/>
+                            <property name="color" value="yellow"/>
+                            <property name="valPropertyName" value="yellowScore"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="scoreCalculatorBlue"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--蓝sum（蓝色卡牌分值+卡槽权重）-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="scoreCalculatorBlue"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.ScoreCalculator">
+                            <property name="cardSlotService" ref="cardSlotService"/>
+                            <property name="cardUnitService" ref="cardUnitService"/>
+                            <property name="dictionaryService" ref="dictionaryService"/>
+                            <property name="color" value="blue"/>
+                            <property name="valPropertyName" value="blueScore"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="scoreCalculatorGreen"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--绿sum（绿色卡牌分值+卡槽权重）-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="scoreCalculatorGreen"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.ScoreCalculator">
+                            <property name="cardSlotService" ref="cardSlotService"/>
+                            <property name="cardUnitService" ref="cardUnitService"/>
+                            <property name="dictionaryService" ref="dictionaryService"/>
+                            <property name="color" value="green"/>
+                            <property name="valPropertyName" value="greenScore"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="maxScoreCalculator"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--规则二：从得分来看，你分数最高的是：-->
+                <!--max（红色卡牌分值，黄色卡牌分值，蓝色卡牌分值，绿色卡牌分值）-->
+                <!--规则三：性格是：-->
+                <!--领取的性格色彩的定义：fpa-bc.c_character_color.description-->
+                <!--规则四：在你的性格中，比较缺少的是：-->
+                <!--分值最少的性格色彩的明显特点:fpa-bc.c_character_color.新增字段-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="maxScoreCalculator"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.MaxScoreCalculator">
+                            <property name="dictionaryService" ref="dictionaryService"/>
+                            <property name="characterColorService" ref="characterColorService"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="descriptionCalculator1"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--规则五：你最突出的优势是：-->
+                <!--y偏移系数为0的卡槽中的1分牌的：fpa-bc.c_card_unit.description-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="descriptionCalculator1"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.DescriptionCalculator">
+                            <property name="cardSlotService" ref="cardSlotService"/>
+                            <property name="cardUnitService" ref="cardUnitService"/>
+                            <property name="yVal" value="0"/>
+                            <property name="cardScore" value="1"/>
+                            <property name="propertyName" value="characterAdvantage"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="descriptionCalculator2"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--规则六：同时，你：-->
+                <!--y偏移系数为1的卡槽中的1分牌的：fpa-bc.c_card_unit.description-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="descriptionCalculator2"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.DescriptionCalculator">
+                            <property name="cardSlotService" ref="cardSlotService"/>
+                            <property name="cardUnitService" ref="cardUnitService"/>
+                            <property name="yVal" value="1"/>
+                            <property name="cardScore" value="1"/>
+                            <property name="propertyName" value="characterAdvantageOther"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="descriptionCalculator3"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--规则七：你最明显的不足是： characterInsufficient-->
+                <!--y偏移系数为0的卡槽中的3分牌的：fpa-bc.c_card_unit.description-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="descriptionCalculator3"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.DescriptionCalculator">
+                            <property name="cardSlotService" ref="cardSlotService"/>
+                            <property name="cardUnitService" ref="cardUnitService"/>
+                            <property name="yVal" value="0"/>
+                            <property name="cardScore" value="3"/>
+                            <property name="propertyName" value="characterInsufficient"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="descriptionCalculator4"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--规则八：同时，你：characterInsufficientOther-->
+                <!--y偏移系数为1的卡槽中的3分牌的：fpa-bc.c_card_unit.description-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="descriptionCalculator4"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.DescriptionCalculator">
+                            <property name="cardSlotService" ref="cardSlotService"/>
+                            <property name="cardUnitService" ref="cardUnitService"/>
+                            <property name="yVal" value="1"/>
+                            <property name="cardScore" value="3"/>
+                            <property name="propertyName" value="characterInsufficientOther"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="descriptionCalculator5"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--规则九：对你来说，你最在意的是：characterCare-->
+                <!--y偏移系数为0的卡槽中的2分牌的：fpa-bc.c_card_unit.description-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="descriptionCalculator5"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.DescriptionCalculator">
+                            <property name="cardSlotService" ref="cardSlotService"/>
+                            <property name="cardUnitService" ref="cardUnitService"/>
+                            <property name="yVal" value="0"/>
+                            <property name="cardScore" value="2"/>
+                            <property name="propertyName" value="characterCare"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="descriptionCalculator6"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--规则十：其次，你也：characterCareOther-->
+                <!--y偏移系数为1的卡槽中的2分牌的：fpa-bc.c_card_unit.description-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="descriptionCalculator6"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.DescriptionCalculator">
+                            <property name="cardSlotService" ref="cardSlotService"/>
+                            <property name="cardUnitService" ref="cardUnitService"/>
+                            <property name="yVal" value="1"/>
+                            <property name="cardScore" value="2"/>
+                            <property name="propertyName" value="characterCareOther"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="renderTempleteCalculator"/>
+                        </map>
+                    </property>
+                </bean>
+
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="renderTempleteCalculator"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.RenderTempleteCalculator">
+                            <property name="templateService" ref="templateService"/>
+                            <property name="sceneService" ref="sceneService"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="success"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

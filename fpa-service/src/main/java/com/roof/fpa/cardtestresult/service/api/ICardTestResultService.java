@@ -3,6 +3,7 @@ package com.roof.fpa.cardtestresult.service.api;
 import java.util.List;
 import java.io.Serializable;
 
+import com.roof.fpa.cardtestresult.entity.GeneralCardTestCustomerResult;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.cardtestresult.entity.CardTestResult;
 import com.roof.fpa.cardtestresult.entity.CardTestResultVo;
@@ -53,8 +54,10 @@ public interface ICardTestResultService {
 	 * 按对象中的非空属性作为条件，进行查询列表
 	 */
 	public abstract List<CardTestResultVo> selectForList(CardTestResult cardTestResult);
-	
-	/**
+
+    GeneralCardTestCustomerResult calculate(CardTestResultVo cardTestResultVo);
+
+    /**
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */
 	public abstract Page page(Page page, CardTestResult cardTestResult);

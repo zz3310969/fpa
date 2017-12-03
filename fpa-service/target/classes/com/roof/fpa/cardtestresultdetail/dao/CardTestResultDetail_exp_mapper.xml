@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.cardtestresultdetail.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.card_slot_id as cardSlotId, t1.card_unit_id as cardUnitId
+		t1.id as id, t1.card_slot_id as cardSlotId, t1.card_unit_id as cardUnitId, t1.result_id as resultId
 	</sql>
 	
 	<select id="selectCardTestResultDetailPage" resultType="com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetailVo">

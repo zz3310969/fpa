@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.charactercolor.dao">
 
     <sql id="columns">
-		id, numb, name, color_id, color_code, description, color2_id, color2_code, state
+		id, numb, name, color_id, color_code, description, color2_id, color2_code, state,useable,description_lack
 	</sql>
 
     <sql id="columns_as">
-		id as id , numb as numb , name as name , color_id as colorId , color_code as colorCode , description as description , color2_id as color2Id , color2_code as color2Code , state as state 
+		id as id , numb as numb , name as name , color_id as colorId , color_code as colorCode , description as description , color2_id as color2Id , color2_code as color2Code , state as state ,useable as useable,description_lack as descriptionLack
 	</sql>
 
 
     <sql id="vals">
-		#{id}, #{numb}, #{name}, #{colorId}, #{colorCode}, #{description}, #{color2Id}, #{color2Code}, #{state}
+		#{id}, #{numb}, #{name}, #{colorId}, #{colorCode}, #{description}, #{color2Id}, #{color2Code}, #{state},#{useable}
 	</sql>
     <sql id="conds">
         <if test="id != null">
@@ -42,6 +42,12 @@
         </if>
         <if test="state != null">
             and state = #{state}
+        </if>
+        <if test="descriptionLack != null and descriptionLack != ''">
+            and description_lack = #{descriptionLack}
+        </if>
+        <if test="useable != null">
+            and useable = #{useable}
         </if>
     </sql>
 
@@ -76,6 +82,7 @@
             description=#{description},
             color2_id=#{color2Id},
             color2_code=#{color2Code},
+            useable=#{useable},
             state=#{state}
         </set>
         where id=#{id}
@@ -108,8 +115,14 @@
             <if test="color2Code != null and color2Code != ''">
                 color2_code=#{color2Code},
             </if>
+            <if test="useable != null">
+                useable=#{useable},
+            </if>
             <if test="state != null">
-                state=#{state}
+                state=#{state},
+            </if>
+            <if test="descriptionLack != null and descriptionLack != ''">
+                description_lack = #{descriptionLack}
             </if>
         </set>
         where id=#{id}
@@ -142,8 +155,14 @@
             <if test="color2Code != null and color2Code != ''">
                 color2_code=#{color2Code},
             </if>
+            <if test="useable != null ">
+                useable=#{useable},
+            </if>
             <if test="state != null">
-                state=#{state}
+                state=#{state},
+            </if>
+            <if test="descriptionLack != null and descriptionLack != ''">
+                description_lack = #{descriptionLack}
             </if>
         </set>
         where 1=1
@@ -162,6 +181,7 @@
         <include refid="columns_as"/>
         from c_character_color
         where 1=1
+        and useable = 1
         <include refid="conds"/>
     </select>
 </mapper>

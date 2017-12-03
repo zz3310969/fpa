@@ -39,7 +39,9 @@ public interface ICardSlotService {
 	 */
 	public abstract void updateByExample(CardSlot cardSlot);
 
-	/**
+    CardSlotVo load(Long id);
+
+    /**
 	 * 按对象中的主键进行数据加载，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract CardSlotVo load(CardSlot cardSlot);
@@ -53,7 +55,9 @@ public interface ICardSlotService {
 	 * 按对象中的非空属性作为条件，进行查询列表
 	 */
 	public abstract List<CardSlotVo> selectForList(CardSlot cardSlot);
-	
+
+	CardSlotVo selectBySceneIdAndNumb(Long sceneId, Long numb);
+
 	/**
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */

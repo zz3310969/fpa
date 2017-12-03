@@ -32,6 +32,16 @@ public class CardTestResult implements Serializable {
 	protected String result;// 测试结果
 	@ApiModelProperty(value = "结果模板ID")
 	protected Long templateId;// 结果模板ID
+	@ApiModelProperty(value = "性格")
+	protected String characterColor;// 性格
+	@ApiModelProperty(value = "红色得分")
+	protected String redScore;// 红色得分
+	@ApiModelProperty(value = "蓝色得分")
+	protected String blueScore;// 蓝色得分
+	@ApiModelProperty(value = "黄色得分")
+	protected String yellowScore;// 黄色得分
+	@ApiModelProperty(value = "绿色得分")
+	protected String greenScore;// 绿色得分
 
 	public CardTestResult() {
 		super();
@@ -84,12 +94,46 @@ public class CardTestResult implements Serializable {
 	public void setResult(String result) {
 		this.result = result;
 	}
-
+	
 	public Long getTemplateId() {
 		return templateId;
 	}
-
 	public void setTemplateId(Long templateId) {
 		this.templateId = templateId;
+	}
+	
+	public String getCharacterColor() {
+		return characterColor;
+	}
+	public void setCharacterColor(String characterColor) {
+		this.characterColor = characterColor;
+	}
+	
+	public String getRedScore() {
+		return redScore;
+	}
+	public void setRedScore(String redScore) {
+		this.redScore = redScore;
+	}
+	
+	public String getBlueScore() {
+		return blueScore;
+	}
+	public void setBlueScore(String blueScore) {
+		this.blueScore = blueScore;
+	}
+	
+	public String getYellowScore() {
+		return yellowScore;
+	}
+	public void setYellowScore(String yellowScore) {
+		this.yellowScore = yellowScore;
+	}
+	
+	public String getGreenScore() {
+		return greenScore;
+	}
+	public void setGreenScore(String greenScore) {
+		this.greenScore = greenScore;
 	}
 }

@@ -4,7 +4,7 @@
 <mapper namespace="com.roof.fpa.charactercolor.dao">
     <sql id="columnsAs">
 		t1.id as id, t1.numb as numb, t1.name as name, t1.color_id as colorId, t1.color_code as colorCode, t1.description as description,
-		t1.color2_id as color2Id, t1.color2_code as color2Code, t1.state as state
+		t1.color2_id as color2Id, t1.color2_code as color2Code, t1.state as state ,t1.useable as useable ,description_lack as descriptionLack
 	</sql>
 
     <select id="selectCharacterColorPage" resultType="com.roof.fpa.charactercolor.entity.CharacterColorVo">
@@ -18,6 +18,7 @@
         from
         c_character_color
         where 1=1
+        and useable = 1
         <include refid="conds"/>
         order by id desc
         limit #{firstrownum}, #{limit}) t2
@@ -29,6 +30,7 @@
         count(id)
         from c_character_color
         where 1=1
+        and useable = 1
         <include refid="conds"/>
     </select>
 </mapper>
