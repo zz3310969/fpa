@@ -35,6 +35,8 @@ public class Scene implements Serializable {
 	@ApiModelProperty(value = "模板ID")
 	private Long templateId; //模板ID
 
+	private String weightOperator;
+
 	public Scene() {
 		super();
 	}
@@ -107,5 +109,13 @@ public class Scene implements Serializable {
 
 	public void setTemplateId(Long templateId) {
 		this.templateId = templateId;
+	}
+
+	public String getWeightOperator() {
+		return weightOperator;
+	}
+
+	public void setWeightOperator(String weightOperator) {
+		this.weightOperator = weightOperator;
 	}
 }
