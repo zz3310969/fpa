@@ -46,7 +46,7 @@ public class CharacterColorController {
         for (Dictionary d : dics) {
             ColorDicVo vo = new ColorDicVo();
             vo.setId(d.getId());
-            vo.setCode(d.getVal());
+            vo.setCode(d.getDescription());
             vo.setDisabled(false);
             vo.setDisplay(d.getText());
             colors.add(vo);
