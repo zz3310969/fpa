@@ -21,6 +21,11 @@
 		c_share
 		where 1=1
 		<include refid="conds" />
+		<if test="customerName != null and customerName!= ''">
+			and customer_id in (
+				select id from c_customer where name like CONCAT('%', #{customerName}, '%')
+			)
+		</if>
 		<if test="shareTimeStart != null and shareTimeEnd !=null">
 			<![CDATA[
 			and share_time >= #{shareTimeStart} and share_time <= #{shareTimeEnd}
@@ -37,6 +42,11 @@
 		from c_share
 		where 1=1
 		<include refid="conds" />
+		<if test="customerName != null and customerName!= ''">
+			and customer_id in (
+			select id from c_customer where name like CONCAT('%', #{customerName}, '%')
+			)
+		</if>
 		<if test="shareTimeStart != null and shareTimeEnd !=null">
 			<![CDATA[
 			and share_time >= #{shareTimeStart} and share_time <= #{shareTimeEnd}
