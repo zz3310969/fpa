@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,7 @@ public class ShareWechatController {
 	@RequestMapping(value = "share", method = {RequestMethod.POST})
 	public @ResponseBody Result create(@RequestBody Share share) {
 		if (share != null) {
+			share.setShareTime(new Date());
 			Long id = (Long) shareService.save(share);
 			return new Result(Result.SUCCESS,id);
 		} else {

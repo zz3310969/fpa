@@ -65,4 +65,6 @@ public interface ICharacterColorService {
 	 */
 	public abstract Page page(Page page, CharacterColor characterColor);
 
+	CharacterColorVo selectByColorIdByCache(Long colorId);
+
 }

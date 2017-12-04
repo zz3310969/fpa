@@ -2,7 +2,12 @@ package com.roof.fpa.charactercolor.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.roof.fpa.DefaultUseableEnum;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.charactercolor.dao.api.ICharacterColorDao;
@@ -22,6 +27,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CharacterColorService implements ICharacterColorService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CharacterColorService.class);
+    private Cache<String, CharacterColorVo> cache = CacheBuilder.newBuilder().maximumSize(10).expireAfterWrite(5, TimeUnit.MINUTES).build();
+
     private ICharacterColorDao characterColorDao;
 
     @Autowired
@@ -118,6 +125,21 @@ public class CharacterColorService implements ICharacterColorService {
 
     public Page page(Page page, CharacterColor characterColor) {
         return characterColorDao.page(page, characterColor);
+    }
+
+    @Override
+    public CharacterColorVo selectByColorIdByCache(Long colorId) {
+        try {
+            return cache.get("CharacterColor_colorId:" + colorId, new Callable<CharacterColorVo>() {
+                @Override
+                public CharacterColorVo call() throws Exception {
+                    return selectByColorId(colorId);
+                }
+            });
+        } catch (ExecutionException e) {
+            LOGGER.error(e.getMessage(),e);
+        }
+        return selectByColorId(colorId);
     }
 
     @Autowired

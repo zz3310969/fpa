@@ -60,7 +60,7 @@ public class MaxScoreCalculator {
         generalCardTestCustomerResult.setScoreMax(String.valueOf(scoreMax));
         generalCardTestCustomerResult.setScoreMaxColorId(colorDic.getId());
         generalCardTestCustomerResult.setScoreMaxColorName(colorMap.get(color));
-        CharacterColor characterColor = characterColorService.selectByColorId(colorDic.getId());
+        CharacterColor characterColor = characterColorService.selectByColorIdByCache(colorDic.getId());
         generalCardTestCustomerResult.setCharacterColorDefn(characterColor.getDescription());
 
         String colorMin = RED;
@@ -83,7 +83,7 @@ public class MaxScoreCalculator {
         }
 
         Dictionary colorDicMin = cacheHander.loadDictionaryByType("COLOR", colorMin);
-        CharacterColor characterColorMin = characterColorService.selectByColorId(colorDicMin.getId());
+        CharacterColor characterColorMin = characterColorService.selectByColorIdByCache(colorDicMin.getId());
         if (characterColorMin.getDescriptionLack() != null) {
             generalCardTestCustomerResult.setCharacterColorLows(characterColorMin.getDescriptionLack());
         }

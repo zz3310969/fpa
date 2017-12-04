@@ -38,6 +38,16 @@
 		values (<include refid="vals" />)
 	</insert>
 
+	<insert id="batchsaveCardTestResultDetail" parameterType="java.util.List">
+		insert into c_card_test_result_detail (<include refid="columns" />)
+		values
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+			(#{item.id}, #{item.cardSlotId}, #{item.cardUnitId}, #{item.resultId})
+		</foreach>
+	</insert>
+
+
 	<delete id="deleteCardTestResultDetail">
 		delete from c_card_test_result_detail
 		where id=#{id} 

@@ -3,6 +3,7 @@ package com.roof.fpa.cardtestresultdetail.service.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.roof.fpa.cardtestresult.entity.CardTestResultDto;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.cardtestresultdetail.dao.api.ICardTestResultDetailDao;
@@ -59,13 +60,18 @@ public class CardTestResultDetailService implements ICardTestResultDetailService
 
 	@Override
 	public void saveList(List<CardTestResultDto> cardTestResultDtoList, Long resultId) {
+		List<CardTestResultDetail> details = Lists.newArrayList();
 		for (CardTestResultDto dto :cardTestResultDtoList){
 			CardTestResultDetail detail = new CardTestResultDetail();
 			detail.setCardSlotId(dto.getCardSlotId());
 			detail.setCardUnitId(dto.getCardUnitId());
 			detail.setResultId(resultId);
-			this.save(detail);
+			details.add(detail);
+			//this.save(detail);
+
 		}
+		this.cardTestResultDetailDao.batchinsert(details);
+
 	}
 
 	@Autowired
