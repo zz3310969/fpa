@@ -1,8 +1,10 @@
 package com.roof.fpa.template.service.api;
 
+import java.io.IOException;
 import java.util.List;
 import java.io.Serializable;
 
+import freemarker.template.TemplateException;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.template.entity.Template;
 import com.roof.fpa.template.entity.TemplateVo;
@@ -59,4 +61,6 @@ public interface ITemplateService {
 	 */
 	public abstract Page page(Page page, Template template);
 
-}
+	String mergeTemplate(String templateStr, Object param) throws TemplateException, IOException ;
+
+	}

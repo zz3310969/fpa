@@ -1,6 +1,7 @@
 package com.roof.fpa.cardtestresult.service.impl;
 
 import com.roof.chain.support.NodeResult;
+import com.roof.fpa.cache.api.ICacheHander;
 import com.roof.fpa.cardtestresult.entity.CardTestResultVo;
 import com.roof.fpa.cardtestresult.entity.GeneralCardTestCustomerResult;
 import com.roof.fpa.charactercolor.entity.CharacterColor;
@@ -8,6 +9,7 @@ import com.roof.fpa.charactercolor.service.api.ICharacterColorService;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.roof.web.dictionary.entity.Dictionary;
 import org.roof.web.dictionary.service.api.IDictionaryService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,9 @@ public class MaxScoreCalculator {
     private static final Map<String, String> colorMap = new HashMap<>();
     private IDictionaryService dictionaryService;
     private ICharacterColorService characterColorService;
+
+    private ICacheHander cacheHander;
+
 
     static {
         colorMap.put(RED, "红色");
@@ -51,7 +56,7 @@ public class MaxScoreCalculator {
             scoreMax = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
             color = GREEN;
         }
-        Dictionary colorDic = dictionaryService.load("COLOR", color);
+        Dictionary colorDic = cacheHander.loadDictionaryByType("COLOR", color);
         generalCardTestCustomerResult.setScoreMax(String.valueOf(scoreMax));
         generalCardTestCustomerResult.setScoreMaxColorId(colorDic.getId());
         generalCardTestCustomerResult.setScoreMaxColorName(colorMap.get(color));
@@ -77,7 +82,7 @@ public class MaxScoreCalculator {
             colorMin = GREEN;
         }
 
-        Dictionary colorDicMin = dictionaryService.load("COLOR", colorMin);
+        Dictionary colorDicMin = cacheHander.loadDictionaryByType("COLOR", colorMin);
         CharacterColor characterColorMin = characterColorService.selectByColorId(colorDicMin.getId());
         if (characterColorMin.getDescriptionLack() != null) {
             generalCardTestCustomerResult.setCharacterColorLows(characterColorMin.getDescriptionLack());
@@ -97,4 +102,7 @@ public class MaxScoreCalculator {
         this.characterColorService = characterColorService;
     }
 
+    public void setCacheHander(ICacheHander cacheHander) {
+        this.cacheHander = cacheHander;
+    }
 }

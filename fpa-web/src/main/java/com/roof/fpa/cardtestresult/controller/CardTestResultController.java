@@ -1,10 +1,12 @@
 package com.roof.fpa.cardtestresult.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.roof.fpa.DefaultStateEnum;
@@ -20,14 +22,20 @@ import com.roof.fpa.customer.service.api.ICustomerService;
 import com.roof.fpa.scene.entity.Scene;
 import com.roof.fpa.scene.entity.SceneVo;
 import com.roof.fpa.scene.service.api.ISceneService;
+import com.roof.fpa.template.entity.Template;
+import com.roof.fpa.template.entity.TemplateVo;
+import com.roof.fpa.template.service.impl.TemplateService;
 import com.roof.fpa.theme.entity.Theme;
 import com.roof.fpa.theme.entity.ThemeVo;
+import freemarker.template.TemplateException;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
 import com.roof.fpa.cardtestresult.entity.CardTestResult;
 import com.roof.fpa.cardtestresult.entity.CardTestResultVo;
 import com.roof.fpa.cardtestresult.service.api.ICardTestResultService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -36,6 +44,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("fpa")
 public class CardTestResultController {
+
+	private static final Logger Logger = LoggerFactory.getLogger(CardTestResultController.class);
 	private ICardTestResultService cardTestResultService;
 
 	@Autowired
@@ -44,7 +54,8 @@ public class CardTestResultController {
 	private ICustomerService customerService;
 	@Autowired
 	private ICardTestResultDetailService cardTestResultDetailService;
-
+	@Autowired
+	private TemplateService templateService;
 
 	@RequestMapping(value = "cardtestresult/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
@@ -101,6 +112,13 @@ public class CardTestResultController {
 		mapList.add(blue);
 		mapList.add(green);
 		cardTestResultVo.setChats(mapList);
+
+		TemplateVo templateVo = templateService.load(new Template(cardTestResultVo.getTemplateId()));
+		try {
+			cardTestResultVo.setResult(templateService.mergeTemplate(templateVo.getContent(), JSON.parseObject(cardTestResultVo.getResult())));
+		} catch (TemplateException | IOException e) {
+			Logger.error(e.getMessage(), e);
+		}
 
         return new Result(Result.SUCCESS,cardTestResultVo);
     }

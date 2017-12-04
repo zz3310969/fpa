@@ -59,4 +59,7 @@ public interface ISceneService {
 	 */
 	public abstract Page page(Page page, Scene scene);
 
-}
+	public SceneVo loadByCache(Long id);
+
+
+	}

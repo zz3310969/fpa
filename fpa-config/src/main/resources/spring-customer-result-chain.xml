@@ -16,6 +16,7 @@
                             <property name="cardSlotService" ref="cardSlotService"/>
                             <property name="cardUnitService" ref="cardUnitService"/>
                             <property name="dictionaryService" ref="dictionaryService"/>
+                            <property name="cacheHander" ref="cacheHander"/>
                             <property name="color" value="red"/>
                             <property name="valPropertyName" value="redScore"/>
                         </bean>
@@ -34,6 +35,7 @@
                             <property name="cardSlotService" ref="cardSlotService"/>
                             <property name="cardUnitService" ref="cardUnitService"/>
                             <property name="dictionaryService" ref="dictionaryService"/>
+                            <property name="cacheHander" ref="cacheHander"/>
                             <property name="color" value="yellow"/>
                             <property name="valPropertyName" value="yellowScore"/>
                         </bean>
@@ -52,6 +54,7 @@
                             <property name="cardSlotService" ref="cardSlotService"/>
                             <property name="cardUnitService" ref="cardUnitService"/>
                             <property name="dictionaryService" ref="dictionaryService"/>
+                            <property name="cacheHander" ref="cacheHander"/>
                             <property name="color" value="blue"/>
                             <property name="valPropertyName" value="blueScore"/>
                         </bean>
@@ -70,6 +73,7 @@
                             <property name="cardSlotService" ref="cardSlotService"/>
                             <property name="cardUnitService" ref="cardUnitService"/>
                             <property name="dictionaryService" ref="dictionaryService"/>
+                            <property name="cacheHander" ref="cacheHander"/>
                             <property name="color" value="green"/>
                             <property name="valPropertyName" value="greenScore"/>
                         </bean>
@@ -92,6 +96,7 @@
                         <bean class="com.roof.fpa.cardtestresult.service.impl.MaxScoreCalculator">
                             <property name="dictionaryService" ref="dictionaryService"/>
                             <property name="characterColorService" ref="characterColorService"/>
+                            <property name="cacheHander" ref="cacheHander"/>
                         </bean>
                     </property>
                     <property name="forwards">

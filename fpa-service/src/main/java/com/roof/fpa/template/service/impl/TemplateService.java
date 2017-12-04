@@ -1,7 +1,12 @@
 package com.roof.fpa.template.service.impl;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.List;
+
+import freemarker.template.TemplateException;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.template.dao.api.ITemplateDao;
 import com.roof.fpa.template.entity.Template;
@@ -53,6 +58,13 @@ public class TemplateService implements ITemplateService {
 	
 	public Page page(Page page, Template template) {
 		return templateDao.page(page, template);
+	}
+
+	public String mergeTemplate(String templateStr, Object param) throws TemplateException, IOException {
+		freemarker.template.Template t = new freemarker.template.Template(null, new StringReader(templateStr), null);
+		StringWriter writer = new StringWriter();
+		t.process(param, writer);
+		return writer.toString();
 	}
 
 	@Autowired

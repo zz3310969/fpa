@@ -30,8 +30,8 @@ public class DescriptionCalculator {
             return NodeResult.SUCCESS;
         }
         for (CardTestResultDto cardTestResultDto : cardTestResultVo.getResultDtoList()) {
-            CardUnit cardUnit = cardUnitService.load(cardTestResultDto.getCardUnitId());
-            CardSlot cardSlot = cardSlotService.load(cardTestResultDto.getCardSlotId());//selectBySceneIdAndNumb(cardTestResultVo.getSceneId(), cardTestResultDto.getCardSlotId());
+            CardUnit cardUnit = cardUnitService.loadByCache(cardTestResultDto.getCardUnitId());
+            CardSlot cardSlot = cardSlotService.loadByCache(cardTestResultDto.getCardSlotId());//selectBySceneIdAndNumb(cardTestResultVo.getSceneId(), cardTestResultDto.getCardSlotId());
             if (cardUnit.getScore().equals(cardScore) && cardSlot.getYVal().intValue() == yVal.intValue()) {
                 try {
                     PropertyUtils.setProperty(generalCardTestCustomerResult, propertyName, cardUnit.getDescription());

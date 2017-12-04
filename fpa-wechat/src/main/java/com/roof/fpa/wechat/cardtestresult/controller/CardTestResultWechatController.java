@@ -29,72 +29,69 @@ import java.io.StringWriter;
 @Controller
 @RequestMapping("fpa/wechat")
 public class CardTestResultWechatController {
-	private ICardTestResultService cardTestResultService;
+    private ICardTestResultService cardTestResultService;
 
-	@Autowired
-	private ICardTestResultDetailService cardTestResultDetailService;
-	@Autowired
-	private ITemplateService templateService;
-	private static Logger LOGGER = LoggerFactory.getLogger(CardTestResultWechatController.class);
+    @Autowired
+    private ICardTestResultDetailService cardTestResultDetailService;
+    @Autowired
+    private ITemplateService templateService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CardTestResultWechatController.class);
 
 
-	@RequestMapping(value = "cardtestresult", method = {RequestMethod.GET})
-	public @ResponseBody Result<Page> list(CardTestResultVo cardTestResult, HttpServletRequest request) {
-		Page page = PageUtils.createPage(request);
-		page = cardTestResultService.page(page, cardTestResult);
-		return new Result(Result.SUCCESS, page);
-	}
+    @RequestMapping(value = "cardtestresult", method = {RequestMethod.GET})
+    public @ResponseBody
+    Result<Page> list(CardTestResultVo cardTestResult, HttpServletRequest request) {
+        Page page = PageUtils.createPage(request);
+        page = cardTestResultService.page(page, cardTestResult);
+        return new Result(Result.SUCCESS, page);
+    }
 
-	protected String mergeTemplate(String templateStr, Object param) throws TemplateException, IOException {
-		freemarker.template.Template t = new freemarker.template.Template(null, new StringReader(templateStr), null);
-		StringWriter writer = new StringWriter();
-		t.process(param, writer);
-		return writer.toString();
-	}
 
-	@RequestMapping(value = "cardtestresult/{id}", method = {RequestMethod.GET})
-	public @ResponseBody Result<CardTestResultVo> load(@PathVariable Long id) {
-		CardTestResultVo cardTestResultVo = cardTestResultService.load(new CardTestResult(id));
-		TemplateVo templateVo = templateService.load( new Template(cardTestResultVo.getTemplateId()));
-		       try {
-				   cardTestResultVo.setResult(mergeTemplate(templateVo.getContent(), JSON.parseObject(cardTestResultVo.getResult())));
-       } catch (TemplateException | IOException e) {
+    @RequestMapping(value = "cardtestresult/{id}", method = {RequestMethod.GET})
+    public @ResponseBody
+    Result<CardTestResultVo> load(@PathVariable Long id) {
+        CardTestResultVo cardTestResultVo = cardTestResultService.load(new CardTestResult(id));
+        TemplateVo templateVo = templateService.load(new Template(cardTestResultVo.getTemplateId()));
+        try {
+            cardTestResultVo.setResult(templateService.mergeTemplate(templateVo.getContent(), JSON.parseObject(cardTestResultVo.getResult())));
+        } catch (TemplateException | IOException e) {
             LOGGER.error(e.getMessage(), e);
-       }
+        }
 
-		return new Result(Result.SUCCESS,cardTestResultVo);
-	}
-
-
-	@RequestMapping(value = "cardtestresult", method = {RequestMethod.POST})
-	public @ResponseBody Result create(@RequestBody CardTestResultVo cardTestResultVo) {
-		if (cardTestResultVo != null) {
-			CardTestResult cardTestResult = new CardTestResult();
-			BeanUtils.copyProperties(cardTestResultVo,cardTestResult);
-			GeneralCardTestCustomerResult generalCardTestCustomerResult = cardTestResultService.calculate(cardTestResultVo);
-			cardTestResult.setBlueScore(generalCardTestCustomerResult.getBlueScore());
-			cardTestResult.setGreenScore(generalCardTestCustomerResult.getGreenScore());
-			cardTestResult.setRedScore(generalCardTestCustomerResult.getRedScore());
-			cardTestResult.setYellowScore(generalCardTestCustomerResult.getYellowScore());
-			cardTestResult.setCharacterColor(generalCardTestCustomerResult.getCharacterColorDefn());
-			cardTestResult.setResult(JSON.toJSONString(generalCardTestCustomerResult));
-			cardTestResult.setTemplateId(Long.valueOf(generalCardTestCustomerResult.getTemplateId()));
-			Long id = (Long) cardTestResultService.save(cardTestResult);
-			cardTestResultDetailService.saveList(cardTestResultVo.getResultDtoList(),id);
-
-			return new Result(Result.SUCCESS, id);
-
-		} else {
-			return new Result(Result.FAIL,"数据传输失败!");
-		}
-	}
+        return new Result(Result.SUCCESS, cardTestResultVo);
+    }
 
 
-	@Autowired(required = true)
-	public void setCardTestResultService(
-			@Qualifier("cardTestResultService") ICardTestResultService cardTestResultService) {
-		this.cardTestResultService = cardTestResultService;
-	}
+    @RequestMapping(value = "cardtestresult", method = {RequestMethod.POST})
+    public @ResponseBody
+    Result create(@RequestBody CardTestResultVo cardTestResultVo) {
+        if (cardTestResultVo != null) {
+            CardTestResult cardTestResult = new CardTestResult();
+            BeanUtils.copyProperties(cardTestResultVo, cardTestResult);
+            GeneralCardTestCustomerResult generalCardTestCustomerResult = cardTestResultService.calculate(cardTestResultVo);
+            cardTestResult.setBlueScore(generalCardTestCustomerResult.getBlueScore());
+            cardTestResult.setGreenScore(generalCardTestCustomerResult.getGreenScore());
+            cardTestResult.setRedScore(generalCardTestCustomerResult.getRedScore());
+            cardTestResult.setYellowScore(generalCardTestCustomerResult.getYellowScore());
+            cardTestResult.setCharacterColor(generalCardTestCustomerResult.getCharacterColorDefn());
+            cardTestResult.setResult(JSON.toJSONString(generalCardTestCustomerResult));
+            cardTestResult.setTemplateId(Long.valueOf(generalCardTestCustomerResult.getTemplateId()));
+            Long id = (Long) cardTestResultService.save(cardTestResult);
+            cardTestResultDetailService.saveList(cardTestResultVo.getResultDtoList(), id);
+
+            return new Result(Result.SUCCESS, id);
+
+        } else {
+            return new Result(Result.FAIL, "数据传输失败!");
+        }
+    }
+
+
+    @Autowired(required = true)
+    public void setCardTestResultService(
+            @Qualifier("cardTestResultService") ICardTestResultService cardTestResultService) {
+        this.cardTestResultService = cardTestResultService;
+    }
 
 
 }

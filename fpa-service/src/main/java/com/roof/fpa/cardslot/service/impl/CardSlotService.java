@@ -1,23 +1,31 @@
 package com.roof.fpa.cardslot.service.impl;
 
-import java.io.Serializable;
-import java.util.List;
-
-import io.swagger.models.auth.In;
-import org.roof.roof.dataaccess.api.Page;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.roof.fpa.cardslot.dao.api.ICardSlotDao;
 import com.roof.fpa.cardslot.entity.CardSlot;
 import com.roof.fpa.cardslot.entity.CardSlotVo;
 import com.roof.fpa.cardslot.service.api.ICardSlotService;
+import com.roof.fpa.cardunit.entity.CardUnit;
+import com.roof.fpa.cardunit.entity.CardUnitVo;
+import org.roof.roof.dataaccess.api.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class CardSlotService implements ICardSlotService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CardSlotService.class);
+	private Cache<String, CardSlotVo> cache = CacheBuilder.newBuilder().maximumSize(50).expireAfterWrite(5, TimeUnit.MINUTES).build();
+
 	private ICardSlotDao cardSlotDao;
 
 	public Serializable save(CardSlot cardSlot){
@@ -45,7 +53,17 @@ public class CardSlotService implements ICardSlotService {
 	}
 
 	@Override
-	public CardSlotVo load(Long id) {
+	public CardSlotVo loadByCache(Long id) {
+		try {
+			return cache.get("CardSlot:" + id, new Callable<CardSlotVo>() {
+				@Override
+				public CardSlotVo call() throws Exception {
+					return load(new CardSlot(id));
+				}
+			});
+		} catch (ExecutionException e) {
+			LOGGER.error(e.getMessage(),e);
+		}
 		return load(new CardSlot(id));
 	}
 

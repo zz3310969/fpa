@@ -48,12 +48,12 @@ public class SceneWechatController {
 
     @RequestMapping(value = "scene/{id}", method = {RequestMethod.GET})
     public @ResponseBody Result<SceneVo> load(@PathVariable Long id) {
-		SceneVo sceneVo = sceneService.load(new Scene(id));
-		CardSlot cardSlot = new CardSlot();
+		SceneVo sceneVo = sceneService.loadByCache(id);
+		/*CardSlot cardSlot = new CardSlot();
 		List<CardSlotVo> cardSlotVos = cardSlotService.selectForList(cardSlot);
 		sceneVo.setCardSlotList(cardSlotVos);
 		CardGroupVo cardGroupVo = cardGroupService.loadCardByCardGroupId(id);
-		sceneVo.setCardGroup(cardGroupVo);
+		sceneVo.setCardGroup(cardGroupVo);*/
 		return new Result(Result.SUCCESS,sceneVo);
     }
 

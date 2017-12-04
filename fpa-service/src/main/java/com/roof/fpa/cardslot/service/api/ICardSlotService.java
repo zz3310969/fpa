@@ -39,7 +39,7 @@ public interface ICardSlotService {
 	 */
 	public abstract void updateByExample(CardSlot cardSlot);
 
-    CardSlotVo load(Long id);
+    CardSlotVo loadByCache(Long id);
 
     /**
 	 * 按对象中的主键进行数据加载，如果是DRDS，还需要添加拆分键

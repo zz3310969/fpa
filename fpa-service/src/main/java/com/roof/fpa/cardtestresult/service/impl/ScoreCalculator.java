@@ -1,6 +1,7 @@
 package com.roof.fpa.cardtestresult.service.impl;
 
 import com.roof.chain.support.NodeResult;
+import com.roof.fpa.cache.api.ICacheHander;
 import com.roof.fpa.cardslot.entity.CardSlot;
 import com.roof.fpa.cardslot.service.api.ICardSlotService;
 import com.roof.fpa.cardtestresult.entity.CardTestResultDto;
@@ -26,6 +27,8 @@ public class ScoreCalculator {
     private ICardUnitService cardUnitService;
     private ICardSlotService cardSlotService;
     private IDictionaryService dictionaryService;
+    private ICacheHander cacheHander;
+
 
     public String doNode(CardTestResultVo cardTestResultVo, GeneralCardTestCustomerResult generalCardTestCustomerResult) {
         int score = 0;
@@ -33,10 +36,10 @@ public class ScoreCalculator {
             return toSuccess(score, generalCardTestCustomerResult);
         }
         for (CardTestResultDto cardTestResultDto : cardTestResultVo.getResultDtoList()) {
-            CardUnit cardUnit = cardUnitService.load(cardTestResultDto.getCardUnitId());
-            Dictionary colorDic = dictionaryService.load(new Dictionary(cardUnit.getColorId()));
+            CardUnit cardUnit = cardUnitService.loadByCache(cardTestResultDto.getCardUnitId());
+            Dictionary colorDic = cacheHander.loadDictionaryById(cardUnit.getColorId());
             if (StringUtils.equalsIgnoreCase(colorDic.getVal(), color)) {
-                CardSlot cardSlot = cardSlotService.load(cardTestResultDto.getCardSlotId());
+                CardSlot cardSlot = cardSlotService.loadByCache(cardTestResultDto.getCardSlotId());
                 //TODO 使用场景配置的操作符
                 score += cardUnit.getScore() + cardSlot.getWeight();
                 LOGGER.info("color:{}, cardUnitScore:{}, cardSlotWeight:{}, score:{}", color, cardUnit.getScore(), cardSlot.getWeight(), score);
@@ -92,5 +95,8 @@ public class ScoreCalculator {
 
     public void setDictionaryService(IDictionaryService dictionaryService) {
         this.dictionaryService = dictionaryService;
+    }
+    public void setCacheHander(ICacheHander cacheHander) {
+        this.cacheHander = cacheHander;
     }
 }
