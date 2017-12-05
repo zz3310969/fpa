@@ -21,7 +21,9 @@
 
 	<http pattern="/fpa/pic/**" security="none" />
 
+<!--
 	<http pattern="/fpa/wechat/**" security="none" />
+-->
 
 
 	<http pattern="/mainAction/login.action*" security="none" />
@@ -41,11 +43,11 @@
 
 	<!-- 权限名称必须以 ROLE_ 开头 -->
 	<http auto-config="true" use-expressions="true" pattern="/**">
+
 		<custom-filter ref="oAuth2AuthenticationProcessingFilter"
-					   before="ANONYMOUS_FILTER" />
-<!--
-		<custom-filter ref="clientCredentialsTokenEndpointFilter" before="ANONYMOUS_FILTER"/>
--->
+					   before="CAS_FILTER"  />
+
+		<custom-filter ref="clientCredentialsTokenEndpointFilter" before="ANONYMOUS_FILTER" />
 
 		<custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
 		<logout logout-success-url="/index.jsp" delete-cookies="JSESSIONID" />
@@ -142,6 +144,7 @@
 
 	<authorization-server client-details-service-ref="clientDetailsService"
 						  xmlns="http://www.springframework.org/schema/security/oauth2" token-services-ref="tokenServices" >
+
 		<authorization-code />
 		<implicit />
 		<refresh-token />

@@ -30,6 +30,13 @@
 		<beans:constructor-arg index="0" ref="dataSource" />
 	</beans:bean>
 
+	<!--<beans:bean name="tokenStore"
+				class="org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore">
+		<beans:constructor-arg index="0" ref="jredisConnectionFactory" />
+	</beans:bean>-->
+
+
+
 <!--	<beans:bean id="tokenGranter" class="org.springframework.security.oauth2.provider.CompositeTokenGranter">
 	<beans:constructor-arg index="0" ref="dataSource" />
 	</beans:bean>-->
