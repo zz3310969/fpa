@@ -8,6 +8,13 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.roof.fpa.cache.impl.CacheFactory;
+import com.roof.fpa.cardslot.entity.CardSlot;
+import com.roof.fpa.cardslot.entity.CardSlotVo;
 import com.roof.fpa.scene.entity.SceneVo;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.cardunit.dao.api.ICardUnitDao;
@@ -24,7 +31,34 @@ import org.springframework.stereotype.Service;
 public class CardUnitService implements ICardUnitService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CardUnitService.class);
-	private Cache<String, CardUnitVo> cache = CacheBuilder.newBuilder().maximumSize(50).expireAfterWrite(5, TimeUnit.MINUTES).build();
+	//private Cache<Object, Object> cache = CacheFactory.getInstance().getCardUnitVoCache();
+
+
+	@Autowired
+	private ListeningExecutorService listeningExecutorService;
+	private LoadingCache<Long, CardUnitVo> cache = CacheBuilder.newBuilder()
+			.maximumSize(50)
+			.refreshAfterWrite(5, TimeUnit.MINUTES)
+			.build(new CacheLoader<Long, CardUnitVo>() {
+				@Override
+				public CardUnitVo load(Long id) throws Exception {
+					LOGGER.debug("CardUnitVo Cache load id ="+id);
+					return (CardUnitVo) cardUnitDao.reload(new CardUnit(id));
+				}
+
+				@Override
+				public ListenableFuture<CardUnitVo> reload(Long key, CardUnitVo oldValue) throws Exception {
+					return listeningExecutorService.submit(new Callable<CardUnitVo>() {
+
+						@Override
+						public CardUnitVo call() throws Exception {
+							LOGGER.debug("CardUnitVo Cache reload");
+							return (CardUnitVo) cardUnitDao.reload(new CardUnit(key));
+						}
+					});
+				}
+			});
+
 
 	private ICardUnitDao cardUnitDao;
 
@@ -57,12 +91,7 @@ public class CardUnitService implements ICardUnitService {
 	@Override
 	public CardUnitVo loadByCache(Long id) {
 		try {
-			return cache.get("CardUnit:" + id, new Callable<CardUnitVo>() {
-                @Override
-                public CardUnitVo call() throws Exception {
-                    return load(new CardUnit(id));
-                }
-            });
+			return cache.get(id);
 		} catch (ExecutionException e) {
 			LOGGER.error(e.getMessage(),e);
 		}

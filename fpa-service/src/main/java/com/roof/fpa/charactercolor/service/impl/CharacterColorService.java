@@ -8,7 +8,14 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.roof.fpa.DefaultUseableEnum;
+import com.roof.fpa.cache.impl.CacheFactory;
+import com.roof.fpa.cardunit.entity.CardUnit;
+import com.roof.fpa.cardunit.entity.CardUnitVo;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.charactercolor.dao.api.ICharacterColorDao;
 import com.roof.fpa.charactercolor.entity.CharacterColor;
@@ -27,7 +34,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class CharacterColorService implements ICharacterColorService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CharacterColorService.class);
-    private Cache<String, CharacterColorVo> cache = CacheBuilder.newBuilder().maximumSize(10).expireAfterWrite(5, TimeUnit.MINUTES).build();
+    //private Cache<Object, Object> cache = CacheFactory.getInstance().getCharacterColorVoCache();
+
+    @Autowired
+    private ListeningExecutorService listeningExecutorService;
+    private LoadingCache<Long, CharacterColorVo> cache = CacheBuilder.newBuilder()
+            .maximumSize(10)
+            .refreshAfterWrite(5, TimeUnit.MINUTES)
+            .build(new CacheLoader<Long, CharacterColorVo>() {
+                @Override
+                public CharacterColorVo load(Long id) throws Exception {
+                    return selectByColorId(id);
+                }
+
+                @Override
+                public ListenableFuture<CharacterColorVo> reload(Long key, CharacterColorVo oldValue) throws Exception {
+                    return listeningExecutorService.submit(new Callable<CharacterColorVo>() {
+                        @Override
+                        public CharacterColorVo call() throws Exception {
+                            return selectByColorId(key);
+                        }
+                    });
+                }
+            });
+
 
     private ICharacterColorDao characterColorDao;
 
@@ -130,12 +160,7 @@ public class CharacterColorService implements ICharacterColorService {
     @Override
     public CharacterColorVo selectByColorIdByCache(Long colorId) {
         try {
-            return cache.get("CharacterColor_colorId:" + colorId, new Callable<CharacterColorVo>() {
-                @Override
-                public CharacterColorVo call() throws Exception {
-                    return selectByColorId(colorId);
-                }
-            });
+            return cache.get(colorId);
         } catch (ExecutionException e) {
             LOGGER.error(e.getMessage(),e);
         }

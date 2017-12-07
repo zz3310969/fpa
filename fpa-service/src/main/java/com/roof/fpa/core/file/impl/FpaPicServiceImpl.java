@@ -2,6 +2,13 @@ package com.roof.fpa.core.file.impl;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.roof.fpa.cache.impl.CacheFactory;
+import com.roof.fpa.cardunit.entity.CardUnit;
+import com.roof.fpa.cardunit.entity.CardUnitVo;
 import com.roof.fpa.core.file.api.IFpaPicService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by zhenglt on 2017/10/2.
@@ -42,6 +50,29 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
 
     private FileInfoService fileInfoService;
     private FileService fileService;
+
+    //Cache<Object, Object> cache = CacheFactory.getInstance().getPicCache();
+    @Autowired
+    private ListeningExecutorService listeningExecutorService;
+    private LoadingCache<String, byte[]> cache = CacheBuilder.newBuilder()
+            .maximumSize(50)
+            .refreshAfterWrite(5, TimeUnit.MINUTES)
+            .build(new CacheLoader<String, byte[]>() {
+                @Override
+                public byte[] load(String key) throws Exception {
+                    return  getMiddleFileByBase(key);
+                }
+
+                @Override
+                public ListenableFuture<byte[]> reload(String key, byte[] oldValue) throws Exception {
+                    return listeningExecutorService.submit(new Callable<byte[]>() {
+                        @Override
+                        public byte[] call() throws Exception {
+                            return getMiddleFileByBase(key);
+                        }
+                    });
+                }
+            });
 
 
     @Override
@@ -75,8 +106,8 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
             }
         }
         fileInfo.setRealPath(minPath);
-
-        byte[] bs = getImageInCache(filename,fileInfo);//fileService.loadDataByFileInfo(fileInfo);
+        //getImageInCache(filename,fileInfo);//
+        byte[] bs = fileService.loadDataByFileInfo(fileInfo);
         return new ByteArrayInputStream(bs);
     }
 
@@ -92,7 +123,7 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
         return fileinfo;
     }
 
-    public  InputStream getMiddleFile(String filename){
+    public  byte[] getMiddleFileByBase(String filename){
         FileInfo fileInfo = null;
         try {
             fileInfo = fileInfoService.loadByName(filename);
@@ -113,7 +144,40 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
         fileInfo.setRealPath(smallPath);
 
         byte[] bs = fileService.loadDataByFileInfo(fileInfo);
+        return bs;
+    }
+
+    public  InputStream getMiddleFile(String filename){
+        /*FileInfo fileInfo = null;
+        try {
+            fileInfo = fileInfoService.loadByName(filename);
+        } catch (FileInfoNotFoundException e) {
+            return null;
+        }
+        String smallPath = toMiddlePath(fileInfo.getRealPath());
+        Path path = Paths.get(smallPath);
+
+        if(!Files.exists(path)){
+            try {
+                middleImage(fileInfo.getRealPath(),smallPath);
+            } catch (IOException e) {
+                logger.error("生成缩略图出错:",e);
+                return null;
+            }
+        }
+        fileInfo.setRealPath(smallPath);
+*/
+        //byte[] bs = fileService.loadDataByFileInfo(fileInfo);
+        byte[] bs = null;
+        try {
+            bs = cache.get(filename);
+            return new ByteArrayInputStream(bs);
+        } catch (ExecutionException e) {
+            logger.error(e.getMessage(),e);
+        }
+        bs = getMiddleFileByBase(filename);
         return new ByteArrayInputStream(bs);
+
     }
 
     public void middleImage(String filePath,String toPath) throws IOException {
@@ -124,15 +188,13 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
 
     }
 
-    Cache<String, byte[]> cache = CacheBuilder.newBuilder()
-            .maximumSize(1000)
-            .build();
-    private byte[] getImageInCache(String imaegName, FileInfo fileInfo){
+
+    /*private byte[] getImageInCache(String imaegName, FileInfo fileInfo){
         Assert.notNull(fileInfo,"fileInfo 对象不能为空");
         Assert.notNull(fileInfo.getRealPath(),"路径不能为空");
         Assert.notNull(imaegName,"图片名称不能为空");
         try {
-             return cache.get(imaegName, new Callable<byte[]>() {
+             return (byte[])cache.get(imaegName, new Callable<byte[]>() {
                 @Override
                 public byte[] call() throws Exception {
                     return fileService.loadDataByFileInfo(fileInfo);
@@ -142,7 +204,7 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
 
     public void smallImage(String filePath,String toPath) throws IOException {

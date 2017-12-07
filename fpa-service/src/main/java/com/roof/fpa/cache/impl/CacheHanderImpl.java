@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class CacheHanderImpl implements ICacheHander {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CacheHanderImpl.class);
-    private Cache<String, Dictionary> dicCache = CacheBuilder.newBuilder().maximumSize(50).expireAfterWrite(5, TimeUnit.MINUTES).build();
+    private Cache<Object, Object> dicCache = CacheFactory.getInstance().getDicCache();
 
 
     @Autowired
@@ -33,7 +33,7 @@ public class CacheHanderImpl implements ICacheHander {
     @Override
     public Dictionary loadDictionaryById(Long id) {
         try {
-            return dicCache.get("Dictionary:" + id, new Callable<Dictionary>() {
+            return (Dictionary)dicCache.get("Dictionary:" + id, new Callable<Dictionary>() {
                 @Override
                 public Dictionary call() throws Exception {
                     return dictionaryService.load(new Dictionary(id));
@@ -48,7 +48,7 @@ public class CacheHanderImpl implements ICacheHander {
     @Override
     public Dictionary loadDictionaryByType(String type, String val) {
         try {
-            return dicCache.get("Dictionary_type:" + type+"_val:"+val, new Callable<Dictionary>() {
+            return (Dictionary) dicCache.get("Dictionary_type:" + type+"_val:"+val, new Callable<Dictionary>() {
                 @Override
                 public Dictionary call() throws Exception {
                     return dictionaryService.load(type,val);
