@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.servicerecord.dao">
+
+	<sql id="columns">
+		id, counselor_id, customer_id, theme_id, duration, start_time, end_time, evaluation, evaluation_rank, evaluation_time
+	</sql>
+
+	<sql id="columns_as">
+		id as id , counselor_id as counselorId , customer_id as customerId , theme_id as themeId , duration as duration , start_time as startTime , end_time as endTime , evaluation as evaluation , evaluation_rank as evaluationRank , evaluation_time as evaluationTime 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{counselorId}, #{customerId}, #{themeId}, #{duration}, #{startTime}, #{endTime}, #{evaluation}, #{evaluationRank}, #{evaluationTime}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="counselorId != null">
+			and counselor_id = #{counselorId}
+		</if>
+		<if test="customerId != null">
+			and customer_id = #{customerId}
+		</if>
+		<if test="themeId != null">
+			and theme_id = #{themeId}
+		</if>
+		<if test="duration != null">
+			and duration = #{duration}
+		</if>
+		<if test="startTime != null">
+			and start_time = #{startTime}
+		</if>
+		<if test="endTime != null">
+			and end_time = #{endTime}
+		</if>
+		<if test="evaluation != null and evaluation != ''">
+			and evaluation = #{evaluation}
+		</if>
+		<if test="evaluationRank != null">
+			and evaluation_rank = #{evaluationRank}
+		</if>
+		<if test="evaluationTime != null">
+			and evaluation_time = #{evaluationTime}
+		</if>
+	</sql>
+
+	<insert id="saveServiceRecord" parameterType="com.roof.fpa.servicerecord.entity.ServiceRecord" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_service_record (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteServiceRecord">
+		delete from c_service_record
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleServiceRecord">
+		delete from c_service_record
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateServiceRecord">
+		update c_service_record
+		<set>
+			id=#{id}, 
+			counselor_id=#{counselorId}, 
+			customer_id=#{customerId}, 
+			theme_id=#{themeId}, 
+			duration=#{duration}, 
+			start_time=#{startTime}, 
+			end_time=#{endTime}, 
+			evaluation=#{evaluation}, 
+			evaluation_rank=#{evaluationRank}, 
+			evaluation_time=#{evaluationTime}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullServiceRecord">
+		update c_service_record
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="counselorId != null">
+			counselor_id=#{counselorId}, 
+		</if>
+		<if test="customerId != null">
+			customer_id=#{customerId}, 
+		</if>
+		<if test="themeId != null">
+			theme_id=#{themeId}, 
+		</if>
+		<if test="duration != null">
+			duration=#{duration}, 
+		</if>
+		<if test="startTime != null">
+			start_time=#{startTime}, 
+		</if>
+		<if test="endTime != null">
+			end_time=#{endTime}, 
+		</if>
+		<if test="evaluation != null and evaluation != ''">
+			evaluation=#{evaluation}, 
+		</if>
+		<if test="evaluationRank != null">
+			evaluation_rank=#{evaluationRank}, 
+		</if>
+		<if test="evaluationTime != null">
+			evaluation_time=#{evaluationTime}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleServiceRecord">
+		update c_service_record
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="counselorId != null">
+			counselor_id=#{counselorId}, 
+			</if>
+			<if test="customerId != null">
+			customer_id=#{customerId}, 
+			</if>
+			<if test="themeId != null">
+			theme_id=#{themeId}, 
+			</if>
+			<if test="duration != null">
+			duration=#{duration}, 
+			</if>
+			<if test="startTime != null">
+			start_time=#{startTime}, 
+			</if>
+			<if test="endTime != null">
+			end_time=#{endTime}, 
+			</if>
+			<if test="evaluation != null and evaluation != ''">
+			evaluation=#{evaluation}, 
+			</if>
+			<if test="evaluationRank != null">
+			evaluation_rank=#{evaluationRank}, 
+			</if>
+			<if test="evaluationTime != null">
+			evaluation_time=#{evaluationTime}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadServiceRecord" resultType="com.roof.fpa.servicerecord.entity.ServiceRecordVo">
+		select 
+		<include refid="columns_as"/>
+		from c_service_record
+		where id=#{id} 
+	</select>
+	
+	<select id="selectServiceRecord" resultType="com.roof.fpa.servicerecord.entity.ServiceRecordVo">
+		select 
+		<include refid="columns_as"/>
+		from c_service_record
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

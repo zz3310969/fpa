@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.servicerecord.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.counselor_id as counselorId, t1.customer_id as customerId, t1.theme_id as themeId, t1.duration as duration, t1.start_time as startTime, t1.end_time as endTime, t1.evaluation as evaluation, t1.evaluation_rank as evaluationRank, t1.evaluation_time as evaluationTime
+	</sql>
+	
+	<select id="selectServiceRecordPage" resultType="com.roof.fpa.servicerecord.entity.ServiceRecordVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		c_service_record t1
+		join
+		(SELECT
+		id
+		from
+		c_service_record
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectServiceRecordCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from c_service_record
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

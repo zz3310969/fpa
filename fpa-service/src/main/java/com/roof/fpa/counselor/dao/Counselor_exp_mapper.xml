@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.counselor.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.numb as numb, t1.name as name, t1.mobile as mobile, t1.gender as gender, t1.specialty as specialty, t1.wechat as wechat, t1.rank as rank, t1.reg_time as regTime, t1.state as state, t1.usable as usable
+	</sql>
+	
+	<select id="selectCounselorPage" resultType="com.roof.fpa.counselor.entity.CounselorVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		c_counselor t1
+		join
+		(SELECT
+		id
+		from
+		c_counselor
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectCounselorCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from c_counselor
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

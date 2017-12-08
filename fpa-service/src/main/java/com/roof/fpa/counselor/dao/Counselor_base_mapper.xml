@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.counselor.dao">
+
+	<sql id="columns">
+		id, numb, name, mobile, gender, specialty, wechat, rank, reg_time, state, usable
+	</sql>
+
+	<sql id="columns_as">
+		id as id , numb as numb , name as name , mobile as mobile , gender as gender , specialty as specialty , wechat as wechat , rank as rank , reg_time as regTime , state as state , usable as usable 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{numb}, #{name}, #{mobile}, #{gender}, #{specialty}, #{wechat}, #{rank}, #{regTime}, #{state}, #{usable}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="numb != null and numb != ''">
+			and numb = #{numb}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="mobile != null and mobile != ''">
+			and mobile = #{mobile}
+		</if>
+		<if test="gender != null">
+			and gender = #{gender}
+		</if>
+		<if test="specialty != null and specialty != ''">
+			and specialty = #{specialty}
+		</if>
+		<if test="wechat != null and wechat != ''">
+			and wechat = #{wechat}
+		</if>
+		<if test="rank != null">
+			and rank = #{rank}
+		</if>
+		<if test="regTime != null">
+			and reg_time = #{regTime}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+		<if test="usable != null">
+			and usable = #{usable}
+		</if>
+	</sql>
+
+	<insert id="saveCounselor" parameterType="com.roof.fpa.counselor.entity.Counselor" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_counselor (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCounselor">
+		delete from c_counselor
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCounselor">
+		delete from c_counselor
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCounselor">
+		update c_counselor
+		<set>
+			id=#{id}, 
+			numb=#{numb}, 
+			name=#{name}, 
+			mobile=#{mobile}, 
+			gender=#{gender}, 
+			specialty=#{specialty}, 
+			wechat=#{wechat}, 
+			rank=#{rank}, 
+			reg_time=#{regTime}, 
+			state=#{state}, 
+			usable=#{usable}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCounselor">
+		update c_counselor
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="numb != null and numb != ''">
+			numb=#{numb}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="mobile != null and mobile != ''">
+			mobile=#{mobile}, 
+		</if>
+		<if test="gender != null">
+			gender=#{gender}, 
+		</if>
+		<if test="specialty != null and specialty != ''">
+			specialty=#{specialty}, 
+		</if>
+		<if test="wechat != null and wechat != ''">
+			wechat=#{wechat}, 
+		</if>
+		<if test="rank != null">
+			rank=#{rank}, 
+		</if>
+		<if test="regTime != null">
+			reg_time=#{regTime}, 
+		</if>
+		<if test="state != null">
+			state=#{state}, 
+		</if>
+		<if test="usable != null">
+			usable=#{usable}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCounselor">
+		update c_counselor
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="numb != null and numb != ''">
+			numb=#{numb}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="mobile != null and mobile != ''">
+			mobile=#{mobile}, 
+			</if>
+			<if test="gender != null">
+			gender=#{gender}, 
+			</if>
+			<if test="specialty != null and specialty != ''">
+			specialty=#{specialty}, 
+			</if>
+			<if test="wechat != null and wechat != ''">
+			wechat=#{wechat}, 
+			</if>
+			<if test="rank != null">
+			rank=#{rank}, 
+			</if>
+			<if test="regTime != null">
+			reg_time=#{regTime}, 
+			</if>
+			<if test="state != null">
+			state=#{state}, 
+			</if>
+			<if test="usable != null">
+			usable=#{usable}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCounselor" resultType="com.roof.fpa.counselor.entity.CounselorVo">
+		select 
+		<include refid="columns_as"/>
+		from c_counselor
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCounselor" resultType="com.roof.fpa.counselor.entity.CounselorVo">
+		select 
+		<include refid="columns_as"/>
+		from c_counselor
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
