@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.order.dao">
+
+	<sql id="columns">
+		id, customer_id, counselor_id, service_record_id, price
+	</sql>
+
+	<sql id="columns_as">
+		id as id , customer_id as customerId , counselor_id as counselorId , service_record_id as serviceRecordId , price as price 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{customerId}, #{counselorId}, #{serviceRecordId}, #{price}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="customerId != null">
+			and customer_id = #{customerId}
+		</if>
+		<if test="counselorId != null">
+			and counselor_id = #{counselorId}
+		</if>
+		<if test="serviceRecordId != null">
+			and service_record_id = #{serviceRecordId}
+		</if>
+		<if test="price != null">
+			and price = #{price}
+		</if>
+	</sql>
+
+	<insert id="saveOrder" parameterType="com.roof.fpa.order.entity.Order" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_order (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteOrder">
+		delete from c_order
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleOrder">
+		delete from c_order
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateOrder">
+		update c_order
+		<set>
+			id=#{id}, 
+			customer_id=#{customerId}, 
+			counselor_id=#{counselorId}, 
+			service_record_id=#{serviceRecordId}, 
+			price=#{price}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullOrder">
+		update c_order
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="customerId != null">
+			customer_id=#{customerId}, 
+		</if>
+		<if test="counselorId != null">
+			counselor_id=#{counselorId}, 
+		</if>
+		<if test="serviceRecordId != null">
+			service_record_id=#{serviceRecordId}, 
+		</if>
+		<if test="price != null">
+			price=#{price}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleOrder">
+		update c_order
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="customerId != null">
+			customer_id=#{customerId}, 
+			</if>
+			<if test="counselorId != null">
+			counselor_id=#{counselorId}, 
+			</if>
+			<if test="serviceRecordId != null">
+			service_record_id=#{serviceRecordId}, 
+			</if>
+			<if test="price != null">
+			price=#{price}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadOrder" resultType="com.roof.fpa.order.entity.OrderVo">
+		select 
+		<include refid="columns_as"/>
+		from c_order
+		where id=#{id} 
+	</select>
+	
+	<select id="selectOrder" resultType="com.roof.fpa.order.entity.OrderVo">
+		select 
+		<include refid="columns_as"/>
+		from c_order
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

@@ -24,7 +24,7 @@ public class Counselor implements Serializable {
 	protected String name;// 姓名
 	@ApiModelProperty(value = "电话")
 	protected String mobile;// 电话
-	@ApiModelProperty(value = "性别(0:女,1:男)")
+	@ApiModelProperty(value = "性别")
 	protected Integer gender;// 性别(0:女,1:男)
 	@ApiModelProperty(value = "特长")
 	protected String specialty;// 特长

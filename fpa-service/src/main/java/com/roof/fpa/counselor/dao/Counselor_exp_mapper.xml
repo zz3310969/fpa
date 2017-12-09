@@ -8,7 +8,8 @@
 	
 	<select id="selectCounselorPage" resultType="com.roof.fpa.counselor.entity.CounselorVo">
 		select
-		<include refid="columnsAs"/>
+		<include refid="columnsAs"/>,
+		(SELECT name FROM c_counselor_rank WHERE id = t1.rank) AS rankName
 		from
 		c_counselor t1
 		join
@@ -18,6 +19,11 @@
 		c_counselor
 		where 1=1
 		<include refid="conds" />
+		<if test="regTimeStart != null and regTimeEnd !=null">
+			<![CDATA[
+			and reg_time >= #{regTimeStart} and reg_time <= #{regTimeEnd}
+			]]>
+		</if>
 		order by id desc
 		limit #{firstrownum}, #{limit}) t2
 		where t1.id = t2.id
@@ -29,5 +35,10 @@
 		from c_counselor
 		where 1=1
 		<include refid="conds" />
+		<if test="regTimeStart != null and regTimeEnd !=null">
+			<![CDATA[
+			and reg_time >= #{regTimeStart} and reg_time <= #{regTimeEnd}
+			]]>
+		</if>
 	</select>
 </mapper>

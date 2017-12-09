@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.counselorrank.dao">
+
+	<sql id="columns">
+		id, numb, name, remark, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , numb as numb , name as name , remark as remark , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{numb}, #{name}, #{remark}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="numb != null and numb != ''">
+			and numb = #{numb}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="remark != null and remark != ''">
+			and remark = #{remark}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveCounselorRank" parameterType="com.roof.fpa.counselorrank.entity.CounselorRank" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_counselor_rank (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCounselorRank">
+		delete from c_counselor_rank
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCounselorRank">
+		delete from c_counselor_rank
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCounselorRank">
+		update c_counselor_rank
+		<set>
+			id=#{id}, 
+			numb=#{numb}, 
+			name=#{name}, 
+			remark=#{remark}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCounselorRank">
+		update c_counselor_rank
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="numb != null and numb != ''">
+			numb=#{numb}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="remark != null and remark != ''">
+			remark=#{remark}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCounselorRank">
+		update c_counselor_rank
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="numb != null and numb != ''">
+			numb=#{numb}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="remark != null and remark != ''">
+			remark=#{remark}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCounselorRank" resultType="com.roof.fpa.counselorrank.entity.CounselorRankVo">
+		select 
+		<include refid="columns_as"/>
+		from c_counselor_rank
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCounselorRank" resultType="com.roof.fpa.counselorrank.entity.CounselorRankVo">
+		select 
+		<include refid="columns_as"/>
+		from c_counselor_rank
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

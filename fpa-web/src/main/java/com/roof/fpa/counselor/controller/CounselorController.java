@@ -1,21 +1,27 @@
 package com.roof.fpa.counselor.controller;
 
-import java.util.List;
-import java.util.Map;
 import com.google.common.collect.Maps;
-import javax.servlet.http.HttpServletRequest;
+import com.roof.fpa.DefaultStateEnum;
+import com.roof.fpa.GenderEnum;
+import com.roof.fpa.counselor.entity.Counselor;
+import com.roof.fpa.counselor.entity.CounselorVo;
+import com.roof.fpa.counselor.service.api.ICounselorService;
+import com.roof.fpa.counselorrank.entity.CounselorRank;
+import com.roof.fpa.counselorrank.entity.CounselorRankVo;
+import com.roof.fpa.counselorrank.service.api.ICounselorRankService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
-import com.roof.fpa.counselor.entity.Counselor;
-import com.roof.fpa.counselor.entity.CounselorVo;
-import com.roof.fpa.counselor.service.api.ICounselorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 @Api(value = "counselor", description = "咨询师管理")
 @Controller
@@ -23,16 +29,27 @@ import org.springframework.web.bind.annotation.*;
 public class CounselorController {
 	private ICounselorService counselorService;
 
+	@Autowired
+	private ICounselorRankService counselorRankService;
+
 	@ApiOperation(value = "获得咨询师基础信息")
 	@RequestMapping(value = "counselor/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
 		Map<String,Object> map = Maps.newHashMap();
+		CounselorRank counselorRank = new CounselorRank();
+		counselorRank.setState(DefaultStateEnum.usable.getCode());
+		List<CounselorRankVo> counselorRankVos = counselorRankService.selectForList(counselorRank);
+		map.put("counselorRanks",counselorRankVos);
+		DefaultStateEnum[] states = DefaultStateEnum.values();
+		map.put("states",states);
+		GenderEnum[] genderEnums = GenderEnum.AllGender();
+		map.put("genders",genderEnums);
 		return new Result(Result.SUCCESS, map);
 	}
 
 	@ApiOperation(value = "获得咨询师分页列表")
     @RequestMapping(value = "counselor", method = {RequestMethod.GET})
-    public @ResponseBody Result<Page> list(Counselor counselor, HttpServletRequest request) {
+    public @ResponseBody Result<Page> list(CounselorVo counselor, HttpServletRequest request) {
 	    Page page = PageUtils.createPage(request);
 	    page = counselorService.page(page, counselor);
 	    return new Result(Result.SUCCESS, page);

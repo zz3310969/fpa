@@ -61,4 +61,11 @@ public enum GenderEnum implements JSONSerializable {
 
     }
 
+    public static GenderEnum[] AllGender(){
+        GenderEnum[] genderEnums = new GenderEnum[2];
+        genderEnums[0] = MALE;
+        genderEnums[1] = FEMALE;
+        return genderEnums;
+    }
+
 }

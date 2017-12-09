@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.order.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.customer_id as customerId, t1.counselor_id as counselorId, t1.service_record_id as serviceRecordId, t1.price as price
+	</sql>
+	
+	<select id="selectOrderPage" resultType="com.roof.fpa.order.entity.OrderVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		c_order t1
+		join
+		(SELECT
+		id
+		from
+		c_order
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectOrderCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from c_order
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

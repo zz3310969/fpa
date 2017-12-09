@@ -1,0 +1,74 @@
+package com.roof.fpa.order.entity;
+
+import javax.persistence.Id;
+import java.util.Date;
+import java.io.Serializable;
+import org.springframework.format.annotation.DateTimeFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import com.alibaba.fastjson.annotation.JSONField;
+
+/**
+ * @author 模版生成 <br/>
+ *         表名： c_order <br/>
+ *         描述：订单 <br/>
+ */
+@ApiModel(value = "c_order", description = "订单")
+public class Order implements Serializable {
+	// 需要手动添加非默认的serialVersionUID
+	@ApiModelProperty(value = "主键")
+	protected Long id;// 主键
+	@ApiModelProperty(value = "客户ID")
+	protected Long customerId;// 客户ID
+	@ApiModelProperty(value = "咨询师ID")
+	protected Long counselorId;// 咨询师ID
+	@ApiModelProperty(value = "服务记录ID")
+	protected Long serviceRecordId;// 服务记录ID
+	@ApiModelProperty(value = "价格")
+	protected Integer price;// 价格
+
+	public Order() {
+		super();
+	}
+
+	public Order(Long id) {
+		super();
+		this.id = id;
+	}
+	
+	@Id// 主键
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public Long getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
+	
+	public Long getCounselorId() {
+		return counselorId;
+	}
+	public void setCounselorId(Long counselorId) {
+		this.counselorId = counselorId;
+	}
+	
+	public Long getServiceRecordId() {
+		return serviceRecordId;
+	}
+	public void setServiceRecordId(Long serviceRecordId) {
+		this.serviceRecordId = serviceRecordId;
+	}
+	
+	public Integer getPrice() {
+		return price;
+	}
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+}
