@@ -4,20 +4,23 @@
 <mapper namespace="com.roof.fpa.order.dao">
 
 	<sql id="columns">
-		id, customer_id, counselor_id, service_record_id, price, create_time, pay_time, state, account_detail_id
+		id, numb, customer_id, counselor_id, service_record_id, price, create_time, pay_time, state, account_detail_id
 	</sql>
 
 	<sql id="columns_as">
-		id as id , customer_id as customerId , counselor_id as counselorId , service_record_id as serviceRecordId , price as price , create_time as createTime , pay_time as payTime , state as state , account_detail_id as accountDetailId 
+		id as id , numb as numb , customer_id as customerId , counselor_id as counselorId , service_record_id as serviceRecordId , price as price , create_time as createTime , pay_time as payTime , state as state , account_detail_id as accountDetailId 
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{customerId}, #{counselorId}, #{serviceRecordId}, #{price}, #{createTime}, #{payTime}, #{state}, #{accountDetailId}
+		#{id}, #{numb}, #{customerId}, #{counselorId}, #{serviceRecordId}, #{price}, #{createTime}, #{payTime}, #{state}, #{accountDetailId}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
 			and id = #{id}
+		</if>
+		<if test="numb != null and numb != ''">
+			and numb = #{numb}
 		</if>
 		<if test="customerId != null">
 			and customer_id = #{customerId}
@@ -68,6 +71,7 @@
 		update c_order
 		<set>
 			id=#{id}, 
+			numb=#{numb}, 
 			customer_id=#{customerId}, 
 			counselor_id=#{counselorId}, 
 			service_record_id=#{serviceRecordId}, 
@@ -85,6 +89,9 @@
 		<set>
 		<if test="id != null">
 			id=#{id}, 
+		</if>
+		<if test="numb != null and numb != ''">
+			numb=#{numb}, 
 		</if>
 		<if test="customerId != null">
 			customer_id=#{customerId}, 
@@ -119,6 +126,9 @@
 		<set>
 			<if test="id != null">
 			id=#{id}, 
+			</if>
+			<if test="numb != null and numb != ''">
+			numb=#{numb}, 
 			</if>
 			<if test="customerId != null">
 			customer_id=#{customerId}, 

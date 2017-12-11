@@ -18,6 +18,8 @@ public class Order implements Serializable {
 	// 需要手动添加非默认的serialVersionUID
 	@ApiModelProperty(value = "主键")
 	protected Long id;// 主键
+	@ApiModelProperty(value = "订单编号")
+	protected String numb;// 订单编号
 	@ApiModelProperty(value = "客户ID")
 	protected Long customerId;// 客户ID
 	@ApiModelProperty(value = "咨询师ID")
@@ -54,6 +56,13 @@ public class Order implements Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getNumb() {
+		return numb;
+	}
+	public void setNumb(String numb) {
+		this.numb = numb;
 	}
 	
 	public Long getCustomerId() {
