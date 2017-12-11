@@ -71,8 +71,11 @@ public class FpaPicController {
         String s = "";
         String uri = request.getRequestURI();
         int i = uri.lastIndexOf(".");
-        if (i != -1) {
+        int t = uri.lastIndexOf("&t");
+        if (i != -1 && t== -1) {
             s = uri.substring(i);
+        }else if(i != -1 && t!= -1){
+            s = uri.substring(i,t);
         }
         return s;
     }
