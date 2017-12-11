@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import com.google.common.collect.Maps;
 import javax.servlet.http.HttpServletRequest;
+
+import com.roof.fpa.order.entity.OrderStateEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.roof.roof.dataaccess.api.Page;
@@ -27,12 +29,14 @@ public class OrderController {
 	@RequestMapping(value = "order/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
 		Map<String,Object> map = Maps.newHashMap();
+		OrderStateEnum[] orderStateEnums = OrderStateEnum.values();
+		map.put("states",orderStateEnums);
 		return new Result(Result.SUCCESS, map);
 	}
 
 	@ApiOperation(value = "获得订单分页列表")
     @RequestMapping(value = "order", method = {RequestMethod.GET})
-    public @ResponseBody Result<Page> list(Order order, HttpServletRequest request) {
+    public @ResponseBody Result<Page> list(OrderVo order, HttpServletRequest request) {
 	    Page page = PageUtils.createPage(request);
 	    page = orderService.page(page, order);
 	    return new Result(Result.SUCCESS, page);

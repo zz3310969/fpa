@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 /**
- * Created by zhenglt on 2017/11/25.
+ * Created by lht on 2017/11/25.
  */
 public enum DefaultUseableEnum implements JSONSerializable {
 

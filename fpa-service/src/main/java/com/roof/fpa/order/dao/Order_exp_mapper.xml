@@ -8,7 +8,9 @@
 	
 	<select id="selectOrderPage" resultType="com.roof.fpa.order.entity.OrderVo">
 		select
-		<include refid="columnsAs"/>
+		<include refid="columnsAs"/>,
+		(SELECT NAME FROM c_counselor WHERE id = t1.counselor_id) as counselorName,
+		(SELECT NAME FROM c_customer WHERE id = t1.customer_id) as customerName
 		from
 		c_order t1
 		join
@@ -18,6 +20,16 @@
 		c_order
 		where 1=1
 		<include refid="conds" />
+		<if test="createTimeStart != null and createTimeEnd !=null">
+			<![CDATA[
+			and create_time >= #{createTimeStart} and create_time <= #{createTimeEnd}
+			]]>
+		</if>
+		<if test="payTimeStart != null and payTimeEnd !=null">
+			<![CDATA[
+			and pay_time >= #{payTimeStart} and pay_time <= #{payTimeEnd}
+			]]>
+		</if>
 		order by id desc
 		limit #{firstrownum}, #{limit}) t2
 		where t1.id = t2.id
@@ -29,5 +41,15 @@
 		from c_order
 		where 1=1
 		<include refid="conds" />
+		<if test="createTimeStart != null and createTimeEnd !=null">
+			<![CDATA[
+			and create_time >= #{createTimeStart} and create_time <= #{createTimeEnd}
+			]]>
+		</if>
+		<if test="payTimeStart != null and payTimeEnd !=null">
+			<![CDATA[
+			and pay_time >= #{payTimeStart} and pay_time <= #{payTimeEnd}
+			]]>
+		</if>
 	</select>
 </mapper>

@@ -1,7 +1,11 @@
 package com.roof.fpa.order.service.impl;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.roof.commons.RoofDateUtils;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.order.dao.api.IOrderDao;
 import com.roof.fpa.order.entity.Order;
@@ -9,11 +13,17 @@ import com.roof.fpa.order.entity.OrderVo;
 import com.roof.fpa.order.service.api.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.BoundValueOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService implements IOrderService {
 	private IOrderDao orderDao;
+
+	@Autowired
+	private RedisTemplate redisTemplate;
+	private final String rediskey = "order_number:";
 
 	public Serializable save(Order order){
 		return orderDao.save(order);
@@ -53,6 +63,17 @@ public class OrderService implements IOrderService {
 	
 	public Page page(Page page, Order order) {
 		return orderDao.page(page, order);
+	}
+
+	public String createOrderNumber() {
+		String redis = rediskey + RoofDateUtils.dateToString(new Date(), "yyyyMMdd");
+		BoundValueOperations<String, Long> operations = redisTemplate.boundValueOps(redis);// .increment(1);
+		Long l = operations.increment(1);
+		operations.expire(3, TimeUnit.DAYS);
+		String s = "00000" + l;
+		s = s.substring(s.length() - 6, s.length());
+		String str = "ORD"+RoofDateUtils.dateToString(new Date(), "yyyyMMdd") + s;
+		return str;
 	}
 
 	@Autowired
