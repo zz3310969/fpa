@@ -5,6 +5,7 @@ import com.roof.fpa.cardtestresult.entity.CardTestResult;
 import com.roof.fpa.cardtestresult.entity.CardTestResultVo;
 import com.roof.fpa.cardtestresult.entity.GeneralCardTestCustomerResult;
 import com.roof.fpa.cardtestresult.service.api.ICardTestResultService;
+import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetail;
 import com.roof.fpa.cardtestresultdetail.service.api.ICardTestResultDetailService;
 import com.roof.fpa.template.entity.Template;
 import com.roof.fpa.template.entity.TemplateVo;
@@ -57,6 +58,9 @@ public class CardTestResultWechatController {
         } catch (TemplateException | IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
+        CardTestResultDetail detail = new CardTestResultDetail();
+        detail.setResultId(id);
+        cardTestResultVo.setCardTestResultDetailVoList(cardTestResultDetailService.selectForList(detail));
 
         return new Result(Result.SUCCESS, cardTestResultVo);
     }
