@@ -89,6 +89,7 @@ public class CustomerService implements ICustomerService {
 		}
 		Assert.notNull(customer.getWeixinOpenId(),"openid不能为空");
 		CustomerVo vo = loadByOpenid(customer.getWeixinOpenId());
+		customer.setUseable(DefaultUseableEnum.usable.getCode());
 		if(vo == null){
 			customer.setFollowTime(new Date());
 			return customerDao.save(customer);
