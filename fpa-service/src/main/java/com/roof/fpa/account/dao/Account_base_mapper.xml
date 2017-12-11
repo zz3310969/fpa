@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.account.dao">
+
+	<sql id="columns">
+		id, numb, counselor_id, amount, balance_date, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , numb as numb , counselor_id as counselorId , amount as amount , balance_date as balanceDate , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{numb}, #{counselorId}, #{amount}, #{balanceDate}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="numb != null and numb != ''">
+			and numb = #{numb}
+		</if>
+		<if test="counselorId != null">
+			and counselor_id = #{counselorId}
+		</if>
+		<if test="amount != null">
+			and amount = #{amount}
+		</if>
+		<if test="balanceDate != null">
+			and balance_date = #{balanceDate}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveAccount" parameterType="com.roof.fpa.account.entity.Account" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_account (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteAccount">
+		delete from c_account
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleAccount">
+		delete from c_account
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateAccount">
+		update c_account
+		<set>
+			id=#{id}, 
+			numb=#{numb}, 
+			counselor_id=#{counselorId}, 
+			amount=#{amount}, 
+			balance_date=#{balanceDate}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullAccount">
+		update c_account
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="numb != null and numb != ''">
+			numb=#{numb}, 
+		</if>
+		<if test="counselorId != null">
+			counselor_id=#{counselorId}, 
+		</if>
+		<if test="amount != null">
+			amount=#{amount}, 
+		</if>
+		<if test="balanceDate != null">
+			balance_date=#{balanceDate}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleAccount">
+		update c_account
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="numb != null and numb != ''">
+			numb=#{numb}, 
+			</if>
+			<if test="counselorId != null">
+			counselor_id=#{counselorId}, 
+			</if>
+			<if test="amount != null">
+			amount=#{amount}, 
+			</if>
+			<if test="balanceDate != null">
+			balance_date=#{balanceDate}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadAccount" resultType="com.roof.fpa.account.entity.AccountVo">
+		select 
+		<include refid="columns_as"/>
+		from c_account
+		where id=#{id} 
+	</select>
+	
+	<select id="selectAccount" resultType="com.roof.fpa.account.entity.AccountVo">
+		select 
+		<include refid="columns_as"/>
+		from c_account
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

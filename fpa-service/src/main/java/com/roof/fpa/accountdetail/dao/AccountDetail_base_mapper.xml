@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.accountdetail.dao">
+
+	<sql id="columns">
+		id, account_id, type, amount, state, create_time, complete_time, before_amount, after_amount
+	</sql>
+
+	<sql id="columns_as">
+		id as id , account_id as accountId , type as type , amount as amount , state as state , create_time as createTime , complete_time as completeTime , before_amount as beforeAmount , after_amount as afterAmount 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{accountId}, #{type}, #{amount}, #{state}, #{createTime}, #{completeTime}, #{beforeAmount}, #{afterAmount}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="accountId != null">
+			and account_id = #{accountId}
+		</if>
+		<if test="type != null and type != ''">
+			and type = #{type}
+		</if>
+		<if test="amount != null">
+			and amount = #{amount}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+		<if test="createTime != null">
+			and create_time = #{createTime}
+		</if>
+		<if test="completeTime != null">
+			and complete_time = #{completeTime}
+		</if>
+		<if test="beforeAmount != null">
+			and before_amount = #{beforeAmount}
+		</if>
+		<if test="afterAmount != null">
+			and after_amount = #{afterAmount}
+		</if>
+	</sql>
+
+	<insert id="saveAccountDetail" parameterType="com.roof.fpa.accountdetail.entity.AccountDetail" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_account_detail (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteAccountDetail">
+		delete from c_account_detail
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleAccountDetail">
+		delete from c_account_detail
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateAccountDetail">
+		update c_account_detail
+		<set>
+			id=#{id}, 
+			account_id=#{accountId}, 
+			type=#{type}, 
+			amount=#{amount}, 
+			state=#{state}, 
+			create_time=#{createTime}, 
+			complete_time=#{completeTime}, 
+			before_amount=#{beforeAmount}, 
+			after_amount=#{afterAmount}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullAccountDetail">
+		update c_account_detail
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="accountId != null">
+			account_id=#{accountId}, 
+		</if>
+		<if test="type != null and type != ''">
+			type=#{type}, 
+		</if>
+		<if test="amount != null">
+			amount=#{amount}, 
+		</if>
+		<if test="state != null">
+			state=#{state}, 
+		</if>
+		<if test="createTime != null">
+			create_time=#{createTime}, 
+		</if>
+		<if test="completeTime != null">
+			complete_time=#{completeTime}, 
+		</if>
+		<if test="beforeAmount != null">
+			before_amount=#{beforeAmount}, 
+		</if>
+		<if test="afterAmount != null">
+			after_amount=#{afterAmount}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleAccountDetail">
+		update c_account_detail
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="accountId != null">
+			account_id=#{accountId}, 
+			</if>
+			<if test="type != null and type != ''">
+			type=#{type}, 
+			</if>
+			<if test="amount != null">
+			amount=#{amount}, 
+			</if>
+			<if test="state != null">
+			state=#{state}, 
+			</if>
+			<if test="createTime != null">
+			create_time=#{createTime}, 
+			</if>
+			<if test="completeTime != null">
+			complete_time=#{completeTime}, 
+			</if>
+			<if test="beforeAmount != null">
+			before_amount=#{beforeAmount}, 
+			</if>
+			<if test="afterAmount != null">
+			after_amount=#{afterAmount}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadAccountDetail" resultType="com.roof.fpa.accountdetail.entity.AccountDetailVo">
+		select 
+		<include refid="columns_as"/>
+		from c_account_detail
+		where id=#{id} 
+	</select>
+	
+	<select id="selectAccountDetail" resultType="com.roof.fpa.accountdetail.entity.AccountDetailVo">
+		select 
+		<include refid="columns_as"/>
+		from c_account_detail
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

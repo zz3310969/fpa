@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.refund.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.numb as numb, t1.order_id as orderId, t1.amount as amount, t1.state as state, t1.create_time as createTime, t1.complete_time as completeTime
+	</sql>
+	
+	<select id="selectRefundPage" resultType="com.roof.fpa.refund.entity.RefundVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		c_refund t1
+		join
+		(SELECT
+		id
+		from
+		c_refund
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectRefundCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from c_refund
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

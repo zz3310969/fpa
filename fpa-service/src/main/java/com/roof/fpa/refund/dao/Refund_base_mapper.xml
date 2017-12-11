@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.refund.dao">
+
+	<sql id="columns">
+		id, numb, order_id, amount, state, create_time, complete_time
+	</sql>
+
+	<sql id="columns_as">
+		id as id , numb as numb , order_id as orderId , amount as amount , state as state , create_time as createTime , complete_time as completeTime 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{numb}, #{orderId}, #{amount}, #{state}, #{createTime}, #{completeTime}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="numb != null and numb != ''">
+			and numb = #{numb}
+		</if>
+		<if test="orderId != null">
+			and order_id = #{orderId}
+		</if>
+		<if test="amount != null">
+			and amount = #{amount}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+		<if test="createTime != null">
+			and create_time = #{createTime}
+		</if>
+		<if test="completeTime != null">
+			and complete_time = #{completeTime}
+		</if>
+	</sql>
+
+	<insert id="saveRefund" parameterType="com.roof.fpa.refund.entity.Refund" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_refund (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteRefund">
+		delete from c_refund
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleRefund">
+		delete from c_refund
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateRefund">
+		update c_refund
+		<set>
+			id=#{id}, 
+			numb=#{numb}, 
+			order_id=#{orderId}, 
+			amount=#{amount}, 
+			state=#{state}, 
+			create_time=#{createTime}, 
+			complete_time=#{completeTime}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullRefund">
+		update c_refund
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="numb != null and numb != ''">
+			numb=#{numb}, 
+		</if>
+		<if test="orderId != null">
+			order_id=#{orderId}, 
+		</if>
+		<if test="amount != null">
+			amount=#{amount}, 
+		</if>
+		<if test="state != null">
+			state=#{state}, 
+		</if>
+		<if test="createTime != null">
+			create_time=#{createTime}, 
+		</if>
+		<if test="completeTime != null">
+			complete_time=#{completeTime}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleRefund">
+		update c_refund
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="numb != null and numb != ''">
+			numb=#{numb}, 
+			</if>
+			<if test="orderId != null">
+			order_id=#{orderId}, 
+			</if>
+			<if test="amount != null">
+			amount=#{amount}, 
+			</if>
+			<if test="state != null">
+			state=#{state}, 
+			</if>
+			<if test="createTime != null">
+			create_time=#{createTime}, 
+			</if>
+			<if test="completeTime != null">
+			complete_time=#{completeTime}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadRefund" resultType="com.roof.fpa.refund.entity.RefundVo">
+		select 
+		<include refid="columns_as"/>
+		from c_refund
+		where id=#{id} 
+	</select>
+	
+	<select id="selectRefund" resultType="com.roof.fpa.refund.entity.RefundVo">
+		select 
+		<include refid="columns_as"/>
+		from c_refund
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

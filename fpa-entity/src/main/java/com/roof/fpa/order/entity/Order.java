@@ -26,6 +26,18 @@ public class Order implements Serializable {
 	protected Long serviceRecordId;// 服务记录ID
 	@ApiModelProperty(value = "价格")
 	protected Integer price;// 价格
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@ApiModelProperty(value = "创建时间")
+	protected Date createTime;// 创建时间
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@ApiModelProperty(value = "支付时间")
+	protected Date payTime;// 支付时间
+	@ApiModelProperty(value = "订单状态")
+	protected Integer state;// 订单状态
+	@ApiModelProperty(value = "账户金额变更详情ID")
+	protected Long accountDetailId;// 账户金额变更详情ID
 
 	public Order() {
 		super();
@@ -70,5 +82,33 @@ public class Order implements Serializable {
 	}
 	public void setPrice(Integer price) {
 		this.price = price;
+	}
+	
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	
+	public Date getPayTime() {
+		return payTime;
+	}
+	public void setPayTime(Date payTime) {
+		this.payTime = payTime;
+	}
+	
+	public Integer getState() {
+		return state;
+	}
+	public void setState(Integer state) {
+		this.state = state;
+	}
+	
+	public Long getAccountDetailId() {
+		return accountDetailId;
+	}
+	public void setAccountDetailId(Long accountDetailId) {
+		this.accountDetailId = accountDetailId;
 	}
 }

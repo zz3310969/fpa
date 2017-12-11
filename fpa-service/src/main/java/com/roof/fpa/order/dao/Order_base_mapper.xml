@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.order.dao">
 
 	<sql id="columns">
-		id, customer_id, counselor_id, service_record_id, price
+		id, customer_id, counselor_id, service_record_id, price, create_time, pay_time, state, account_detail_id
 	</sql>
 
 	<sql id="columns_as">
-		id as id , customer_id as customerId , counselor_id as counselorId , service_record_id as serviceRecordId , price as price 
+		id as id , customer_id as customerId , counselor_id as counselorId , service_record_id as serviceRecordId , price as price , create_time as createTime , pay_time as payTime , state as state , account_detail_id as accountDetailId 
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{customerId}, #{counselorId}, #{serviceRecordId}, #{price}
+		#{id}, #{customerId}, #{counselorId}, #{serviceRecordId}, #{price}, #{createTime}, #{payTime}, #{state}, #{accountDetailId}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -30,6 +30,18 @@
 		</if>
 		<if test="price != null">
 			and price = #{price}
+		</if>
+		<if test="createTime != null">
+			and create_time = #{createTime}
+		</if>
+		<if test="payTime != null">
+			and pay_time = #{payTime}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+		<if test="accountDetailId != null">
+			and account_detail_id = #{accountDetailId}
 		</if>
 	</sql>
 
@@ -59,7 +71,11 @@
 			customer_id=#{customerId}, 
 			counselor_id=#{counselorId}, 
 			service_record_id=#{serviceRecordId}, 
-			price=#{price}
+			price=#{price}, 
+			create_time=#{createTime}, 
+			pay_time=#{payTime}, 
+			state=#{state}, 
+			account_detail_id=#{accountDetailId}
 		</set>
 		where id=#{id} 
 	</update>
@@ -80,7 +96,19 @@
 			service_record_id=#{serviceRecordId}, 
 		</if>
 		<if test="price != null">
-			price=#{price}
+			price=#{price}, 
+		</if>
+		<if test="createTime != null">
+			create_time=#{createTime}, 
+		</if>
+		<if test="payTime != null">
+			pay_time=#{payTime}, 
+		</if>
+		<if test="state != null">
+			state=#{state}, 
+		</if>
+		<if test="accountDetailId != null">
+			account_detail_id=#{accountDetailId}
 		</if>
 		</set>
 		where id=#{id} 
@@ -102,7 +130,19 @@
 			service_record_id=#{serviceRecordId}, 
 			</if>
 			<if test="price != null">
-			price=#{price}
+			price=#{price}, 
+			</if>
+			<if test="createTime != null">
+			create_time=#{createTime}, 
+			</if>
+			<if test="payTime != null">
+			pay_time=#{payTime}, 
+			</if>
+			<if test="state != null">
+			state=#{state}, 
+			</if>
+			<if test="accountDetailId != null">
+			account_detail_id=#{accountDetailId}
 			</if>
 		</set>
 		where 1=1

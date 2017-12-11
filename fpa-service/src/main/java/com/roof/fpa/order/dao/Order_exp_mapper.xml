@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.order.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.customer_id as customerId, t1.counselor_id as counselorId, t1.service_record_id as serviceRecordId, t1.price as price
+		t1.id as id, t1.customer_id as customerId, t1.counselor_id as counselorId, t1.service_record_id as serviceRecordId, t1.price as price, t1.create_time as createTime, t1.pay_time as payTime, t1.state as state, t1.account_detail_id as accountDetailId
 	</sql>
 	
 	<select id="selectOrderPage" resultType="com.roof.fpa.order.entity.OrderVo">
