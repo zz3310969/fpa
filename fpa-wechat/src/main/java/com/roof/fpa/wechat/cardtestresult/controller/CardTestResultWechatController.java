@@ -52,7 +52,7 @@ public class CardTestResultWechatController {
     public @ResponseBody
     Result<CardTestResultVo> load(@PathVariable Long id) {
         CardTestResultVo cardTestResultVo = cardTestResultService.load(new CardTestResult(id));
-        TemplateVo templateVo = templateService.load(new Template(cardTestResultVo.getTemplateId()));
+        TemplateVo templateVo = templateService.loadByCache(cardTestResultVo.getTemplateId());
         try {
             cardTestResultVo.setResult(templateService.mergeTemplate(templateVo.getContent(), JSON.parseObject(cardTestResultVo.getResult())));
         } catch (TemplateException | IOException e) {
