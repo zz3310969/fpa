@@ -63,4 +63,6 @@ public interface ITemplateService {
 
 	String mergeTemplate(String templateStr, Object param) throws TemplateException, IOException ;
 
+	public TemplateVo loadByCache(Long id);
+
 	}

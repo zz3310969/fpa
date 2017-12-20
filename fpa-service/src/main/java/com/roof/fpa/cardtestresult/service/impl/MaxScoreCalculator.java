@@ -45,15 +45,15 @@ public class MaxScoreCalculator {
             color = RED;
         }
         if (NumberUtils.createInteger(generalCardTestCustomerResult.getYellowScore()) > scoreMax) {
-            scoreMax = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
+            scoreMax = NumberUtils.createInteger(generalCardTestCustomerResult.getYellowScore());
             color = YELLOW;
         }
         if (NumberUtils.createInteger(generalCardTestCustomerResult.getBlueScore()) > scoreMax) {
-            scoreMax = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
+            scoreMax = NumberUtils.createInteger(generalCardTestCustomerResult.getBlueScore());
             color = BLUE;
         }
         if (NumberUtils.createInteger(generalCardTestCustomerResult.getGreenScore()) > scoreMax) {
-            scoreMax = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
+            scoreMax = NumberUtils.createInteger(generalCardTestCustomerResult.getGreenScore());
             color = GREEN;
         }
         Dictionary colorDic = cacheHander.loadDictionaryByType("COLOR", color);
@@ -70,15 +70,15 @@ public class MaxScoreCalculator {
             colorMin = RED;
         }
         if (NumberUtils.createInteger(generalCardTestCustomerResult.getYellowScore()) < scoreMin) {
-            scoreMin = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
+            scoreMin = NumberUtils.createInteger(generalCardTestCustomerResult.getYellowScore());
             colorMin = YELLOW;
         }
         if (NumberUtils.createInteger(generalCardTestCustomerResult.getBlueScore()) < scoreMin) {
-            scoreMin = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
+            scoreMin = NumberUtils.createInteger(generalCardTestCustomerResult.getBlueScore());
             colorMin = BLUE;
         }
         if (NumberUtils.createInteger(generalCardTestCustomerResult.getGreenScore()) < scoreMin) {
-            scoreMin = NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore());
+            scoreMin = NumberUtils.createInteger(generalCardTestCustomerResult.getGreenScore());
             colorMin = GREEN;
         }
 
