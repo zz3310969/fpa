@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.cardunit.dao">
 
 	<sql id="columns">
-		id, color_code, card_id, name, color_id, image_big, image_mid, image_small, score, description, unit_type
+		id, color_code, card_id, name, color_id, image_big, image_mid, image_small, score, description, unit_type,image_url
 	</sql>
 
 	<sql id="columns_as">
-		id as id , color_code as colorCode , card_id as cardId , name as name , color_id as colorId , image_big as imageBig , image_mid as imageMid , image_small as imageSmall , score as score , description as description , unit_type as unitType 
+		id as id , color_code as colorCode , card_id as cardId , name as name , color_id as colorId , image_big as imageBig , image_mid as imageMid , image_small as imageSmall , score as score , description as description , unit_type as unitType ,image_url as imageUrl
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{colorCode}, #{cardId}, #{name}, #{colorId}, #{imageBig}, #{imageMid}, #{imageSmall}, #{score}, #{description}, #{unitType}
+		#{id}, #{colorCode}, #{cardId}, #{name}, #{colorId}, #{imageBig}, #{imageMid}, #{imageSmall}, #{score}, #{description}, #{unitType} ,#{imageUrl}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -49,6 +49,10 @@
 		<if test="unitType != null">
 			and unit_type = #{unitType}
 		</if>
+		<if test="imageUrl != null">
+			and image_url = #{imageUrl}
+		</if>
+
 	</sql>
 
 	<insert id="saveCardUnit" parameterType="com.roof.fpa.cardunit.entity.CardUnit" useGeneratedKeys="true" keyProperty="id">
@@ -83,7 +87,8 @@
 			image_small=#{imageSmall}, 
 			score=#{score}, 
 			description=#{description}, 
-			unit_type=#{unitType}
+			unit_type=#{unitType},
+			image_url = #{imageUrl}
 		</set>
 		where id=#{id} 
 	</update>
@@ -122,7 +127,10 @@
 			description=#{description}, 
 		</if>
 		<if test="unitType != null">
-			unit_type=#{unitType}
+			unit_type=#{unitType},
+		</if>
+		<if test="imageUrl != null">
+			image_url = #{imageUrl}
 		</if>
 		</set>
 		where id=#{id} 
@@ -162,7 +170,10 @@
 			description=#{description}, 
 			</if>
 			<if test="unitType != null">
-			unit_type=#{unitType}
+			unit_type=#{unitType},
+			</if>
+			<if test="imageUrl != null">
+				image_url = #{imageUrl}
 			</if>
 		</set>
 		where 1=1
