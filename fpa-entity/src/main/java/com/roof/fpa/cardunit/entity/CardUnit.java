@@ -38,6 +38,8 @@ public class CardUnit implements Serializable {
 	protected String description;// 描述
 	@ApiModelProperty(value = "卡牌单元类型(正面,反面)")
 	protected Long unitType;// 卡牌单元类型(正面,反面)
+	@ApiModelProperty(value = "图片URL")
+	protected String imageUrl;
 
 	public CardUnit() {
 		super();
@@ -124,5 +126,13 @@ public class CardUnit implements Serializable {
 	}
 	public void setUnitType(Long unitType) {
 		this.unitType = unitType;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }
