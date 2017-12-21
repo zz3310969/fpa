@@ -54,7 +54,9 @@ public interface ICardTestResultDetailService {
 	 * 按对象中的非空属性作为条件，进行查询列表
 	 */
 	public abstract List<CardTestResultDetailVo> selectForList(CardTestResultDetail cardTestResultDetail);
-	
+
+	public abstract List<CardTestResultDetailVo> selectForList_v2(CardTestResultDetail cardTestResultDetail);
+
 	/**
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */
