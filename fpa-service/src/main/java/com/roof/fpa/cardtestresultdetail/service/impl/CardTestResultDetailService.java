@@ -53,6 +53,10 @@ public class CardTestResultDetailService implements ICardTestResultDetailService
 	public List<CardTestResultDetailVo> selectForList(CardTestResultDetail cardTestResultDetail){
 		return (List<CardTestResultDetailVo>)cardTestResultDetailDao.selectForList("selectCardTestResultDetail",cardTestResultDetail);
 	}
+
+	public List<CardTestResultDetailVo> selectForList_v2(CardTestResultDetail cardTestResultDetail){
+		return (List<CardTestResultDetailVo>)cardTestResultDetailDao.selectForList("selectCardTestResultDetail_v2",cardTestResultDetail);
+	}
 	
 	public Page page(Page page, CardTestResultDetail cardTestResultDetail) {
 		return cardTestResultDetailDao.page(page, cardTestResultDetail);

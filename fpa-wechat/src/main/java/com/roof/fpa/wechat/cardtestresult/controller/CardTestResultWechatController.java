@@ -47,7 +47,6 @@ public class CardTestResultWechatController {
         return new Result(Result.SUCCESS, page);
     }
 
-
     @RequestMapping(value = "cardtestresult/{id}", method = {RequestMethod.GET})
     public @ResponseBody
     Result<CardTestResultVo> load(@PathVariable Long id) {
@@ -61,6 +60,24 @@ public class CardTestResultWechatController {
         CardTestResultDetail detail = new CardTestResultDetail();
         detail.setResultId(id);
         cardTestResultVo.setCardTestResultDetailVoList(cardTestResultDetailService.selectForList(detail));
+
+        return new Result(Result.SUCCESS, cardTestResultVo);
+    }
+
+
+    @RequestMapping(value = "v2/cardtestresult/{id}", method = {RequestMethod.GET})
+    public @ResponseBody
+    Result<CardTestResultVo> load_v2(@PathVariable Long id) {
+        CardTestResultVo cardTestResultVo = cardTestResultService.load(new CardTestResult(id));
+        TemplateVo templateVo = templateService.loadByCache(cardTestResultVo.getTemplateId());
+        try {
+            cardTestResultVo.setResult(templateService.mergeTemplate(templateVo.getContent(), JSON.parseObject(cardTestResultVo.getResult())));
+        } catch (TemplateException | IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        CardTestResultDetail detail = new CardTestResultDetail();
+        detail.setResultId(id);
+        cardTestResultVo.setCardTestResultDetailVoList(cardTestResultDetailService.selectForList_v2(detail));
 
         return new Result(Result.SUCCESS, cardTestResultVo);
     }
