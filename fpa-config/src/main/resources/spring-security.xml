@@ -24,7 +24,7 @@
 <!--
 	<http pattern="/fpa/wechat/**" security="none" />
 -->
-
+	<http pattern="/druid/**" security="none" />
 
 	<http pattern="/mainAction/login.action*" security="none" />
 
