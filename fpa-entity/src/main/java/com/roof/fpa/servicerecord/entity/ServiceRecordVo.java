@@ -11,6 +11,10 @@ public class ServiceRecordVo extends ServiceRecord {
 
 	private List<ServiceRecordVo> serviceRecordList;
 
+	private String customerName;
+	private String themeName;
+	private String counselorName;
+
 	public ServiceRecordVo() {
 		super();
 	}
@@ -28,4 +32,27 @@ public class ServiceRecordVo extends ServiceRecord {
 		this.serviceRecordList = serviceRecordList;
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getThemeName() {
+		return themeName;
+	}
+
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
+	}
+
+	public String getCounselorName() {
+		return counselorName;
+	}
+
+	public void setCounselorName(String counselorName) {
+		this.counselorName = counselorName;
+	}
 }
