@@ -21,10 +21,12 @@
 
 	<http pattern="/fpa/pic/**" security="none" />
 
+	<http pattern="/service/**" security="none" />
+	<http pattern="/editor-app/**" security="none" />
 <!--
 	<http pattern="/fpa/wechat/**" security="none" />
 -->
-
+	<http pattern="/druid/**" security="none" />
 
 	<http pattern="/mainAction/login.action*" security="none" />
 
@@ -37,6 +39,7 @@
 	<http pattern="/**/*.jsp" request-matcher="ant" security="none" />
 	<http pattern="/**/*.css" request-matcher="ant" security="none" />
 	<http pattern="/**/*.js" request-matcher="ant" security="none" />
+	<http pattern="/**/*.html" request-matcher="ant" security="none" />
 	<http pattern=".+[.](ico$|png$|jpg$|gif$|PNG$|JPG$|GIF$|xml$|xls$)" request-matcher="regex" security="none" />
 
 

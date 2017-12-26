@@ -20,7 +20,12 @@
 	<http pattern="/v2/api-docs*" security="none" />
 
 	<http pattern="/fpa/pic/**" security="none" />
-
+    <!--activiti-->
+	<http pattern="/service/**" security="none" />
+	<http pattern="/workflow/**" security="none" />
+	<http pattern="/management/**" security="none" />
+	<http pattern="/user/**" security="none" />
+	<http pattern="/editor-app/**" security="none" />
 <!--
 	<http pattern="/fpa/wechat/**" security="none" />
 -->
@@ -37,6 +42,7 @@
 	<http pattern="/**/*.jsp" request-matcher="ant" security="none" />
 	<http pattern="/**/*.css" request-matcher="ant" security="none" />
 	<http pattern="/**/*.js" request-matcher="ant" security="none" />
+	<http pattern="/**/*.html" request-matcher="ant" security="none" />
 	<http pattern=".+[.](ico$|png$|jpg$|gif$|PNG$|JPG$|GIF$|xml$|xls$)" request-matcher="regex" security="none" />
 
 
