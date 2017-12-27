@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.counselor.dao">
 
 	<sql id="columns">
-		id, numb, name, mobile, gender, specialty, wechat, rank, reg_time, state, usable
+		id, numb, name, mobile, gender, specialty, wechat, rank, reg_time, state, usable, user_id
 	</sql>
 
 	<sql id="columns_as">
-		id as id , numb as numb , name as name , mobile as mobile , gender as gender , specialty as specialty , wechat as wechat , rank as rank , reg_time as regTime , state as state , usable as usable 
+		id as id , numb as numb , name as name , mobile as mobile , gender as gender , specialty as specialty , wechat as wechat , rank as rank , reg_time as regTime , state as state , usable as usable , user_id as userId 
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{numb}, #{name}, #{mobile}, #{gender}, #{specialty}, #{wechat}, #{rank}, #{regTime}, #{state}, #{usable}
+		#{id}, #{numb}, #{name}, #{mobile}, #{gender}, #{specialty}, #{wechat}, #{rank}, #{regTime}, #{state}, #{usable}, #{userId}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -49,6 +49,9 @@
 		<if test="usable != null">
 			and usable = #{usable}
 		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
 	</sql>
 
 	<insert id="saveCounselor" parameterType="com.roof.fpa.counselor.entity.Counselor" useGeneratedKeys="true" keyProperty="id">
@@ -83,7 +86,8 @@
 			rank=#{rank}, 
 			reg_time=#{regTime}, 
 			state=#{state}, 
-			usable=#{usable}
+			usable=#{usable}, 
+			user_id=#{userId}
 		</set>
 		where id=#{id} 
 	</update>
@@ -122,7 +126,10 @@
 			state=#{state}, 
 		</if>
 		<if test="usable != null">
-			usable=#{usable}
+			usable=#{usable}, 
+		</if>
+		<if test="userId != null">
+			user_id=#{userId}
 		</if>
 		</set>
 		where id=#{id} 
@@ -162,7 +169,10 @@
 			state=#{state}, 
 			</if>
 			<if test="usable != null">
-			usable=#{usable}
+			usable=#{usable}, 
+			</if>
+			<if test="userId != null">
+			user_id=#{userId}
 			</if>
 		</set>
 		where 1=1

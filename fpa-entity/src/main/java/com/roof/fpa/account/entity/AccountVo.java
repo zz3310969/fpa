@@ -15,6 +15,8 @@ public class AccountVo extends Account {
 		super();
 	}
 
+	private String counselorName;
+
 	public AccountVo(Long id) {
 		super();
 		this.id = id;
@@ -28,4 +30,11 @@ public class AccountVo extends Account {
 		this.accountList = accountList;
 	}
 
+	public String getCounselorName() {
+		return counselorName;
+	}
+
+	public void setCounselorName(String counselorName) {
+		this.counselorName = counselorName;
+	}
 }

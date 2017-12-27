@@ -1,5 +1,6 @@
 package com.roof.fpa.account.service.api;
 
+import java.util.Date;
 import java.util.List;
 import java.io.Serializable;
 
@@ -58,5 +59,11 @@ public interface IAccountService {
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */
 	public abstract Page page(Page page, Account account);
+
+
+	public abstract Long createAccount(Long counselorId);
+
+	public abstract void updateAccount(Long counselorId, Integer money, Date completeTime);
+
 
 }

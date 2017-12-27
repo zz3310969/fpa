@@ -2,6 +2,7 @@ package com.roof.fpa.account.dao.impl;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.roof.dataaccess.PageQuery;
@@ -25,6 +26,15 @@ public class AccountDao extends AbstractDao implements IAccountDao {
 		IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectAccountPage", "selectAccountCount");
 		//IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectAccountPage", null);
 		return pageQuery.select(account);
+	}
+
+	@Override
+	public int updateAccount(Long id, Integer amount, Integer his_amount) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("id",id);
+		map.put("amount",amount);
+		map.put("his_amount",his_amount);
+		return daoSupport.update("updateAccountAmount",map);
 	}
 	
 	@Autowired

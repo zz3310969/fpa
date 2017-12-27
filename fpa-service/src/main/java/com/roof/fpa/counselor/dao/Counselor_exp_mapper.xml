@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.counselor.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.numb as numb, t1.name as name, t1.mobile as mobile, t1.gender as gender, t1.specialty as specialty, t1.wechat as wechat, t1.rank as rank, t1.reg_time as regTime, t1.state as state, t1.usable as usable
+		t1.id as id, t1.numb as numb, t1.name as name, t1.mobile as mobile, t1.gender as gender, t1.specialty as specialty, t1.wechat as wechat, t1.rank as rank, t1.reg_time as regTime, t1.state as state, t1.usable as usable,t1.user_id as userId
 	</sql>
 	
 	<select id="selectCounselorPage" resultType="com.roof.fpa.counselor.entity.CounselorVo">

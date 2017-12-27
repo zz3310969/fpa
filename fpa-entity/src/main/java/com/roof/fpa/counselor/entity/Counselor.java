@@ -40,6 +40,8 @@ public class Counselor implements Serializable {
 	protected Integer state;// 状态
 	@ApiModelProperty(value = "是否可用,用于删除")
 	protected Integer usable;// 是否可用,用于删除
+	@ApiModelProperty(value = "用户id")
+	protected Long userId;// 用户id
 
 	public Counselor() {
 		super();
@@ -126,5 +128,13 @@ public class Counselor implements Serializable {
 	}
 	public void setUsable(Integer usable) {
 		this.usable = usable;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }

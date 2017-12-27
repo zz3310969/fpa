@@ -7,4 +7,6 @@ import com.roof.fpa.account.entity.Account;
 
 public interface IAccountDao extends IDaoSupport {
 	Page page(Page page, Account account);
+
+	public int updateAccount(Long id, Integer amount, Integer his_amount);
 }
