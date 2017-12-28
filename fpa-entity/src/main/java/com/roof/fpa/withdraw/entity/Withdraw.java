@@ -34,6 +34,10 @@ public class Withdraw implements Serializable {
 	protected Date completeTime;// 结算日期
 	@ApiModelProperty(value = "状态")
 	protected Integer state;// 状态
+	@ApiModelProperty(value = "流程实例id")
+	private String processInstanceId;
+	@ApiModelProperty(value = "流程创建者id")
+	private String processUserId;
 
 	public Withdraw() {
 		super();
@@ -92,5 +96,21 @@ public class Withdraw implements Serializable {
 	}
 	public void setState(Integer state) {
 		this.state = state;
+	}
+
+	public String getProcessInstanceId() {
+		return processInstanceId;
+	}
+
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
+	}
+
+	public String getProcessUserId() {
+		return processUserId;
+	}
+
+	public void setProcessUserId(String processUserId) {
+		this.processUserId = processUserId;
 	}
 }
