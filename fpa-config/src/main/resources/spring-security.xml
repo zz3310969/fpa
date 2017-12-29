@@ -22,9 +22,9 @@
 	<http pattern="/fpa/pic/**" security="none" />
     <!--activiti-->
 	<http pattern="/service/**" security="none" />
-	<http pattern="/workflow/**" security="none" />
-	<http pattern="/management/**" security="none" />
-	<http pattern="/user/**" security="none" />
+	<!--<http pattern="/workflow/**" security="none" />-->
+	<!--<http pattern="/management/**" security="none" />-->
+	<!--<http pattern="/user/**" security="none" />-->
 	<http pattern="/editor-app/**" security="none" />
 <!--
 	<http pattern="/fpa/wechat/**" security="none" />
