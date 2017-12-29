@@ -3,7 +3,9 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.withdraw.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.numb as numb, t1.account_id as accountId, t1.amount as amount, t1.create_time as createTime, t1.complete_time as completeTime, t1.state as state
+		t1.id as id, t1.numb as numb, t1.account_id as accountId, t1.amount as amount,
+		t1.create_time as createTime, t1.complete_time as completeTime, t1.state as state,
+		t1.process_instance_id as processInstanceId, t1.process_user_id as processUserId
 	</sql>
 	
 	<select id="selectWithdrawPage" resultType="com.roof.fpa.withdraw.entity.WithdrawVo">
