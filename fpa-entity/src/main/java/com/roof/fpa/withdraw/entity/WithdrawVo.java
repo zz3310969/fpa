@@ -1,13 +1,11 @@
 package com.roof.fpa.withdraw.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-
-import org.activiti.engine.history.HistoricProcessInstance;
-import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
 
 /**
  * @author 模版生成 <br/>
@@ -19,19 +17,29 @@ public class WithdrawVo extends Withdraw {
     private List<WithdrawVo> withdrawList;
 
     // -- 临时属性 --//
+    // 运行中的流程实例
+    //processInstance.processDefinitionId
+    private String processDefinitionId;
+    //processInstance.processDefinitionName
+    private String processDefinitionName;
+    // 流程定义
+    //processDefinition.version
+    private Integer processDefinitionVersion;
     // 流程任务
-    private Task task;
+    //task.createTime
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date taskCreateTime;
+    //task.id
+    private String taskId;
+    //task.name
+    private String taskName;
+    //task.assignee
+    private String taskAssignee;
+    //task.taskDefinitionKey
+    private String taskDefinitionKey;
 
     private Map<String, Object> variables;
-
-    // 运行中的流程实例
-    private ProcessInstance processInstance;
-
-    // 历史的流程实例
-    private HistoricProcessInstance historicProcessInstance;
-
-    // 流程定义
-    private ProcessDefinition processDefinition;
 
     public WithdrawVo() {
         super();
@@ -50,15 +58,6 @@ public class WithdrawVo extends Withdraw {
         this.withdrawList = withdrawList;
     }
 
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
     public Map<String, Object> getVariables() {
         return variables;
     }
@@ -67,27 +66,67 @@ public class WithdrawVo extends Withdraw {
         this.variables = variables;
     }
 
-    public ProcessInstance getProcessInstance() {
-        return processInstance;
+    public String getProcessDefinitionId() {
+        return processDefinitionId;
     }
 
-    public void setProcessInstance(ProcessInstance processInstance) {
-        this.processInstance = processInstance;
+    public void setProcessDefinitionId(String processDefinitionId) {
+        this.processDefinitionId = processDefinitionId;
     }
 
-    public HistoricProcessInstance getHistoricProcessInstance() {
-        return historicProcessInstance;
+    public String getProcessDefinitionName() {
+        return processDefinitionName;
     }
 
-    public void setHistoricProcessInstance(HistoricProcessInstance historicProcessInstance) {
-        this.historicProcessInstance = historicProcessInstance;
+    public void setProcessDefinitionName(String processDefinitionName) {
+        this.processDefinitionName = processDefinitionName;
     }
 
-    public ProcessDefinition getProcessDefinition() {
-        return processDefinition;
+    public Integer getProcessDefinitionVersion() {
+        return processDefinitionVersion;
     }
 
-    public void setProcessDefinition(ProcessDefinition processDefinition) {
-        this.processDefinition = processDefinition;
+    public void setProcessDefinitionVersion(Integer processDefinitionVersion) {
+        this.processDefinitionVersion = processDefinitionVersion;
+    }
+
+    public Date getTaskCreateTime() {
+        return taskCreateTime;
+    }
+
+    public void setTaskCreateTime(Date taskCreateTime) {
+        this.taskCreateTime = taskCreateTime;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public String getTaskAssignee() {
+        return taskAssignee;
+    }
+
+    public void setTaskAssignee(String taskAssignee) {
+        this.taskAssignee = taskAssignee;
+    }
+
+    public String getTaskDefinitionKey() {
+        return taskDefinitionKey;
+    }
+
+    public void setTaskDefinitionKey(String taskDefinitionKey) {
+        this.taskDefinitionKey = taskDefinitionKey;
     }
 }
