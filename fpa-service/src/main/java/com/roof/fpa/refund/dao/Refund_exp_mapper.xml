@@ -3,7 +3,9 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.refund.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.numb as numb, t1.order_id as orderId, t1.amount as amount, t1.state as state, t1.create_time as createTime, t1.complete_time as completeTime
+		t1.id as id, t1.numb as numb, t1.order_id as orderId, t1.amount as amount,
+		t1.state as state, t1.create_time as createTime, t1.complete_time as completeTime,
+		t1.process_instance_id as processInstanceId, t1.process_user_id as processUserId
 	</sql>
 	
 	<select id="selectRefundPage" resultType="com.roof.fpa.refund.entity.RefundVo">

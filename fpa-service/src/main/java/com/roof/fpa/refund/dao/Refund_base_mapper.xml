@@ -4,16 +4,18 @@
 <mapper namespace="com.roof.fpa.refund.dao">
 
 	<sql id="columns">
-		id, numb, order_id, amount, state, create_time, complete_time
+		id, numb, order_id, amount, state, create_time, complete_time,process_instance_id,process_user_id
 	</sql>
 
 	<sql id="columns_as">
-		id as id , numb as numb , order_id as orderId , amount as amount , state as state , create_time as createTime , complete_time as completeTime 
+		id as id , numb as numb , order_id as orderId , amount as amount , state as state ,
+		create_time as createTime , complete_time as completeTime ,
+		process_instance_id as processInstanceId, process_user_id as processUserId
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{numb}, #{orderId}, #{amount}, #{state}, #{createTime}, #{completeTime}
+		#{id}, #{numb}, #{orderId}, #{amount}, #{state}, #{createTime}, #{completeTime},#{processInstanceId},#{processUserId}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -36,6 +38,12 @@
 		</if>
 		<if test="completeTime != null">
 			and complete_time = #{completeTime}
+		</if>
+		<if test="processInstanceId != null">
+			and process_instance_id = #{processInstanceId}
+		</if>
+		<if test="processUserId != null">
+			and process_user_id = #{processUserId}
 		</if>
 	</sql>
 
@@ -66,7 +74,9 @@
 			order_id=#{orderId}, 
 			amount=#{amount}, 
 			state=#{state}, 
-			create_time=#{createTime}, 
+			create_time=#{createTime},
+			process_instance_id=#{processInstanceId},
+			process_user_id=#{processUserId},
 			complete_time=#{completeTime}
 		</set>
 		where id=#{id} 
@@ -92,6 +102,12 @@
 		</if>
 		<if test="createTime != null">
 			create_time=#{createTime}, 
+		</if>
+		<if test="processInstanceId != null">
+			process_instance_id=#{processInstanceId},
+		</if>
+		<if test="processUserId != null">
+			process_user_id=#{processUserId},
 		</if>
 		<if test="completeTime != null">
 			complete_time=#{completeTime}
@@ -120,6 +136,12 @@
 			</if>
 			<if test="createTime != null">
 			create_time=#{createTime}, 
+			</if>
+			<if test="processInstanceId != null">
+				process_instance_id=#{processInstanceId},
+			</if>
+			<if test="processUserId != null">
+				process_user_id=#{processUserId},
 			</if>
 			<if test="completeTime != null">
 			complete_time=#{completeTime}

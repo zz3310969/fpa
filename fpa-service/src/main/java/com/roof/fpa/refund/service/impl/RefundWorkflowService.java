@@ -1,11 +1,9 @@
-package com.roof.fpa.withdraw.service.impl;
+package com.roof.fpa.refund.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.roof.fpa.withdraw.entity.Withdraw;
-import com.roof.fpa.withdraw.entity.WithdrawVo;
-import com.roof.fpa.withdraw.service.api.IWithdrawService;
-import com.roof.fpa.withdraw.service.api.IWithdrawWorkflowService;
-import com.sun.xml.internal.rngom.parse.host.Base;
+import com.roof.fpa.refund.entity.Refund;
+import com.roof.fpa.refund.entity.RefundVo;
+import com.roof.fpa.refund.service.api.IRefundService;
+import com.roof.fpa.refund.service.api.IRefundWorkflowService;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricProcessInstanceQuery;
@@ -15,7 +13,6 @@ import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.roof.roof.dataaccess.api.Page;
-import org.roof.spring.Result;
 import org.roof.web.role.entity.BaseRole;
 import org.roof.web.user.entity.User;
 import org.slf4j.Logger;
@@ -30,12 +27,12 @@ import java.util.Map;
 
 
 @Service
-public class WithdrawWorkflowService implements IWithdrawWorkflowService {
+public class RefundWorkflowService implements IRefundWorkflowService {
 
-    private static Logger logger = LoggerFactory.getLogger(WithdrawWorkflowService.class);
+    private static Logger logger = LoggerFactory.getLogger(RefundWorkflowService.class);
 
     @Autowired
-    private IWithdrawService withdrawService;
+    private IRefundService refundService;
 
     private RuntimeService runtimeService;
 
@@ -53,8 +50,8 @@ public class WithdrawWorkflowService implements IWithdrawWorkflowService {
      *
      * @param entity
      */
-    public ProcessInstance startWorkflow(Withdraw entity, Map<String, Object> variables) {
-        withdrawService.save(entity);
+    public ProcessInstance startWorkflow(Refund entity, Map<String, Object> variables) {
+        refundService.save(entity);
         logger.info("save entity: {}", entity);
         String businessKey = entity.getId().toString();
 
@@ -63,12 +60,12 @@ public class WithdrawWorkflowService implements IWithdrawWorkflowService {
             // 用来设置启动流程的人员ID，引擎会自动把用户ID保存到activiti:initiator中
             identityService.setAuthenticatedUserId(entity.getProcessUserId());
 
-            processInstance = runtimeService.startProcessInstanceByKey("withdraw", businessKey, variables);
+            processInstance = runtimeService.startProcessInstanceByKey("workflow-refund", businessKey, variables);
             String processInstanceId = processInstance.getId();
             entity.setProcessInstanceId(processInstanceId);
             logger.info("start process of {key={}, bkey={}, pid={}, variables={}}",
-                    new Object[]{"Withdraw", businessKey, processInstanceId, variables});
-            withdrawService.updateIgnoreNull(entity);
+                    new Object[]{"Refund", businessKey, processInstanceId, variables});
+            refundService.updateIgnoreNull(entity);
         } finally {
 
         }
@@ -88,8 +85,8 @@ public class WithdrawWorkflowService implements IWithdrawWorkflowService {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<WithdrawVo> findTodoTasks(User user, Page page, int[] pageParams) {
-        List<WithdrawVo> results = new ArrayList<WithdrawVo>();
+    public List<RefundVo> findTodoTasks(User user, Page page, int[] pageParams) {
+        List<RefundVo> results = new ArrayList<RefundVo>();
         List<String> roles = new ArrayList<String>();
         for (BaseRole role :
                 user.getRoles()) {
@@ -98,7 +95,7 @@ public class WithdrawWorkflowService implements IWithdrawWorkflowService {
 
         // 根据当前人的ID查询
 //        TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateOrAssigned(userId);
-        TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateGroupIn(roles).processDefinitionKey("withdraw");
+        TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateGroupIn(roles).processDefinitionKey("workflow-refund");
         List<Task> tasks = taskQuery.list();
 
         // 根据流程的业务ID查询实体并关联
@@ -113,19 +110,19 @@ public class WithdrawWorkflowService implements IWithdrawWorkflowService {
             if (businessKey == null) {
                 continue;
             }
-            WithdrawVo withdrawVo = withdrawService.load(new Withdraw(new Long(businessKey)));
-            withdrawVo.setTaskAssignee(task.getAssignee());
-            withdrawVo.setTaskCreateTime(task.getCreateTime());
-            withdrawVo.setTaskDefinitionKey(task.getTaskDefinitionKey());
-            withdrawVo.setTaskId(task.getId());
-            withdrawVo.setTaskName(task.getName());
-            withdrawVo.setProcessDefinitionId(processInstance.getProcessDefinitionId());
-            withdrawVo.setProcessDefinitionName(processInstance.getProcessDefinitionName());
-            withdrawVo.setProcessDefinitionVersion(getProcessDefinition(processInstance.getProcessDefinitionId()).getVersion());
-            //withdrawVo.setTask(task);
-//            withdrawVo.setProcessInstance(processInstance);
-//            withdrawVo.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
-            results.add(withdrawVo);
+            RefundVo refundVo = refundService.load(new Refund(new Long(businessKey)));
+            refundVo.setTaskAssignee(task.getAssignee());
+            refundVo.setTaskCreateTime(task.getCreateTime());
+            refundVo.setTaskDefinitionKey(task.getTaskDefinitionKey());
+            refundVo.setTaskId(task.getId());
+            refundVo.setTaskName(task.getName());
+            refundVo.setProcessDefinitionId(processInstance.getProcessDefinitionId());
+            refundVo.setProcessDefinitionName(processInstance.getProcessDefinitionName());
+            refundVo.setProcessDefinitionVersion(getProcessDefinition(processInstance.getProcessDefinitionId()).getVersion());
+            //RefundVo.setTask(task);
+//            RefundVo.setProcessInstance(processInstance);
+//            RefundVo.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+            results.add(refundVo);
         }
 
         page.setTotal(taskQuery.count());
@@ -140,9 +137,9 @@ public class WithdrawWorkflowService implements IWithdrawWorkflowService {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<WithdrawVo> findRunningProcessInstaces(Page page, int[] pageParams) {
-        List<WithdrawVo> results = new ArrayList<WithdrawVo>();
-        ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery().processDefinitionKey("withdraw")
+    public List<RefundVo> findRunningProcessInstaces(Page page, int[] pageParams) {
+        List<RefundVo> results = new ArrayList<RefundVo>();
+        ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery().processDefinitionKey("workflow-refund")
                 .active().orderByProcessInstanceId().desc();
         List<ProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
 
@@ -152,25 +149,25 @@ public class WithdrawWorkflowService implements IWithdrawWorkflowService {
             if (businessKey == null) {
                 continue;
             }
-            WithdrawVo withdrawVo = withdrawService.load(new Withdraw(new Long(businessKey)));
+            RefundVo refundVo = refundService.load(new Refund(new Long(businessKey)));
 
-            withdrawVo.setProcessDefinitionId(processInstance.getProcessDefinitionId());
-            withdrawVo.setProcessDefinitionName(processInstance.getProcessDefinitionName());
-            withdrawVo.setProcessDefinitionVersion(getProcessDefinition(processInstance.getProcessDefinitionId()).getVersion());
+            refundVo.setProcessDefinitionId(processInstance.getProcessDefinitionId());
+            refundVo.setProcessDefinitionName(processInstance.getProcessDefinitionName());
+            refundVo.setProcessDefinitionVersion(getProcessDefinition(processInstance.getProcessDefinitionId()).getVersion());
 
-//            withdrawVo.setProcessInstance(processInstance);
-//            withdrawVo.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
-            results.add(withdrawVo);
+//            RefundVo.setProcessInstance(processInstance);
+//            RefundVo.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+            results.add(refundVo);
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active()
                     .orderByTaskCreateTime().desc().listPage(0, 1);
-            withdrawVo.setTaskAssignee(tasks.get(0).getAssignee());
-            withdrawVo.setTaskCreateTime(tasks.get(0).getCreateTime());
-            withdrawVo.setTaskDefinitionKey(tasks.get(0).getTaskDefinitionKey());
-            withdrawVo.setTaskId(tasks.get(0).getId());
-            withdrawVo.setTaskName(tasks.get(0).getName());
-//            withdrawVo.setTask(tasks.get(0));
+            refundVo.setTaskAssignee(tasks.get(0).getAssignee());
+            refundVo.setTaskCreateTime(tasks.get(0).getCreateTime());
+            refundVo.setTaskDefinitionKey(tasks.get(0).getTaskDefinitionKey());
+            refundVo.setTaskId(tasks.get(0).getId());
+            refundVo.setTaskName(tasks.get(0).getName());
+//            RefundVo.setTask(tasks.get(0));
         }
 
         page.setTotal(query.count());
@@ -184,20 +181,20 @@ public class WithdrawWorkflowService implements IWithdrawWorkflowService {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<WithdrawVo> findFinishedProcessInstaces(Page page, int[] pageParams) {
-        List<WithdrawVo> results = new ArrayList<WithdrawVo>();
+    public List<RefundVo> findFinishedProcessInstaces(Page page, int[] pageParams) {
+        List<RefundVo> results = new ArrayList<RefundVo>();
         HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery()
-                .processDefinitionKey("withdraw").finished().orderByProcessInstanceEndTime().desc();
+                .processDefinitionKey("Refund").finished().orderByProcessInstanceEndTime().desc();
         List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
 
         // 关联业务实体
         for (HistoricProcessInstance historicProcessInstance : list) {
             String businessKey = historicProcessInstance.getBusinessKey();
-            WithdrawVo withdrawVo = withdrawService.load(new Withdraw(new Long(businessKey)));
-            withdrawVo.setProcessDefinitionVersion(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()).getVersion());
+            RefundVo refundVo = refundService.load(new Refund(new Long(businessKey)));
+            refundVo.setProcessDefinitionVersion(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()).getVersion());
 
-//            withdrawVo.setHistoricProcessInstance(historicProcessInstance);
-            results.add(withdrawVo);
+//            RefundVo.setHistoricProcessInstance(historicProcessInstance);
+            results.add(refundVo);
         }
         page.setTotal(query.count());
         page.setDataList(results);
