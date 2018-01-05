@@ -93,7 +93,7 @@ public class WithdrawWorkflowController {
     Result taskList(HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
         User user = (User) BaseUserContext.getCurrentUser(request);
-        withdrawWorkflowService.findTodoTasks(user.getId().toString(), page, null);
+        withdrawWorkflowService.findTodoTasks(user, page, null);
         return new Result(Result.SUCCESS, page);
     }
 
@@ -184,11 +184,11 @@ public class WithdrawWorkflowController {
     public Result complete(@PathVariable("id") String taskId, Map<String, Object> variables) {
         try {
             System.out.println("入参:" + JSON.toJSONString(variables));
-            taskService.complete(taskId, variables);
+            withdrawWorkflowService.completeWorkflow(taskId, variables);
             return new Result(Result.SUCCESS);
         } catch (Exception e) {
             logger.error("error on complete task {}, variables={}", new Object[]{taskId, JSON.toJSONString(variables), e});
-            return new Result(Result.ERROR);
+            return new Result(Result.ERROR,e.getMessage());
         }
     }
 
