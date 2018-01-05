@@ -2,18 +2,12 @@ package com.roof.fpa.withdraw.service.api;
 
 import com.roof.fpa.withdraw.entity.Withdraw;
 import com.roof.fpa.withdraw.entity.WithdrawVo;
-import org.activiti.engine.history.HistoricProcessInstance;
-import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.runtime.ProcessInstanceQuery;
-import org.activiti.engine.task.Task;
-import org.activiti.engine.task.TaskQuery;
 import org.roof.roof.dataaccess.api.Page;
+import org.roof.web.user.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,13 +21,20 @@ public interface IWithdrawWorkflowService {
     public ProcessInstance startWorkflow(Withdraw entity, Map<String, Object> variables);
 
     /**
+     * 完成任务
+     *
+     * @param
+     */
+    public void completeWorkflow(String taskId, Map<String, Object> variables) throws Exception;
+
+    /**
      * 查询待办任务
      *
-     * @param userId 用户ID
+     * @param user 用户ID
      * @return
      */
     @Transactional(readOnly = true)
-    public List<WithdrawVo> findTodoTasks(String userId, Page page, int[] pageParams);
+    public List<WithdrawVo> findTodoTasks(User user, Page page, int[] pageParams);
 
     /**
      * 读取运行中的流程
