@@ -35,6 +35,12 @@ public class Refund implements Serializable {
 	@ApiModelProperty(value = "完成时间")
 	protected Date completeTime;// 完成时间
 
+	@ApiModelProperty(value = "流程实例id")
+	private String processInstanceId;
+	@ApiModelProperty(value = "流程创建者id")
+	private String processUserId;
+
+
 	public Refund() {
 		super();
 	}
@@ -92,5 +98,21 @@ public class Refund implements Serializable {
 	}
 	public void setCompleteTime(Date completeTime) {
 		this.completeTime = completeTime;
+	}
+
+	public String getProcessInstanceId() {
+		return processInstanceId;
+	}
+
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
+	}
+
+	public String getProcessUserId() {
+		return processUserId;
+	}
+
+	public void setProcessUserId(String processUserId) {
+		this.processUserId = processUserId;
 	}
 }
