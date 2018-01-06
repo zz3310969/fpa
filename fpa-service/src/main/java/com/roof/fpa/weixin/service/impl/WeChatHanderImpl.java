@@ -94,6 +94,8 @@ public class WeChatHanderImpl implements IWeChatHander {
         }
     }
 
+
+
     ;
 
 
@@ -120,6 +122,14 @@ public class WeChatHanderImpl implements IWeChatHander {
             openid = obj.getString("openid");
         }
         return openid;
+    }
+
+
+    @Override
+    public WeChatDto getWeChatDto(String code) throws IOException {
+        String body = this.getOpenid(html_token_url, code);
+        WeChatDto weChatDto = JSON.parseObject(body,WeChatDto.class);
+        return weChatDto;
     }
 
 }

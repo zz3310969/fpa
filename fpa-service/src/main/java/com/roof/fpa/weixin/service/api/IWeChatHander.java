@@ -1,5 +1,7 @@
 package com.roof.fpa.weixin.service.api;
 
+import com.roof.fpa.weixin.service.impl.WeChatDto;
+
 import java.io.IOException;
 
 /**
@@ -11,4 +13,8 @@ public interface IWeChatHander {
     public void getacode() throws Exception;
 
     public String getAccess_token() throws Exception;
+
+    public WeChatDto getWeChatDto(String code) throws IOException;
+
+
 }

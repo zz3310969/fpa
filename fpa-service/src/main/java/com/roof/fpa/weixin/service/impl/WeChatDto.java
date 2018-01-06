@@ -8,6 +8,9 @@ public class WeChatDto {
     private String session_key;
     private String unionid;
 
+    private String errcode;
+    private String errmsg;
+
     public String getOpenid() {
         return openid;
     }
@@ -30,5 +33,21 @@ public class WeChatDto {
 
     public void setUnionid(String unionid) {
         this.unionid = unionid;
+    }
+
+    public String getErrcode() {
+        return errcode;
+    }
+
+    public void setErrcode(String errcode) {
+        this.errcode = errcode;
+    }
+
+    public String getErrmsg() {
+        return errmsg;
+    }
+
+    public void setErrmsg(String errmsg) {
+        this.errmsg = errmsg;
     }
 }

@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.roof.fpa.DefaultUseableEnum;
 import com.roof.fpa.weixin.service.api.IWeChatHander;
+import com.roof.fpa.weixin.service.impl.WeChatDto;
+import org.apache.commons.lang3.StringUtils;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.customer.dao.api.ICustomerDao;
 import com.roof.fpa.customer.entity.Customer;
@@ -83,7 +85,13 @@ public class CustomerService implements ICustomerService {
 		Customer customer = new Customer();
 		BeanUtils.copyProperties(customerVo,customer);
 		try {
-			customer.setWeixinOpenId(weChatHander.getOpenid(customerVo.getCode()));
+			WeChatDto weChatDto = weChatHander.getWeChatDto(customerVo.getCode());
+			if(weChatDto != null && StringUtils.isEmpty(weChatDto.getErrcode())){
+				customer.setWeixinOpenId(weChatDto.getOpenid());
+				customer.setUnionid(weChatDto.getUnionid());
+			}else{
+				logger.error("获取微信Openid出错:",weChatDto.getErrmsg());
+			}
 		} catch (IOException e) {
 			logger.error("获取微信Openid出错:",e.getCause());
 		}
