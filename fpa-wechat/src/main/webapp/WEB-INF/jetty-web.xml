@@ -5,7 +5,7 @@
 		<New class="org.eclipse.jetty.util.resource.ResourceCollection">
 			<Arg>
 				<Array type="java.lang.String">
-					<Item>E:\git\fpa\fpa-wechat\src\main\webapp</Item>
+					<Item>C:\00-work\07-develop\04-FPA\projects\fpa\fpa-wechat\src\main\webapp</Item>
 				</Array>
 			</Arg>
 		</New>

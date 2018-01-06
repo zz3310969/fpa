@@ -45,12 +45,12 @@ public class FpawxacodeController {
     public void getMiddleFile(Long userId,HttpServletResponse response, HttpServletRequest request) {
         RestTemplate restTemplate = new RestTemplate();
 //        User user = (User) BaseUserContext.getCurrentUser(request);
-        Map<String,Object> userParam = new HashMap<String,Object>();
-        userParam.put("userId",userId);
+//        Map<String,Object> userParam = new HashMap<String,Object>();
+//        userParam.put("userId",userId);
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("scene", JSONObject.toJSONString(userParam));
-        map.put("page", "pages/index/index");
+        map.put("scene", userId);
+        map.put("page", "pages/index2/index");
 
         try {
             String savePath = wxacodeFilePath + "acode-userid-" + userId + ".jpeg";
