@@ -42,6 +42,8 @@ public class CardTestResult implements Serializable {
 	protected String yellowScore;// 黄色得分
 	@ApiModelProperty(value = "绿色得分")
 	protected String greenScore;// 绿色得分
+	@ApiModelProperty(value = "执行人")
+	protected Long operatorId;//执行人
 
 	public CardTestResult() {
 		super();
@@ -135,5 +137,13 @@ public class CardTestResult implements Serializable {
 	}
 	public void setGreenScore(String greenScore) {
 		this.greenScore = greenScore;
+	}
+
+	public Long getOperatorId() {
+		return operatorId;
+	}
+
+	public void setOperatorId(Long operatorId) {
+		this.operatorId = operatorId;
 	}
 }

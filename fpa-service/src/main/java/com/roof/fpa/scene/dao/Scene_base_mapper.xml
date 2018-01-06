@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.scene.dao">
 
 	<sql id="columns">
-		id, name, numb, card_group_id, repeat_count, version, theme_id, state, template_id, weight_operator
+		id, name, numb, card_group_id, repeat_count, version, theme_id, state, template_id, weight_operator,description
 	</sql>
 
 	<sql id="columns_as">
-		id as id , name as name , numb as numb , card_group_id as cardGroupId , repeat_count as repeatCount , version as version , theme_id as themeId , state as state , template_id as templateId , weight_operator as weightOperator
+		id as id , name as name , numb as numb , card_group_id as cardGroupId , repeat_count as repeatCount , version as version , theme_id as themeId , state as state , template_id as templateId , weight_operator as weightOperator,description as description
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{name}, #{numb}, #{cardGroupId}, #{repeatCount}, #{version}, #{themeId}, #{state}, #{templateId}, #{weightOperator}
+		#{id}, #{name}, #{numb}, #{cardGroupId}, #{repeatCount}, #{version}, #{themeId}, #{state}, #{templateId}, #{weightOperator},#{description}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -46,6 +46,10 @@
 		<if test="weightOperator != null and weightOperator != ''">
 			and weight_operator = #{weightOperator}
 		</if>
+		<if test="description != null and description != ''">
+			and description = #{description}
+		</if>
+
 	</sql>
 
 	<insert id="saveScene" parameterType="com.roof.fpa.scene.entity.Scene" useGeneratedKeys="true" keyProperty="id">
@@ -77,7 +81,10 @@
 			repeat_count=#{repeatCount}, 
 			version=#{version}, 
 			theme_id=#{themeId}, 
-			state=#{state}
+			state=#{state},
+			weight_operator=#{weightOperator},
+			template_id=#{templateId},
+			description = #{description}
 		</set>
 		where id=#{id} 
 	</update>
@@ -107,7 +114,16 @@
 			theme_id=#{themeId}, 
 		</if>
 		<if test="state != null">
-			state=#{state}
+			state=#{state},
+		</if>
+		<if test="templateId != null">
+			template_id = #{templateId},
+		</if>
+		<if test="weightOperator != null and weightOperator != ''">
+			weight_operator = #{weightOperator},
+		</if>
+		<if test="description != null and description != ''">
+			description = #{description}
 		</if>
 		</set>
 		where id=#{id} 
@@ -138,7 +154,16 @@
 			theme_id=#{themeId}, 
 			</if>
 			<if test="state != null">
-			state=#{state}
+			state=#{state},
+			</if>
+			<if test="templateId != null">
+				template_id = #{templateId},
+			</if>
+			<if test="weightOperator != null and weightOperator != ''">
+				weight_operator = #{weightOperator},
+			</if>
+			<if test="description != null and description != ''">
+				description = #{description}
 			</if>
 		</set>
 		where 1=1

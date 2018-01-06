@@ -33,9 +33,11 @@ public class Scene implements Serializable {
 	@ApiModelProperty(value = "状态")
 	protected Integer state;// 状态
 	@ApiModelProperty(value = "模板ID")
-	private Long templateId; //模板ID
-
-	private String weightOperator;
+	protected Long templateId; //模板ID
+	@ApiModelProperty(value = "权重操作符")
+	protected String weightOperator;//权重操作符
+	@ApiModelProperty(value = "描述")
+	protected String description;//描述
 
 	public Scene() {
 		super();
@@ -117,5 +119,13 @@ public class Scene implements Serializable {
 
 	public void setWeightOperator(String weightOperator) {
 		this.weightOperator = weightOperator;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

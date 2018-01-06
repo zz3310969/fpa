@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.cardtestresult.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.scene_id as sceneId, t1.share_customer_id as shareCustomerId, t1.customer_id as customerId, t1.test_date as testDate, t1.result as result, t1.template_id as templateId, t1.character_color as characterColor, t1.red_score as redScore, t1.blue_score as blueScore, t1.yellow_score as yellowScore, t1.green_score as greenScore
+		t1.id as id, t1.scene_id as sceneId, t1.share_customer_id as shareCustomerId, t1.customer_id as customerId, t1.test_date as testDate, t1.result as result, t1.template_id as templateId, t1.character_color as characterColor, t1.red_score as redScore, t1.blue_score as blueScore, t1.yellow_score as yellowScore, t1.green_score as greenScore,t1.operator_id as operatorId
 	</sql>
 	
 	<select id="selectCardTestResultPage" resultType="com.roof.fpa.cardtestresult.entity.CardTestResultVo">
@@ -12,7 +12,7 @@
 		(SELECT name FROM c_scene WHERE id = t1.scene_id) as sceneName,
 		(SELECT name FROM c_customer WHERE id = t1.customer_id) as customerName,
 		(SELECT weixin_head_image FROM c_customer WHERE id = t1.customer_id) as customerHeadImageUrl
-		customerHeadImageUrl
+		
 		from
 		c_card_test_result t1
 		join

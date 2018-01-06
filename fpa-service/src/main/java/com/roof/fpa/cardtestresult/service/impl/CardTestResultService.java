@@ -91,4 +91,10 @@ public class CardTestResultService implements ICardTestResultService {
 	public void setCustomerResultChain(@Qualifier("customerResultChain") Chain customerResultChain) {
 		this.customerResultChain = customerResultChain;
 	}
+	public static void main(String[] s){
+		Double d = 1.01;
+		for (int i =0;i<365;i++){
+
+		}
+	}
 }

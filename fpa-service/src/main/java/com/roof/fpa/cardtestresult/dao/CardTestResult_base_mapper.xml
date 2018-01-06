@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.cardtestresult.dao">
 
 	<sql id="columns">
-		id, scene_id, share_customer_id, customer_id, test_date, result, template_id, character_color, red_score, blue_score, yellow_score, green_score
+		id, scene_id, share_customer_id, customer_id, test_date, result, template_id, character_color, red_score, blue_score, yellow_score, green_score,operator_id
 	</sql>
 
 	<sql id="columns_as">
-		id as id , scene_id as sceneId , share_customer_id as shareCustomerId , customer_id as customerId , test_date as testDate , result as result , template_id as templateId , character_color as characterColor , red_score as redScore , blue_score as blueScore , yellow_score as yellowScore , green_score as greenScore
+		id as id , scene_id as sceneId , share_customer_id as shareCustomerId , customer_id as customerId , test_date as testDate , result as result , template_id as templateId , character_color as characterColor , red_score as redScore , blue_score as blueScore , yellow_score as yellowScore , green_score as greenScore,operator_id as operatorId
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{sceneId}, #{shareCustomerId}, #{customerId}, #{testDate}, #{result}, #{templateId}, #{characterColor}, #{redScore}, #{blueScore}, #{yellowScore}, #{greenScore}
+		#{id}, #{sceneId}, #{shareCustomerId}, #{customerId}, #{testDate}, #{result}, #{templateId}, #{characterColor}, #{redScore}, #{blueScore}, #{yellowScore}, #{greenScore}, #{operatorId}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -52,6 +52,10 @@
 		<if test="greenScore != null and greenScore != ''">
 			and green_score = #{greenScore}
 		</if>
+		<if test="operatorId != null and operatorId != ''">
+			and operator_id = #{operatorId}
+		</if>
+
 	</sql>
 
 	<insert id="saveCardTestResult" parameterType="com.roof.fpa.cardtestresult.entity.CardTestResult" useGeneratedKeys="true" keyProperty="id">
@@ -87,7 +91,8 @@
 			red_score=#{redScore},
 			blue_score=#{blueScore},
 			yellow_score=#{yellowScore},
-			green_score=#{greenScore}
+			green_score=#{greenScore},
+			operator_id = #{operatorId}
 		</set>
 		where id=#{id}
 	</update>
@@ -129,7 +134,10 @@
 				yellow_score=#{yellowScore},
 			</if>
 			<if test="greenScore != null and greenScore != ''">
-				green_score=#{greenScore}
+				green_score=#{greenScore},
+			</if>
+			<if test="operatorId != null and operatorId != ''">
+				operator_id = #{operatorId}
 			</if>
 		</set>
 		where id=#{id}
@@ -172,7 +180,10 @@
 				yellow_score=#{yellowScore},
 			</if>
 			<if test="greenScore != null and greenScore != ''">
-				green_score=#{greenScore}
+				green_score=#{greenScore},
+			</if>
+			<if test="operatorId != null and operatorId != ''">
+				operator_id = #{operatorId}
 			</if>
 		</set>
 		where 1=1
