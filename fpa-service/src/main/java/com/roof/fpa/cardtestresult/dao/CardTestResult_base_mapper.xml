@@ -194,7 +194,7 @@
 		select
 		<include refid="columns_as"/>,
 		(SELECT NAME FROM c_scene where id = scene_id) as sceneName,
-		(SELECT weixin_head_image FROM c_customer WHERE id = t1.customer_id) as customerHeadImageUrl
+		(SELECT weixin_head_image FROM c_customer WHERE id = customer_id) as customerHeadImageUrl
 		from c_card_test_result
 		where id=#{id}
 	</select>
