@@ -17,6 +17,8 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -26,10 +28,9 @@ import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +42,8 @@ import java.util.concurrent.Executors;
 /**
  * HttpClient工具类
  *
- * @return
  * @author SHANHY
+ * @return
  * @create 2015年12月18日
  */
 public class HttpClientUtil {
@@ -55,14 +56,14 @@ public class HttpClientUtil {
 
     private static void config(HttpRequestBase httpRequestBase) {
         // 设置Header等
-        // httpRequestBase.setHeader("User-Agent", "Mozilla/5.0");
-        // httpRequestBase
-        // .setHeader("Accept",
-        // "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-        // httpRequestBase.setHeader("Accept-Language",
-        // "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");// "en-US,en;q=0.5");
-        // httpRequestBase.setHeader("Accept-Charset",
-        // "ISO-8859-1,utf-8,gbk,gb2312;q=0.7,*;q=0.7");
+//         httpRequestBase.setHeader("User-Agent", "Mozilla/5.0");
+//         httpRequestBase
+//         .setHeader("Accept",
+//         "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+//         httpRequestBase.setHeader("Accept-Language",
+//         "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");// "en-US,en;q=0.5");
+//         httpRequestBase.setHeader("Accept-Charset",
+//         "ISO-8859-1,utf-8,gbk,gb2312;q=0.7,*;q=0.7");
 
         // 配置请求的超时设置
         RequestConfig requestConfig = RequestConfig.custom()
@@ -110,7 +111,7 @@ public class HttpClientUtil {
         LayeredConnectionSocketFactory sslsf = SSLConnectionSocketFactory
                 .getSocketFactory();
         Registry<ConnectionSocketFactory> registry = RegistryBuilder
-                .<ConnectionSocketFactory> create().register("http", plainsf)
+                .<ConnectionSocketFactory>create().register("http", plainsf)
                 .register("https", sslsf).build();
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(
                 registry);
@@ -185,8 +186,8 @@ public class HttpClientUtil {
      *
      * @param url
      * @return
-     * @author SHANHY
      * @throws IOException
+     * @author SHANHY
      * @create 2015年12月18日
      */
     public static String post(String url, Map<String, Object> params) throws IOException {
@@ -210,6 +211,56 @@ public class HttpClientUtil {
                     response.close();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    public static String postFile(String url, String json, String filePath) throws IOException {
+        HttpPost httppost = new HttpPost(url);
+        httppost.addHeader("Content-type", "application/json; charset=utf-8");
+        httppost.setHeader("Accept", "application/json");
+        httppost.setEntity(new StringEntity(json, Charset.forName("UTF-8")));
+        CloseableHttpResponse response = null;
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            response = getHttpClient(url).execute(httppost,
+                    HttpClientContext.create());
+            HttpEntity entity = response.getEntity();
+            ContentType contentType = ContentType.get(entity);
+            if (contentType.getMimeType().equals(ContentType.APPLICATION_JSON.getMimeType())) {
+                String res = EntityUtils.toString(entity);
+                return res;
+            }
+            in = entity.getContent();
+            long length = entity.getContentLength();
+            if (length <= 0) {
+                return "文件不存在";
+            }
+            out = new FileOutputStream(new File(filePath));
+            byte[] buffer = new byte[1024];
+            int readLength = 0;
+            while ((readLength = in.read(buffer)) > 0) {
+                byte[] bytes = new byte[readLength];
+                System.arraycopy(buffer, 0, bytes, 0, readLength);
+                out.write(bytes);
+            }
+            out.flush();
+            return filePath;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                if (response != null)
+                    response.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (out != null) {
+                out.close();
+            }
+            if (in != null) {
+                in.close();
             }
         }
     }

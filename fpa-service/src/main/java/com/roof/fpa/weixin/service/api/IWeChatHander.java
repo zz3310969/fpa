@@ -8,4 +8,7 @@ import java.io.IOException;
 public interface IWeChatHander {
     public String getOpenid(String code) throws IOException;
 
+    public void getacode() throws Exception;
+
+    public String getAccess_token() throws Exception;
 }
