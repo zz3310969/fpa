@@ -47,6 +47,8 @@ public class Customer implements Serializable {
 	@ApiModelProperty(value = "逻辑删除")
 	protected Integer useable;// 逻辑删除
 
+	protected String unionid;
+
 	public Customer() {
 		super();
 	}
@@ -154,5 +156,13 @@ public class Customer implements Serializable {
 
 	public Integer getUseable() {
 		return useable;
+	}
+
+	public String getUnionid() {
+		return unionid;
+	}
+
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
 	}
 }

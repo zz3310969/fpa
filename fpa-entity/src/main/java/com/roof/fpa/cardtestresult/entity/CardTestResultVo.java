@@ -22,6 +22,8 @@ public class CardTestResultVo extends CardTestResult {
 
 	private String customerName;
 
+	private String customerHeadImageUrl;
+
 	private String sceneName;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date testDateStart;// 测试时间
@@ -112,5 +114,13 @@ public class CardTestResultVo extends CardTestResult {
 
 	public void setChats(List<Map<String, Object>> chats) {
 		this.chats = chats;
+	}
+
+	public String getCustomerHeadImageUrl() {
+		return customerHeadImageUrl;
+	}
+
+	public void setCustomerHeadImageUrl(String customerHeadImageUrl) {
+		this.customerHeadImageUrl = customerHeadImageUrl;
 	}
 }

@@ -10,7 +10,9 @@
 		select
 		<include refid="columnsAs"/>,
 		(SELECT name FROM c_scene WHERE id = t1.scene_id) as sceneName,
-		(SELECT name FROM c_customer WHERE id = t1.customer_id) as customerName
+		(SELECT name FROM c_customer WHERE id = t1.customer_id) as customerName,
+		(SELECT weixin_head_image FROM c_customer WHERE id = t1.customer_id) as customerHeadImageUrl
+		customerHeadImageUrl
 		from
 		c_card_test_result t1
 		join
