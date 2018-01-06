@@ -45,13 +45,13 @@ public class FpawxacodeController {
     public void getMiddleFile(Long userId,HttpServletResponse response, HttpServletRequest request) {
         RestTemplate restTemplate = new RestTemplate();
 //        User user = (User) BaseUserContext.getCurrentUser(request);
+        Map<String,Object> userParam = new HashMap<String,Object>();
+        userParam.put("userId",userId);
+
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("scene", userId);
+        map.put("scene", JSONObject.toJSONString(userParam));
         map.put("page", "pages/index/index");
 
-        //该方法通过restTemplate请求远程restfulAPI
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
         try {
             String savePath = wxacodeFilePath + "acode-userid-" + userId + ".jpeg";
             String filePath = HttpClientUtil.postFile(wxacodeunlimit + "?access_token=" + weChatHander.getAccess_token(), JSONObject.toJSONString(map), savePath);
