@@ -71,6 +71,12 @@ public class CustomerWechatController {
 		}
 	}
 
+	@RequestMapping(value = "customer/bind", method = {RequestMethod.POST})
+	public @ResponseBody Result bind(@RequestBody CustomerVo customer) {
+
+		return new Result(Result.SUCCESS);
+	}
+
 
 	@Autowired(required = true)
 	public void setCustomerService(
