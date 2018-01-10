@@ -22,6 +22,8 @@ public class CustomerVo extends Customer {
 
 	private String code;
 
+	private String partnerUnionid;
+
 
 	public CustomerVo() {
 		super();
@@ -70,5 +72,13 @@ public class CustomerVo extends Customer {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getPartnerUnionid() {
+		return partnerUnionid;
+	}
+
+	public void setPartnerUnionid(String partnerUnionid) {
+		this.partnerUnionid = partnerUnionid;
 	}
 }
