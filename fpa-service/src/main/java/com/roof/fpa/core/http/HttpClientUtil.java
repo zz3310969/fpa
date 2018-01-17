@@ -215,6 +215,34 @@ public class HttpClientUtil {
         }
     }
 
+    public static String post(String url, String json) throws IOException {
+        HttpPost httppost = new HttpPost(url);
+        httppost.addHeader("Content-type", "application/json; charset=utf-8");
+        httppost.setHeader("Accept", "application/json");
+        httppost.setEntity(new StringEntity(json, Charset.forName("UTF-8")));
+        CloseableHttpResponse response = null;
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            response = getHttpClient(url).execute(httppost,
+                    HttpClientContext.create());
+            HttpEntity entity = response.getEntity();
+            String result = EntityUtils.toString(entity, "utf-8");
+            EntityUtils.consume(entity);
+            return result;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                if (response != null)
+                    response.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
     public static String postFile(String url, String json, String filePath) throws IOException {
         HttpPost httppost = new HttpPost(url);
         httppost.addHeader("Content-type", "application/json; charset=utf-8");

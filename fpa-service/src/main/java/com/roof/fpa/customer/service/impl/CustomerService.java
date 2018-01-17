@@ -74,6 +74,10 @@ public class CustomerService implements ICustomerService {
 		return customerDao.page(page, customer);
 	}
 
+	public Page friendsPage(Page page, Customer customer) {
+		return customerDao.friendsPage(page, customer);
+	}
+
 	public CustomerVo loadByOpenid(String openId){
 		Customer customer = new Customer();
 		customer.setWeixinOpenId(openId);

@@ -26,7 +26,13 @@ public class CustomerDao extends AbstractDao implements ICustomerDao {
 		//IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectCustomerPage", null);
 		return pageQuery.select(customer);
 	}
-	
+
+	@Override
+	public Page friendsPage(Page page, Customer customer) {
+		IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectCustomerFriendsPage", "selectCustomerFriendsCount");
+		return pageQuery.select(customer);
+	}
+
 	@Autowired
 	public void setPageQueryFactory(
 			@Qualifier("pageQueryFactory") PageQueryFactory<PageQuery> pageQueryFactory) {

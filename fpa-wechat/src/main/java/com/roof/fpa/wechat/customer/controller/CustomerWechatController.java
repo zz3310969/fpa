@@ -2,6 +2,9 @@ package com.roof.fpa.wechat.customer.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +15,7 @@ import com.roof.fpa.cardunit.entity.CardUnit;
 import com.roof.fpa.cardunit.entity.CardUnitVo;
 import com.roof.fpa.charactercolor.entity.CharacterColor;
 import com.roof.fpa.charactercolor.entity.CharacterColorVo;
+import com.roof.fpa.partner.service.api.IPartnerService;
 import com.roof.fpa.theme.entity.Theme;
 import com.roof.fpa.theme.entity.ThemeVo;
 import io.swagger.annotations.Api;
@@ -33,7 +37,18 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerWechatController {
 	private ICustomerService customerService;
 
+	@Autowired
+	private IPartnerService partnerService;
 
+	private ExecutorService executorService = Executors.newFixedThreadPool(1);
+
+
+	@RequestMapping(value = "customer/friends", method = {RequestMethod.GET})
+	public @ResponseBody Result<Page> list(CustomerVo customer, HttpServletRequest request) {
+		Page page = PageUtils.createPage(request);
+		page = customerService.friendsPage(page, customer);
+		return new Result(Result.SUCCESS, page);
+	}
 
 	@RequestMapping(value = "customer", method = {RequestMethod.POST})
 	public @ResponseBody Result create(@RequestBody CustomerVo customer) {
@@ -72,8 +87,13 @@ public class CustomerWechatController {
 	}
 
 	@RequestMapping(value = "customer/bind", method = {RequestMethod.POST})
-	public @ResponseBody Result bind(@RequestBody CustomerVo customer) {
-
+	public @ResponseBody Result bind(@RequestBody Customer customer) {
+		executorService.submit(new Callable<Boolean>() {
+			@Override
+			public Boolean call() throws Exception {
+				return partnerService.bind(152L,153L);
+			}
+		});
 		return new Result(Result.SUCCESS);
 	}
 
@@ -83,6 +103,7 @@ public class CustomerWechatController {
 			@Qualifier("customerService") ICustomerService customerService) {
 		this.customerService = customerService;
 	}
+
 
 
 }

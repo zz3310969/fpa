@@ -59,6 +59,8 @@ public interface ICustomerService {
 	 */
 	public abstract Page page(Page page, Customer customer);
 
+	public abstract Page friendsPage(Page page, Customer customer);
+
 	/**
 	 * 根据openId查询
 	 */

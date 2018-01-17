@@ -7,4 +7,6 @@ import com.roof.fpa.customer.entity.Customer;
 
 public interface ICustomerDao extends IDaoSupport {
 	Page page(Page page, Customer customer);
+
+    Page friendsPage(Page page, Customer customer);
 }
