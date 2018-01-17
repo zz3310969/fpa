@@ -53,7 +53,7 @@
 		<custom-filter ref="oAuth2AuthenticationProcessingFilter"
 					   before="CAS_FILTER"  />
 
-		<custom-filter ref="clientCredentialsTokenEndpointFilter" before="ANONYMOUS_FILTER" />
+		<custom-filter ref="clientCredentialsTokenEndpointFilter" before="BASIC_AUTH_FILTER" />
 
 		<custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
 		<logout logout-success-url="/index.jsp" delete-cookies="JSESSIONID" />
@@ -138,11 +138,11 @@
   
 
 	<beans:bean id="securityMetadataSource" scope="singleton"
-		class="org.roof.web.user.service.api.InvocationSecurityMetadataSourceService">
+		class="org.roof.web.user.service.api.RestfulSecurityMetadataSourceService">
 		<beans:property name="resourceDao" ref="resourceDao" />
 		<beans:property name="cacheManager" ref="cacheManager" />
-		<beans:property name="cachName"
-			value="InvocationSecurityMetadataSourceService#loadResourceDefine" />
+		<beans:property name="cacheName"
+			value="RestfulSecurityMetadataSourceService#loadResourceDefine" />
 		<beans:property name="roleDao" ref="roleDao" />
 	</beans:bean>
 
