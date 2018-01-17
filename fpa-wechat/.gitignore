@@ -34,4 +34,4 @@ jetty-web.xml
 target/
 *.iml
 overlays/
-fpa-wechat/src/main/webapp/WEB-INF/jetty-web.xml
+*jetty-web.xml

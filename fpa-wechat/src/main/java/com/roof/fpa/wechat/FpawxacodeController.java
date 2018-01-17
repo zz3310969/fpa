@@ -2,8 +2,6 @@ package com.roof.fpa.wechat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.roof.fpa.core.http.HttpClientUtil;
-import com.roof.fpa.customer.entity.Customer;
-import com.roof.fpa.customer.service.api.ICustomerService;
 import com.roof.fpa.weixin.service.api.IWeChatHander;
 import org.roof.commons.PropertiesUtil;
 import org.roof.web.user.entity.User;
@@ -38,27 +36,21 @@ public class FpawxacodeController {
     @Autowired
     private IWeChatHander weChatHander;
 
-    @Autowired
-    private ICustomerService customerService;
-
     private String wxacodeunlimit = PropertiesUtil.getPorpertyString("fpa.mini.getwxacodeunlimit");
 
     private String wxacodeFilePath = PropertiesUtil.getPorpertyString("fpa.mini.wxacodeFilePath");
 
 
     @RequestMapping(value = "/getacode", method = {RequestMethod.GET})
-    public void getMiddleFile(Long userId, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void getMiddleFile(Long userId,HttpServletResponse response, HttpServletRequest request) {
         RestTemplate restTemplate = new RestTemplate();
-        if (userId == null) {
-            throw new Exception("userId 不能为空");
-        }
-        Customer c = customerService.selectForObject(new Customer(userId));
-        if(c == null){
-            throw new Exception("找不到该id对应的customer");
-        }
+//        User user = (User) BaseUserContext.getCurrentUser(request);
+//        Map<String,Object> userParam = new HashMap<String,Object>();
+//        userParam.put("userId",userId);
+
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("scene", c.getUnionid());
-        map.put("page", "pages/index/index");
+        map.put("scene", userId);
+        map.put("page", "pages/index2/index");
 
         try {
             String savePath = wxacodeFilePath + "acode-userid-" + userId + ".jpeg";
@@ -66,6 +58,8 @@ public class FpawxacodeController {
             if (savePath.equals(filePath)) {
                 flush(new FileInputStream(filePath), response);
             }
+            //            HttpEntity<InputStream> restre = restTemplate.exchange(
+//                    wxacodeunlimit + "?access_token=" + weChatHander.getAccess_token(), HttpMethod.POST, entity,InputStream.class);
 
         } catch (Exception e) {
             e.printStackTrace();
