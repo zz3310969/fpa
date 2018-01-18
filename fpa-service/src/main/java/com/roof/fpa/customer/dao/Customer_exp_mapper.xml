@@ -72,8 +72,8 @@
 		c_card_test_result
 		WHERE share_customer_id =  #{id}
 		AND customer_id !=  #{id} limit #{firstrownum}, #{limit} ) f
-		LEFT JOIN c_customer c
-		ON f.customer_id = c.id
+		LEFT JOIN c_customer t1
+		ON f.customer_id = t1.id
 	</select>
 
 	<select id="selectCustomerFriendsCount" resultType="java.lang.Long">
