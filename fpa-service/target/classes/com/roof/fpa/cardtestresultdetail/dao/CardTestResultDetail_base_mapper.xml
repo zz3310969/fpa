@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.cardtestresultdetail.dao">
+
+	<sql id="columns">
+		id, card_slot_id, card_unit_id, result_id
+	</sql>
+
+	<sql id="columns_as">
+		id as id , card_slot_id as cardSlotId , card_unit_id as cardUnitId , result_id as resultId 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{cardSlotId}, #{cardUnitId}, #{resultId}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="cardSlotId != null">
+			and card_slot_id = #{cardSlotId}
+		</if>
+		<if test="cardUnitId != null">
+			and card_unit_id = #{cardUnitId}
+		</if>
+		<if test="resultId != null">
+			and result_id = #{resultId}
+		</if>
+	</sql>
+
+	<insert id="saveCardTestResultDetail" parameterType="com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetail" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_card_test_result_detail (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<insert id="batchsaveCardTestResultDetail" parameterType="java.util.List">
+		insert into c_card_test_result_detail (<include refid="columns" />)
+		values
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+			(#{item.id}, #{item.cardSlotId}, #{item.cardUnitId}, #{item.resultId})
+		</foreach>
+	</insert>
+
+
+	<delete id="deleteCardTestResultDetail">
+		delete from c_card_test_result_detail
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCardTestResultDetail">
+		delete from c_card_test_result_detail
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCardTestResultDetail">
+		update c_card_test_result_detail
+		<set>
+			id=#{id}, 
+			card_slot_id=#{cardSlotId}, 
+			card_unit_id=#{cardUnitId}, 
+			result_id=#{resultId}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCardTestResultDetail">
+		update c_card_test_result_detail
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="cardSlotId != null">
+			card_slot_id=#{cardSlotId}, 
+		</if>
+		<if test="cardUnitId != null">
+			card_unit_id=#{cardUnitId}, 
+		</if>
+		<if test="resultId != null">
+			result_id=#{resultId}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCardTestResultDetail">
+		update c_card_test_result_detail
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="cardSlotId != null">
+			card_slot_id=#{cardSlotId}, 
+			</if>
+			<if test="cardUnitId != null">
+			card_unit_id=#{cardUnitId}, 
+			</if>
+			<if test="resultId != null">
+			result_id=#{resultId}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCardTestResultDetail" resultType="com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetailVo">
+		select 
+		<include refid="columns_as"/>
+		from c_card_test_result_detail
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCardTestResultDetail" resultType="com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetailVo">
+		select 
+		<include refid="columns_as"/>,
+		(SELECT image_big FROM c_card_unit WHERE id = card_unit_id  )AS cardUnitImage
+		from c_card_test_result_detail
+		where 1=1
+		<include refid="conds" />
+	</select>
+
+	<select id="selectCardTestResultDetail_v2" resultType="com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetailVo">
+		select
+		<include refid="columns_as"/>,
+		(SELECT image_url FROM c_card_unit WHERE id = card_unit_id  )AS cardUnitImage
+		from c_card_test_result_detail
+		where 1=1
+		<include refid="conds" />
+	</select>
+
+</mapper>
