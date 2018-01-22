@@ -87,11 +87,11 @@ public class CustomerWechatController {
 	}
 
 	@RequestMapping(value = "customer/bind", method = {RequestMethod.POST})
-	public @ResponseBody Result bind(@RequestBody Customer customer) {
+	public @ResponseBody Result bind(@RequestBody CustomerVo customer) {
 		executorService.submit(new Callable<Boolean>() {
 			@Override
 			public Boolean call() throws Exception {
-				return partnerService.bind(152L,153L);
+				return partnerService.bind(customer.getPartnerUnionid(),customer.getId());
 			}
 		});
 		return new Result(Result.SUCCESS);

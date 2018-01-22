@@ -52,4 +52,55 @@
 		from c_customer
 		where weixin_open_id=#{weixinOpenId}
 	</select>
+
+
+	<select id="selectCustomerFriendsPage" resultType="com.roof.fpa.customer.entity.CustomerVo">
+		SELECT
+		<include refid="columnsAs"/>
+		FROM
+		(SELECT
+		share_customer_id AS customer_id
+		FROM
+		c_card_test_result
+		WHERE customer_id = #{id}
+		AND share_customer_id IS NOT NULL
+		AND share_customer_id != #{id}
+		UNION
+		SELECT
+		customer_id
+		FROM
+		c_card_test_result
+		WHERE share_customer_id =  #{id}
+		AND customer_id !=  #{id} limit #{firstrownum}, #{limit} ) f
+		LEFT JOIN c_customer c
+		ON f.customer_id = c.id
+	</select>
+
+	<select id="selectCustomerFriendsCount" resultType="java.lang.Long">
+		SELECT
+		COUNT(*)
+		FROM
+		(SELECT
+		share_customer_id AS customer_id
+		FROM
+		c_card_test_result
+		WHERE customer_id = #{id}
+		AND share_customer_id IS NOT NULL
+		AND share_customer_id != #{id}
+		UNION
+		SELECT
+		customer_id
+		FROM
+		c_card_test_result
+		WHERE share_customer_id = #{id}
+		AND customer_id != #{id}) f
+	</select>
+
+	<select id="loadCustomerByUnionid" resultType="com.roof.fpa.customer.entity.CustomerVo">
+		select
+		<include refid="columns_as"/>
+		from c_customer
+		where unionid=#{unionid}
+	</select>
+
 </mapper>

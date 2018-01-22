@@ -96,4 +96,11 @@
 		AND customer_id != #{id}) f
 	</select>
 
+	<select id="loadCustomerByUnionid" resultType="com.roof.fpa.customer.entity.CustomerVo">
+		select
+		<include refid="columns_as"/>
+		from c_customer
+		where unionid=#{unionid}
+	</select>
+
 </mapper>

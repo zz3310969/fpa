@@ -6,6 +6,6 @@ package com.roof.fpa.partner.service.api;
 public interface IPartnerService {
     public Boolean isPartner(String unionid);
 
-    Boolean bind(Long partnerId,Long customerId);
+    Boolean bind(String unionid,Long customerId);
 
 }

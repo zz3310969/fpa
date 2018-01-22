@@ -61,7 +61,14 @@ public class CustomerService implements ICustomerService {
 	public CustomerVo load(Customer customer){
 		return (CustomerVo)customerDao.reload(customer);
 	}
-	
+
+	@Override
+	public CustomerVo loadByUnionid(String unionid) {
+		Customer customer = new Customer();
+		customer.setUnionid(unionid);
+		return (CustomerVo)customerDao.selectForObject("loadCustomerByUnionid",customer);
+	}
+
 	public CustomerVo selectForObject(Customer customer){
 		return (CustomerVo)customerDao.selectForObject("selectCustomer",customer);
 	}

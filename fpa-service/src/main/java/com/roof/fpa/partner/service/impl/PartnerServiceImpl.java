@@ -1,6 +1,7 @@
 package com.roof.fpa.partner.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.roof.fpa.core.http.HttpClientUtil;
 import com.roof.fpa.customer.entity.Customer;
@@ -38,9 +39,14 @@ public class PartnerServiceImpl implements IPartnerService {
     private ICustomerService customerService;
 
     @Override
-    public Boolean bind(Long partnerId,Long customerId) {
-        Customer partner = customerService.load(new Customer(partnerId));
+    public Boolean bind(String unionid,Long customerId) {
+
+        Customer partner = customerService.loadByUnionid(unionid);
         Customer customer = customerService.load(new Customer(customerId));
+
+        if(partner == null && partner.getUnionid() == null){
+            return false;
+        }
 
         if(customer == null && customer.getUnionid() == null){
             return false;
@@ -49,7 +55,7 @@ public class PartnerServiceImpl implements IPartnerService {
         Map<String,Object> map = Maps.newHashMap();
         map.put("shared_user_info",copy(partner));
         map.put("customer_user_info",copy(customer));
-        map.put("expire_at","1543334400");//秒
+        map.put("expire_at","1577808000");//秒
 
         TreeMap<String,Object> map2= new TreeMap<String,Object>(new Comparator<String>(){
             public int compare(String a,String b){
@@ -68,9 +74,16 @@ public class PartnerServiceImpl implements IPartnerService {
 
 
         try {
-            HttpClientUtil.post(xiaoe_bind_url, JSON.toJSONString(map2));
+            String result = HttpClientUtil.post(xiaoe_bind_url, JSON.toJSONString(map2));
+            JSONObject obj = JSON.parseObject(result);
+            if(obj.containsKey("code") && "0".equals(obj.getString("code"))){
+                LOGGER.info("绑定合伙人成功:");
+            }else{
+                LOGGER.error("绑定合伙人失败:",result);
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            LOGGER.error("绑定合伙人出错:",e);
         }
 
         return false;
