@@ -91,7 +91,7 @@ public class CustomerWechatController {
 		executorService.submit(new Callable<Boolean>() {
 			@Override
 			public Boolean call() throws Exception {
-				return partnerService.bind(customer.getPartnerUnionid(),customer.getId());
+				return partnerService.bind(customer.getPartnerId(),customer.getId());
 			}
 		});
 		return new Result(Result.SUCCESS);

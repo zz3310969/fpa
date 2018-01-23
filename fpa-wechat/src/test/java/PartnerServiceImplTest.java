@@ -28,7 +28,7 @@ public class PartnerServiceImplTest {
 
     @org.junit.Test
     public void bind() throws Exception {
-        partnerService.bind("oJKqg0y__7_S2__dAaTZHKLPuY4U",153L);
+        partnerService.bind(1L,153L);
 
     }
 

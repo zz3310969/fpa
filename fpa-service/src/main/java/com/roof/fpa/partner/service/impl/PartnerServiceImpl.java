@@ -39,9 +39,9 @@ public class PartnerServiceImpl implements IPartnerService {
     private ICustomerService customerService;
 
     @Override
-    public Boolean bind(String unionid,Long customerId) {
+    public Boolean bind(Long partnerId,Long customerId) {
 
-        Customer partner = customerService.loadByUnionid(unionid);
+        Customer partner = customerService.load(new Customer(partnerId));
         Customer customer = customerService.load(new Customer(customerId));
 
         if(partner == null && partner.getUnionid() == null){

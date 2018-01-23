@@ -22,7 +22,7 @@ public class CustomerVo extends Customer {
 
 	private String code;
 
-	private String partnerUnionid;
+	private Long partnerId;
 
 
 	public CustomerVo() {
@@ -74,11 +74,11 @@ public class CustomerVo extends Customer {
 		this.code = code;
 	}
 
-	public String getPartnerUnionid() {
-		return partnerUnionid;
+	public Long getPartnerId() {
+		return partnerId;
 	}
 
-	public void setPartnerUnionid(String partnerUnionid) {
-		this.partnerUnionid = partnerUnionid;
+	public void setPartnerId(Long partnerId) {
+		this.partnerId = partnerId;
 	}
 }
