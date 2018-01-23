@@ -47,17 +47,17 @@ public class FpawxacodeController {
 
 
     @RequestMapping(value = "/getacode", method = {RequestMethod.GET})
-    public void getMiddleFile(Long userId, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void getMiddleFile(Long userId,Long partnerId, HttpServletResponse response, HttpServletRequest request) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         if (userId == null) {
             throw new Exception("userId 不能为空");
         }
-        Customer c = customerService.selectForObject(new Customer(userId));
-        if (c == null) {
-            throw new Exception("找不到该id对应的customer");
-        }
+//        Customer c = customerService.selectForObject(new Customer(userId));
+//        if (c == null) {
+//            throw new Exception("找不到该id对应的customer");
+//        }
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("scene", "userId="+userId+"&unionId="+c.getUnionid());
+        map.put("scene", "userId="+userId+"&partnerId="+partnerId);
         map.put("page", "pages/index2/index");
 
         try {
