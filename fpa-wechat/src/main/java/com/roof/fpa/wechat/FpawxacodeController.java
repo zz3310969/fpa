@@ -47,7 +47,7 @@ public class FpawxacodeController {
 
 
     @RequestMapping(value = "/getacode", method = {RequestMethod.GET})
-    public void getMiddleFile(Long userId,Long partnerId, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void getMiddleFile(Long userId, HttpServletResponse response, HttpServletRequest request) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         if (userId == null) {
             throw new Exception("userId 不能为空");
@@ -57,7 +57,7 @@ public class FpawxacodeController {
 //            throw new Exception("找不到该id对应的customer");
 //        }
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("scene", "userId="+userId+"&partnerId="+partnerId);
+        map.put("scene", "userId="+userId);
         map.put("page", "pages/index2/index");
 
         try {
