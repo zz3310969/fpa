@@ -57,7 +57,7 @@ public class FpawxacodeController {
 //            throw new Exception("找不到该id对应的customer");
 //        }
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("scene", "userId="+userId);
+        map.put("scene", "partnerId=" + userId);
         map.put("page", "pages/index2/index");
 
         try {
