@@ -93,7 +93,7 @@ public class CardTestResultController {
 		cardTestResultVo.setCustomer(customerService.load(new Customer(cardTestResultVo.getCustomerId())));
 		CardTestResultDetail detail = new CardTestResultDetail();
 		detail.setResultId(cardTestResultVo.getId());
-		cardTestResultVo.setCardTestResultDetailVoList(cardTestResultDetailService.selectForList(detail));
+		cardTestResultVo.setCardTestResultDetailVoList(cardTestResultDetailService.selectForList_v2(detail));
 		List<Map<String,Object>> mapList = Lists.newArrayList();
 		Map<String,Object> red = Maps.newHashMap();
 		red.put("x","红");
