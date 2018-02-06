@@ -62,4 +62,6 @@ public interface ICardTestResultService {
 	 */
 	public abstract Page page(Page page, CardTestResult cardTestResult);
 
+	public abstract CardTestResultVo selectForLastByUserId(Long userId,Long sceneId);
+
 }

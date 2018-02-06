@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.Serializable;
 
 import com.roof.fpa.cardtestresult.entity.CardTestResultDto;
+import com.roof.fpa.cardunit.entity.CardUnit;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetail;
 import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetailVo;
@@ -63,6 +64,9 @@ public interface ICardTestResultDetailService {
 	public abstract Page page(Page page, CardTestResultDetail cardTestResultDetail);
 
 	public abstract void saveList(List<CardTestResultDto> cardTestResultDtoList,Long resultId);
+
+	public abstract CardUnit[] selectForListByResultId(Long resultId);
+
 
 
 }
