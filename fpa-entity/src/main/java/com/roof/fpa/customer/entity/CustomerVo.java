@@ -1,6 +1,7 @@
 package com.roof.fpa.customer.entity;
 
 import com.roof.fpa.GenderEnum;
+import com.roof.fpa.cardtestresult.entity.CardTestResult;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -24,6 +25,8 @@ public class CustomerVo extends Customer {
 
 	private String partnerUnionid;
 	private Long friendId;
+
+	private CardTestResult testResult;
 
 
 	public CustomerVo() {
@@ -89,5 +92,13 @@ public class CustomerVo extends Customer {
 
 	public void setFriendId(Long friendId) {
 		this.friendId = friendId;
+	}
+
+	public CardTestResult getTestResult() {
+		return testResult;
+	}
+
+	public void setTestResult(CardTestResult testResult) {
+		this.testResult = testResult;
 	}
 }

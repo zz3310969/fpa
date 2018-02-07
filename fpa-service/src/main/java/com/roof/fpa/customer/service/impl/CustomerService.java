@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.roof.fpa.DefaultUseableEnum;
 import com.roof.fpa.cache.api.ICacheHander;
+import com.roof.fpa.cardtestresult.entity.CardTestResult;
 import com.roof.fpa.cardtestresult.entity.CardTestResultVo;
 import com.roof.fpa.cardtestresult.entity.GeneralCardTestCustomerResult;
 import com.roof.fpa.cardtestresult.entity.SimilerResult;
@@ -105,7 +106,14 @@ public class CustomerService implements ICustomerService {
 	}
 
 	public Page friendsPage(Page page, Customer customer) {
-		return customerDao.friendsPage(page, customer);
+		Page result = customerDao.friendsPage(page, customer);
+		List<CustomerVo> vos = (List<CustomerVo>) result.getDataList();
+		for (CustomerVo vo :vos){
+			CardTestResult testResult = cardTestResultService.selectForLastByUserId(vo.getId(),null);
+			vo.setTestResult(testResult);
+		}
+		page.setDataList(vos);
+		return page;
 	}
 
 	public CustomerVo loadByOpenid(String openId) {
