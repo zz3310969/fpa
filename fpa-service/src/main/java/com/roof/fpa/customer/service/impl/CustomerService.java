@@ -175,7 +175,11 @@ public class CustomerService implements ICustomerService {
 		similerResult.setFriendResult(generalFriendResult);
 		similerResult.setSimilerDefn(similarDefn.getText());
 
-		return similerResult;
+        Dictionary similar = cacheHander.loadDictionaryByType("S_DIC","similar");
+        similerResult.setTitle(similar.getDescription());
+
+
+        return similerResult;
 	}
 
 	private String getSimilerColor(String color1 ,String color2){

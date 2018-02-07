@@ -7,6 +7,8 @@ public class SimilerResult {
     private float degreeScore;
     private float compleScore;
 
+    private String title;
+
     public GeneralCardTestCustomerResult getMyResult() {
         return myResult;
     }
@@ -45,5 +47,13 @@ public class SimilerResult {
 
     public void setCompleScore(float compleScore) {
         this.compleScore = compleScore;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
