@@ -23,6 +23,7 @@ public class CustomerVo extends Customer {
 	private String code;
 
 	private String partnerUnionid;
+	private Long friendId;
 
 
 	public CustomerVo() {
@@ -80,5 +81,13 @@ public class CustomerVo extends Customer {
 
 	public void setPartnerUnionid(String partnerUnionid) {
 		this.partnerUnionid = partnerUnionid;
+	}
+
+	public Long getFriendId() {
+		return friendId;
+	}
+
+	public void setFriendId(Long friendId) {
+		this.friendId = friendId;
 	}
 }

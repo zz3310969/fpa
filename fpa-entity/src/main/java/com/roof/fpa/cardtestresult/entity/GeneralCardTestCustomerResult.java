@@ -12,6 +12,7 @@ public class GeneralCardTestCustomerResult extends CardTestCustomerResult {
     private String characterCareOther="";
     private String templateId="";
     private String scoreMaxColorName = "";
+    private String scoreMaxColorCode = "";
 
     public Long getScoreMaxColorId() {
         return scoreMaxColorId;
@@ -99,5 +100,13 @@ public class GeneralCardTestCustomerResult extends CardTestCustomerResult {
 
     public void setScoreMaxColorName(String scoreMaxColorName) {
         this.scoreMaxColorName = scoreMaxColorName;
+    }
+
+    public String getScoreMaxColorCode() {
+        return scoreMaxColorCode;
+    }
+
+    public void setScoreMaxColorCode(String scoreMaxColorCode) {
+        this.scoreMaxColorCode = scoreMaxColorCode;
     }
 }

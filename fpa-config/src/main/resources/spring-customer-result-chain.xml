@@ -92,13 +92,9 @@
                 <!--分值最少的性格色彩的明显特点:fpa-bc.c_character_color.新增字段-->
                 <bean class="com.roof.chain.support.NodeFactoryBean">
                     <property name="name" value="maxScoreCalculator"/>
-                    <property name="target">
-                        <bean class="com.roof.fpa.cardtestresult.service.impl.MaxScoreCalculator">
-                            <property name="dictionaryService" ref="dictionaryService"/>
-                            <property name="characterColorService" ref="characterColorService"/>
-                            <property name="cacheHander" ref="cacheHander"/>
-                        </bean>
-                    </property>
+                    <property name="target" ref="maxScoreCalculator"/>
+
+
                     <property name="forwards">
                         <map>
                             <entry key="success" value="descriptionCalculator1"/>
@@ -236,6 +232,12 @@
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <bean id="maxScoreCalculator" class="com.roof.fpa.cardtestresult.service.impl.MaxScoreCalculator">
+        <property name="dictionaryService" ref="dictionaryService"/>
+        <property name="characterColorService" ref="characterColorService"/>
+        <property name="cacheHander" ref="cacheHander"/>
     </bean>
 
 </beans>

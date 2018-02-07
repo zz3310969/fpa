@@ -47,7 +47,7 @@ public class MaxScoreCalculator {
         generalCardTestCustomerResult.setScoreMaxColorName(colorMap.get(color));
         CharacterColor characterColor = characterColorService.selectByColorIdByCache(colorDic.getId());
         generalCardTestCustomerResult.setCharacterColorDefn(characterColor.getDescription());
-
+        generalCardTestCustomerResult.setScoreMaxColorCode(color);
         String colorMin = RED;
         int scoreMin = Integer.MAX_VALUE;
         if (NumberUtils.createInteger(generalCardTestCustomerResult.getRedScore()) < scoreMin) {

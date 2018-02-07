@@ -81,6 +81,15 @@ public class CardTestResultService implements ICardTestResultService {
 		return cardTestResultDao.page(page, cardTestResult);
 	}
 
+	@Override
+	public CardTestResultVo selectForLastByUserId(Long userId,Long sceneId) {
+		CardTestResult cardTestResult = new CardTestResult();
+		cardTestResult.setSceneId(sceneId);
+		cardTestResult.setOperatorId(userId);
+		cardTestResult.setCustomerId(userId);
+		return (CardTestResultVo)cardTestResultDao.selectForObject("selectLastCardTestResult",cardTestResult);
+	}
+
 	@Autowired
 	public void setICardTestResultDao(
 			@Qualifier("cardTestResultDao") ICardTestResultDao  cardTestResultDao) {

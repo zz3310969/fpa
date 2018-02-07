@@ -43,4 +43,14 @@
 			]]>
 		</if>
 	</select>
+
+	<select id="selectLastCardTestResult" resultType="com.roof.fpa.cardtestresult.entity.CardTestResultVo">
+		select
+		<include refid="columns_as"/>
+		from c_card_test_result
+		where 1=1
+		<include refid="conds" />
+		ORDER BY testDate DESC limit 1
+	</select>
+
 </mapper>

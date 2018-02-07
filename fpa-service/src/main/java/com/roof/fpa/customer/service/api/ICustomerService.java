@@ -3,6 +3,7 @@ package com.roof.fpa.customer.service.api;
 import java.util.List;
 import java.io.Serializable;
 
+import com.roof.fpa.cardtestresult.entity.SimilerResult;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.customer.entity.Customer;
 import com.roof.fpa.customer.entity.CustomerVo;
@@ -73,5 +74,8 @@ public interface ICustomerService {
 	 * @return
 	 */
 	public Serializable saveOrUpdate(CustomerVo customer);
+
+
+	SimilerResult similer(Long userId, Long friendId);
 
 	}

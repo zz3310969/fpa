@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.common.collect.Maps;
 import com.roof.fpa.DefaultStateEnum;
 import com.roof.fpa.GenderEnum;
+import com.roof.fpa.cardtestresult.entity.SimilerResult;
 import com.roof.fpa.cardunit.entity.CardUnit;
 import com.roof.fpa.cardunit.entity.CardUnitVo;
 import com.roof.fpa.charactercolor.entity.CharacterColor;
@@ -48,6 +49,18 @@ public class CustomerWechatController {
 		Page page = PageUtils.createPage(request);
 		page = customerService.friendsPage(page, customer);
 		return new Result(Result.SUCCESS, page);
+	}
+
+	@RequestMapping(value = "customer/friends/similer", method = {RequestMethod.GET})
+	public @ResponseBody Result similer(CustomerVo customer, HttpServletRequest request) {
+		if (customer.getId() == null){
+			return new Result(Result.ERROR,"id 不能为空");
+		}
+		if (customer.getFriendId() == null){
+			return new Result(Result.ERROR,"friendId 不能为空");
+		}
+		SimilerResult similerResult = customerService.similer(customer.getId(), customer.getFriendId());
+		return new Result(Result.SUCCESS, similerResult);
 	}
 
 	@RequestMapping(value = "customer", method = {RequestMethod.POST})
