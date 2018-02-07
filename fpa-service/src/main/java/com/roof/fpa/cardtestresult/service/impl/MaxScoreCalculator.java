@@ -9,33 +9,18 @@ import com.roof.fpa.charactercolor.service.api.ICharacterColorService;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.roof.web.dictionary.entity.Dictionary;
 import org.roof.web.dictionary.service.api.IDictionaryService;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-import java.util.Map;
+import static com.roof.fpa.cardtestresult.service.api.Colors.*;
 
 /**
  * 最大分值计算和性格色彩
  */
 public class MaxScoreCalculator {
 
-    private static final String RED = "RED";
-    private static final String YELLOW = "YELLOW";
-    private static final String BLUE = "BLUE";
-    private static final String GREEN = "GREEN";
-    private static final Map<String, String> colorMap = new HashMap<>();
     private IDictionaryService dictionaryService;
     private ICharacterColorService characterColorService;
 
     private ICacheHander cacheHander;
-
-
-    static {
-        colorMap.put(RED, "红色");
-        colorMap.put(YELLOW, "黄色");
-        colorMap.put(BLUE, "蓝色");
-        colorMap.put(GREEN, "绿色");
-    }
 
     public String doNode(CardTestResultVo cardTestResultVo, GeneralCardTestCustomerResult generalCardTestCustomerResult) {
         int scoreMax = 0;
