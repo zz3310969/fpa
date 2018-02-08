@@ -48,6 +48,11 @@
 		<property name="testWhileIdle" value="true" />
 		<property name="testOnBorrow" value="false" />
 		<property name="testOnReturn" value="false" />
+		<property name="connectionInitSqls">
+			<list>
+				<value>set names 'utf8mb4'</value>
+			</list>
+		</property>
 	</bean>
 
 	<!-- 数据源事物管理 -->
