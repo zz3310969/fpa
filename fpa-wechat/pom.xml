@@ -34,6 +34,12 @@
             <groupId>org.roof</groupId>
             <artifactId>roof-oauth2</artifactId>
             <version>${roof-version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jackson-databind</artifactId>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
