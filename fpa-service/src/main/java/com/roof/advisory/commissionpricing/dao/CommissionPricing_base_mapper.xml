@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.commissionpricing.dao">
+
+	<sql id="columns">
+		id, app_id, consultant_id, molde_id, fix_type, unit, original_price, current_price, introduction, status, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , app_id as appId , consultant_id as consultantId , molde_id as moldeId , fix_type as fixType , unit as unit , original_price as originalPrice , current_price as currentPrice , introduction as introduction , status as status , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{appId}, #{consultantId}, #{moldeId}, #{fixType}, #{unit}, #{originalPrice}, #{currentPrice}, #{introduction}, #{status}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="appId != null">
+			and app_id = #{appId}
+		</if>
+		<if test="consultantId != null">
+			and consultant_id = #{consultantId}
+		</if>
+		<if test="moldeId != null">
+			and molde_id = #{moldeId}
+		</if>
+		<if test="fixType != null and fixType != ''">
+			and fix_type = #{fixType}
+		</if>
+		<if test="unit != null and unit != ''">
+			and unit = #{unit}
+		</if>
+		<if test="originalPrice != null">
+			and original_price = #{originalPrice}
+		</if>
+		<if test="currentPrice != null">
+			and current_price = #{currentPrice}
+		</if>
+		<if test="introduction != null and introduction != ''">
+			and introduction = #{introduction}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveCommissionPricing" parameterType="com.roof.advisory.commissionpricing.entity.CommissionPricing" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_commission_pricing (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCommissionPricing">
+		delete from z_commission_pricing
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCommissionPricing">
+		delete from z_commission_pricing
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCommissionPricing">
+		update z_commission_pricing
+		<set>
+			id=#{id}, 
+			app_id=#{appId}, 
+			consultant_id=#{consultantId}, 
+			molde_id=#{moldeId}, 
+			fix_type=#{fixType}, 
+			unit=#{unit}, 
+			original_price=#{originalPrice}, 
+			current_price=#{currentPrice}, 
+			introduction=#{introduction}, 
+			status=#{status}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCommissionPricing">
+		update z_commission_pricing
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="appId != null">
+			app_id=#{appId}, 
+		</if>
+		<if test="consultantId != null">
+			consultant_id=#{consultantId}, 
+		</if>
+		<if test="moldeId != null">
+			molde_id=#{moldeId}, 
+		</if>
+		<if test="fixType != null and fixType != ''">
+			fix_type=#{fixType}, 
+		</if>
+		<if test="unit != null and unit != ''">
+			unit=#{unit}, 
+		</if>
+		<if test="originalPrice != null">
+			original_price=#{originalPrice}, 
+		</if>
+		<if test="currentPrice != null">
+			current_price=#{currentPrice}, 
+		</if>
+		<if test="introduction != null and introduction != ''">
+			introduction=#{introduction}, 
+		</if>
+		<if test="status != null">
+			status=#{status}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCommissionPricing">
+		update z_commission_pricing
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="appId != null">
+			app_id=#{appId}, 
+			</if>
+			<if test="consultantId != null">
+			consultant_id=#{consultantId}, 
+			</if>
+			<if test="moldeId != null">
+			molde_id=#{moldeId}, 
+			</if>
+			<if test="fixType != null and fixType != ''">
+			fix_type=#{fixType}, 
+			</if>
+			<if test="unit != null and unit != ''">
+			unit=#{unit}, 
+			</if>
+			<if test="originalPrice != null">
+			original_price=#{originalPrice}, 
+			</if>
+			<if test="currentPrice != null">
+			current_price=#{currentPrice}, 
+			</if>
+			<if test="introduction != null and introduction != ''">
+			introduction=#{introduction}, 
+			</if>
+			<if test="status != null">
+			status=#{status}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCommissionPricing" resultType="com.roof.advisory.commissionpricing.entity.CommissionPricingVo">
+		select 
+		<include refid="columns_as"/>
+		from z_commission_pricing
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCommissionPricing" resultType="com.roof.advisory.commissionpricing.entity.CommissionPricingVo">
+		select 
+		<include refid="columns_as"/>
+		from z_commission_pricing
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.commissionpricing.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.app_id as appId, t1.consultant_id as consultantId, t1.molde_id as moldeId, t1.fix_type as fixType, t1.unit as unit, t1.original_price as originalPrice, t1.current_price as currentPrice, t1.introduction as introduction, t1.status as status, t1.state as state
+	</sql>
+	
+	<select id="selectCommissionPricingPage" resultType="com.roof.advisory.commissionpricing.entity.CommissionPricingVo">
+		select
+		<include refid="columnsAs"/>,
+		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName
+		from
+		z_commission_pricing t1
+		join
+		(SELECT
+		id
+		from
+		z_commission_pricing
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectCommissionPricingCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from z_commission_pricing
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.level.dao">
+
+	<sql id="columns">
+		id, app_id, level_name, level_code, status, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , app_id as appId , level_name as levelName , level_code as levelCode , status as status , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{appId}, #{levelName}, #{levelCode}, #{status}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="appId != null">
+			and app_id = #{appId}
+		</if>
+		<if test="levelName != null and levelName != ''">
+			and level_name = #{levelName}
+		</if>
+		<if test="levelCode != null and levelCode != ''">
+			and level_code = #{levelCode}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveLevel" parameterType="com.roof.advisory.level.entity.Level" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_level (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteLevel">
+		delete from z_level
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleLevel">
+		delete from z_level
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateLevel">
+		update z_level
+		<set>
+			id=#{id}, 
+			app_id=#{appId}, 
+			level_name=#{levelName}, 
+			level_code=#{levelCode}, 
+			status=#{status}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullLevel">
+		update z_level
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="appId != null">
+			app_id=#{appId}, 
+		</if>
+		<if test="levelName != null and levelName != ''">
+			level_name=#{levelName}, 
+		</if>
+		<if test="levelCode != null and levelCode != ''">
+			level_code=#{levelCode}, 
+		</if>
+		<if test="status != null">
+			status=#{status}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleLevel">
+		update z_level
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="appId != null">
+			app_id=#{appId}, 
+			</if>
+			<if test="levelName != null and levelName != ''">
+			level_name=#{levelName}, 
+			</if>
+			<if test="levelCode != null and levelCode != ''">
+			level_code=#{levelCode}, 
+			</if>
+			<if test="status != null">
+			status=#{status}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadLevel" resultType="com.roof.advisory.level.entity.LevelVo">
+		select 
+		<include refid="columns_as"/>
+		from z_level
+		where id=#{id} 
+	</select>
+	
+	<select id="selectLevel" resultType="com.roof.advisory.level.entity.LevelVo">
+		select 
+		<include refid="columns_as"/>
+		from z_level
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.application.dao">
+
+	<sql id="columns">
+		id, name, logo_image_url, app_code, industry, contact, contact_tel, email, app_secret, status, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , name as name , logo_image_url as logoImageUrl , app_code as appCode , industry as industry , contact as contact , contact_tel as contactTel , email as email , app_secret as appSecret , status as status , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{name}, #{logoImageUrl}, #{appCode}, #{industry}, #{contact}, #{contactTel}, #{email}, #{appSecret}, #{status}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="logoImageUrl != null and logoImageUrl != ''">
+			and logo_image_url = #{logoImageUrl}
+		</if>
+		<if test="appCode != null and appCode != ''">
+			and app_code = #{appCode}
+		</if>
+		<if test="industry != null and industry != ''">
+			and industry = #{industry}
+		</if>
+		<if test="contact != null and contact != ''">
+			and contact = #{contact}
+		</if>
+		<if test="contactTel != null and contactTel != ''">
+			and contact_tel = #{contactTel}
+		</if>
+		<if test="email != null and email != ''">
+			and email = #{email}
+		</if>
+		<if test="appSecret != null and appSecret != ''">
+			and app_secret = #{appSecret}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveApplication" parameterType="com.roof.advisory.application.entity.Application" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_application (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteApplication">
+		delete from z_application
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleApplication">
+		delete from z_application
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateApplication">
+		update z_application
+		<set>
+			id=#{id}, 
+			name=#{name}, 
+			logo_image_url=#{logoImageUrl}, 
+			app_code=#{appCode}, 
+			industry=#{industry}, 
+			contact=#{contact}, 
+			contact_tel=#{contactTel}, 
+			email=#{email}, 
+			app_secret=#{appSecret}, 
+			status=#{status}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullApplication">
+		update z_application
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="logoImageUrl != null and logoImageUrl != ''">
+			logo_image_url=#{logoImageUrl}, 
+		</if>
+		<if test="appCode != null and appCode != ''">
+			app_code=#{appCode}, 
+		</if>
+		<if test="industry != null and industry != ''">
+			industry=#{industry}, 
+		</if>
+		<if test="contact != null and contact != ''">
+			contact=#{contact}, 
+		</if>
+		<if test="contactTel != null and contactTel != ''">
+			contact_tel=#{contactTel}, 
+		</if>
+		<if test="email != null and email != ''">
+			email=#{email}, 
+		</if>
+		<if test="appSecret != null and appSecret != ''">
+			app_secret=#{appSecret}, 
+		</if>
+		<if test="status != null">
+			status=#{status}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleApplication">
+		update z_application
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="logoImageUrl != null and logoImageUrl != ''">
+			logo_image_url=#{logoImageUrl}, 
+			</if>
+			<if test="appCode != null and appCode != ''">
+			app_code=#{appCode}, 
+			</if>
+			<if test="industry != null and industry != ''">
+			industry=#{industry}, 
+			</if>
+			<if test="contact != null and contact != ''">
+			contact=#{contact}, 
+			</if>
+			<if test="contactTel != null and contactTel != ''">
+			contact_tel=#{contactTel}, 
+			</if>
+			<if test="email != null and email != ''">
+			email=#{email}, 
+			</if>
+			<if test="appSecret != null and appSecret != ''">
+			app_secret=#{appSecret}, 
+			</if>
+			<if test="status != null">
+			status=#{status}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadApplication" resultType="com.roof.advisory.application.entity.ApplicationVo">
+		select 
+		<include refid="columns_as"/>
+		from z_application
+		where id=#{id} 
+	</select>
+	
+	<select id="selectApplication" resultType="com.roof.advisory.application.entity.ApplicationVo">
+		select 
+		<include refid="columns_as"/>
+		from z_application
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.level.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.app_id as appId, t1.level_name as levelName, t1.level_code as levelCode, t1.status as status, t1.state as state
+	</sql>
+	
+	<select id="selectLevelPage" resultType="com.roof.advisory.level.entity.LevelVo">
+		select
+		<include refid="columnsAs"/>,
+		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName
+		from
+		z_level t1
+		join
+		(SELECT
+		id
+		from
+		z_level
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectLevelCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from z_level
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

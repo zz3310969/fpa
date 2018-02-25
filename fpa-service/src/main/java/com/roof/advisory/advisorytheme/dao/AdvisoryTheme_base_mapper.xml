@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.advisorytheme.dao">
+
+	<sql id="columns">
+		id, app_id, name, code, remark, status, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , app_id as appId , name as name , code as code , remark as remark , status as status , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{appId}, #{name}, #{code}, #{remark}, #{status}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="appId != null">
+			and app_id = #{appId}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="code != null and code != ''">
+			and code = #{code}
+		</if>
+		<if test="remark != null and remark != ''">
+			and remark = #{remark}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveAdvisoryTheme" parameterType="com.roof.advisory.advisorytheme.entity.AdvisoryTheme" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_advisory_theme (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteAdvisoryTheme">
+		delete from z_advisory_theme
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleAdvisoryTheme">
+		delete from z_advisory_theme
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateAdvisoryTheme">
+		update z_advisory_theme
+		<set>
+			id=#{id}, 
+			app_id=#{appId}, 
+			name=#{name}, 
+			code=#{code}, 
+			remark=#{remark}, 
+			status=#{status}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullAdvisoryTheme">
+		update z_advisory_theme
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="appId != null">
+			app_id=#{appId}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="code != null and code != ''">
+			code=#{code}, 
+		</if>
+		<if test="remark != null and remark != ''">
+			remark=#{remark}, 
+		</if>
+		<if test="status != null">
+			status=#{status}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleAdvisoryTheme">
+		update z_advisory_theme
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="appId != null">
+			app_id=#{appId}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="code != null and code != ''">
+			code=#{code}, 
+			</if>
+			<if test="remark != null and remark != ''">
+			remark=#{remark}, 
+			</if>
+			<if test="status != null">
+			status=#{status}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadAdvisoryTheme" resultType="com.roof.advisory.advisorytheme.entity.AdvisoryThemeVo">
+		select 
+		<include refid="columns_as"/>
+		from z_advisory_theme
+		where id=#{id} 
+	</select>
+	
+	<select id="selectAdvisoryTheme" resultType="com.roof.advisory.advisorytheme.entity.AdvisoryThemeVo">
+		select 
+		<include refid="columns_as"/>
+		from z_advisory_theme
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

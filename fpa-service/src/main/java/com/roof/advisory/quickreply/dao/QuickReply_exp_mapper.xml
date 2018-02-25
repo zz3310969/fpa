@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.quickreply.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.app_id as appId, t1.title as title, t1.type as type, t1.user_id as userId, t1.detail as detail, t1.status as status, t1.state as state
+	</sql>
+	
+	<select id="selectQuickReplyPage" resultType="com.roof.advisory.quickreply.entity.QuickReplyVo">
+		select
+		<include refid="columnsAs"/>,
+		(SELECT NAME FROM z_consultant WHERE id = t1.user_id ) as userName,
+		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName
+		from
+		z_quick_reply t1
+		join
+		(SELECT
+		id
+		from
+		z_quick_reply
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectQuickReplyCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from z_quick_reply
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

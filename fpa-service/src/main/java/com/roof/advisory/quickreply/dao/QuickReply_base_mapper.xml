@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.quickreply.dao">
+
+	<sql id="columns">
+		id, app_id, title, type, user_id, detail, status, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , app_id as appId , title as title , type as type , user_id as userId , detail as detail , status as status , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{appId}, #{title}, #{type}, #{userId}, #{detail}, #{status}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="appId != null">
+			and app_id = #{appId}
+		</if>
+		<if test="title != null and title != ''">
+			and title = #{title}
+		</if>
+		<if test="type != null and type != '' ">
+			and type = #{type}
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="detail != null and detail != ''">
+			and detail = #{detail}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveQuickReply" parameterType="com.roof.advisory.quickreply.entity.QuickReply" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_quick_reply (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteQuickReply">
+		delete from z_quick_reply
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleQuickReply">
+		delete from z_quick_reply
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateQuickReply">
+		update z_quick_reply
+		<set>
+			id=#{id}, 
+			app_id=#{appId}, 
+			title=#{title}, 
+			type=#{type}, 
+			user_id=#{userId}, 
+			detail=#{detail}, 
+			status=#{status}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullQuickReply">
+		update z_quick_reply
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="appId != null">
+			app_id=#{appId}, 
+		</if>
+		<if test="title != null and title != ''">
+			title=#{title}, 
+		</if>
+		<if test="type != null and type != ''">
+			type=#{type}, 
+		</if>
+		<if test="userId != null">
+			user_id=#{userId}, 
+		</if>
+		<if test="detail != null and detail != ''">
+			detail=#{detail}, 
+		</if>
+		<if test="status != null">
+			status=#{status}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleQuickReply">
+		update z_quick_reply
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="appId != null">
+			app_id=#{appId}, 
+			</if>
+			<if test="title != null and title != ''">
+			title=#{title}, 
+			</if>
+			<if test="type != null and type != ''">
+			type=#{type}, 
+			</if>
+			<if test="userId != null">
+			user_id=#{userId}, 
+			</if>
+			<if test="detail != null and detail != ''">
+			detail=#{detail}, 
+			</if>
+			<if test="status != null">
+			status=#{status}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadQuickReply" resultType="com.roof.advisory.quickreply.entity.QuickReplyVo">
+		select 
+		<include refid="columns_as"/>
+		from z_quick_reply
+		where id=#{id} 
+	</select>
+	
+	<select id="selectQuickReply" resultType="com.roof.advisory.quickreply.entity.QuickReplyVo">
+		select 
+		<include refid="columns_as"/>
+		from z_quick_reply
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

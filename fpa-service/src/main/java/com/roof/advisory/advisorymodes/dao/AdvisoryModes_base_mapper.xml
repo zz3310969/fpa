@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.advisorymodes.dao">
+
+	<sql id="columns">
+		id, app_id, mode_name, status, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , app_id as appId , mode_name as modeName , status as status , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{appId}, #{modeName}, #{status}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="appId != null">
+			and app_id = #{appId}
+		</if>
+		<if test="modeName != null and modeName != ''">
+			and mode_name = #{modeName}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveAdvisoryModes" parameterType="com.roof.advisory.advisorymodes.entity.AdvisoryModes" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_advisory_modes (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteAdvisoryModes">
+		delete from z_advisory_modes
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleAdvisoryModes">
+		delete from z_advisory_modes
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateAdvisoryModes">
+		update z_advisory_modes
+		<set>
+			id=#{id}, 
+			app_id=#{appId}, 
+			mode_name=#{modeName}, 
+			status=#{status}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullAdvisoryModes">
+		update z_advisory_modes
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="appId != null">
+			app_id=#{appId}, 
+		</if>
+		<if test="modeName != null and modeName != ''">
+			mode_name=#{modeName}, 
+		</if>
+		<if test="status != null">
+			status=#{status}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleAdvisoryModes">
+		update z_advisory_modes
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="appId != null">
+			app_id=#{appId}, 
+			</if>
+			<if test="modeName != null and modeName != ''">
+			mode_name=#{modeName}, 
+			</if>
+			<if test="status != null">
+			status=#{status}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadAdvisoryModes" resultType="com.roof.advisory.advisorymodes.entity.AdvisoryModesVo">
+		select 
+		<include refid="columns_as"/>
+		from z_advisory_modes
+		where id=#{id} 
+	</select>
+	
+	<select id="selectAdvisoryModes" resultType="com.roof.advisory.advisorymodes.entity.AdvisoryModesVo">
+		select 
+		<include refid="columns_as"/>
+		from z_advisory_modes
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

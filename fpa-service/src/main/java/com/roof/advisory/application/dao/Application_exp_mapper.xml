@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.application.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.name as name, t1.logo_image_url as logoImageUrl, t1.app_code as appCode, t1.industry as industry, t1.contact as contact, t1.contact_tel as contactTel, t1.email as email, t1.app_secret as appSecret, t1.status as status, t1.state as state
+	</sql>
+	
+	<select id="selectApplicationPage" resultType="com.roof.advisory.application.entity.ApplicationVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		z_application t1
+		join
+		(SELECT
+		id
+		from
+		z_application
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectApplicationCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from z_application
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

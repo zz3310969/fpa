@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.consultant.dao">
+
+	<sql id="columns">
+		id, app_id, name, head_image_url, level_id, theme_id, area_id, gender, introduction, status, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , app_id as appId , name as name , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , status as status , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{appId}, #{name}, #{headImageUrl}, #{levelId}, #{themeId}, #{areaId}, #{gender}, #{introduction}, #{status}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="appId != null">
+			and app_id = #{appId}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="headImageUrl != null and headImageUrl != ''">
+			and head_image_url = #{headImageUrl}
+		</if>
+		<if test="levelId != null">
+			and level_id = #{levelId}
+		</if>
+		<if test="themeId != null">
+			and theme_id = #{themeId}
+		</if>
+		<if test="areaId != null">
+			and area_id = #{areaId}
+		</if>
+		<if test="gender != null">
+			and gender = #{gender}
+		</if>
+		<if test="introduction != null and introduction != ''">
+			and introduction = #{introduction}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveConsultant" parameterType="com.roof.advisory.consultant.entity.Consultant" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_consultant (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteConsultant">
+		delete from z_consultant
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleConsultant">
+		delete from z_consultant
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateConsultant">
+		update z_consultant
+		<set>
+			id=#{id}, 
+			app_id=#{appId}, 
+			name=#{name}, 
+			head_image_url=#{headImageUrl}, 
+			level_id=#{levelId}, 
+			theme_id=#{themeId}, 
+			area_id=#{areaId}, 
+			gender=#{gender}, 
+			introduction=#{introduction}, 
+			status=#{status}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullConsultant">
+		update z_consultant
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="appId != null">
+			app_id=#{appId}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="headImageUrl != null and headImageUrl != ''">
+			head_image_url=#{headImageUrl}, 
+		</if>
+		<if test="levelId != null">
+			level_id=#{levelId}, 
+		</if>
+		<if test="themeId != null">
+			theme_id=#{themeId}, 
+		</if>
+		<if test="areaId != null">
+			area_id=#{areaId}, 
+		</if>
+		<if test="gender != null">
+			gender=#{gender}, 
+		</if>
+		<if test="introduction != null and introduction != ''">
+			introduction=#{introduction}, 
+		</if>
+		<if test="status != null">
+			status=#{status}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleConsultant">
+		update z_consultant
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="appId != null">
+			app_id=#{appId}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="headImageUrl != null and headImageUrl != ''">
+			head_image_url=#{headImageUrl}, 
+			</if>
+			<if test="levelId != null">
+			level_id=#{levelId}, 
+			</if>
+			<if test="themeId != null">
+			theme_id=#{themeId}, 
+			</if>
+			<if test="areaId != null">
+			area_id=#{areaId}, 
+			</if>
+			<if test="gender != null">
+			gender=#{gender}, 
+			</if>
+			<if test="introduction != null and introduction != ''">
+			introduction=#{introduction}, 
+			</if>
+			<if test="status != null">
+			status=#{status}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadConsultant" resultType="com.roof.advisory.consultant.entity.ConsultantVo">
+		select 
+		<include refid="columns_as"/>
+		from z_consultant
+		where id=#{id} 
+	</select>
+	
+	<select id="selectConsultant" resultType="com.roof.advisory.consultant.entity.ConsultantVo">
+		select 
+		<include refid="columns_as"/>
+		from z_consultant
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>
