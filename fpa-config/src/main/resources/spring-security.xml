@@ -7,7 +7,7 @@
 			 xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/security/oauth2
-		http://www.springframework.org/schema/security/spring-security-oauth2.xsd
+		http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/util
@@ -44,11 +44,13 @@
 	<http pattern="/**/*.js" request-matcher="ant" security="none" />
 	<http pattern="/**/*.html" request-matcher="ant" security="none" />
 	<http pattern=".+[.](ico$|png$|jpg$|gif$|PNG$|JPG$|GIF$|xml$|xls$)" request-matcher="regex" security="none" />
+	<http pattern="/oauth/check_token" security="none" />
 
 
 
 	<!-- 权限名称必须以 ROLE_ 开头 -->
 	<http auto-config="true" use-expressions="true" pattern="/**">
+		<intercept-url pattern="/oauth/*" access="permitAll()" />
 
 		<custom-filter ref="oAuth2AuthenticationProcessingFilter"
 					   before="CAS_FILTER"  />
@@ -63,6 +65,7 @@
 		<csrf disabled="true"/>
 		<remember-me />
 	</http>
+
 
 
 
@@ -148,7 +151,7 @@
 
 
 
-	<authorization-server client-details-service-ref="clientDetailsService"
+	<authorization-server client-details-service-ref="clientDetailsService" check-token-enabled="true"
 						  xmlns="http://www.springframework.org/schema/security/oauth2" token-services-ref="tokenServices" >
 
 		<authorization-code />

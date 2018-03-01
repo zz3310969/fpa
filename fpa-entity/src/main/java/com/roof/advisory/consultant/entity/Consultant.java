@@ -38,6 +38,13 @@ public class Consultant implements Serializable {
 	protected Integer status;// 状态
 	@ApiModelProperty(value = "逻辑删除使用")
 	protected Integer state;// 逻辑删除使用
+	protected Long userId;// 用户id
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@ApiModelProperty(value = "注册时间")
+	protected Date regTime;// 注册时间
+	protected String username;//登陆账号
+	protected String mobile;//手机
 
 	public Consultant() {
 		super();
@@ -124,5 +131,37 @@ public class Consultant implements Serializable {
 	}
 	public void setState(Integer state) {
 		this.state = state;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Date getRegTime() {
+		return regTime;
+	}
+
+	public void setRegTime(Date regTime) {
+		this.regTime = regTime;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 }

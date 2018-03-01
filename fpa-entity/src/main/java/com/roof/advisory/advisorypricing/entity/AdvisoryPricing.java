@@ -1,4 +1,4 @@
-package com.roof.advisory.commissionpricing.entity;
+package com.roof.advisory.advisorypricing.entity;
 
 import javax.persistence.Id;
 import java.util.Date;
@@ -10,18 +10,18 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * @author 模版生成 <br/>
- *         表名： z_commission_pricing <br/>
- *         描述：咨询佣金定价 <br/>
+ *         表名： z_advisory_pricing <br/>
+ *         描述：咨询服务定价 <br/>
  */
-@ApiModel(value = "z_commission_pricing", description = "咨询佣金定价")
-public class CommissionPricing implements Serializable {
+@ApiModel(value = "z_advisory_pricing", description = "咨询服务定价")
+public class AdvisoryPricing implements Serializable {
 	// 需要手动添加非默认的serialVersionUID
 	@ApiModelProperty(value = "id")
 	protected Long id;// id
 	@ApiModelProperty(value = "所属系统")
 	protected Long appId;// 所属系统
-	@ApiModelProperty(value = "consultant_id")
-	protected Long consultantId;// 咨询师姓名
+	@ApiModelProperty(value = "咨询师")
+	protected Long consultantId;// 咨询师
 	@ApiModelProperty(value = "咨询模式")
 	protected Long moldeId;// 咨询模式
 	@ApiModelProperty(value = "定价类型")
@@ -38,12 +38,20 @@ public class CommissionPricing implements Serializable {
 	protected Integer status;// 状态
 	@ApiModelProperty(value = "逻辑删除")
 	protected Integer state;// 逻辑删除
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@ApiModelProperty(value = "有效期")
+	protected Date validityStartTime;// 有效期
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@ApiModelProperty(value = "有效期")
+	protected Date validityEndTime;// 有效期
 
-	public CommissionPricing() {
+	public AdvisoryPricing() {
 		super();
 	}
 
-	public CommissionPricing(Long id) {
+	public AdvisoryPricing(Long id) {
 		super();
 		this.id = id;
 	}
@@ -124,5 +132,19 @@ public class CommissionPricing implements Serializable {
 	}
 	public void setState(Integer state) {
 		this.state = state;
+	}
+	
+	public Date getValidityStartTime() {
+		return validityStartTime;
+	}
+	public void setValidityStartTime(Date validityStartTime) {
+		this.validityStartTime = validityStartTime;
+	}
+	
+	public Date getValidityEndTime() {
+		return validityEndTime;
+	}
+	public void setValidityEndTime(Date validityEndTime) {
+		this.validityEndTime = validityEndTime;
 	}
 }

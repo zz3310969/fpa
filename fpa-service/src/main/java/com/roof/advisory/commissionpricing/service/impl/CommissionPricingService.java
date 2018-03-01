@@ -2,6 +2,8 @@ package com.roof.advisory.commissionpricing.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.roof.fpa.DefaultStateEnum;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.advisory.commissionpricing.dao.api.ICommissionPricingDao;
 import com.roof.advisory.commissionpricing.entity.CommissionPricing;
@@ -16,6 +18,7 @@ public class CommissionPricingService implements ICommissionPricingService {
 	private ICommissionPricingDao commissionPricingDao;
 
 	public Serializable save(CommissionPricing commissionPricing){
+		commissionPricing.setState(DefaultStateEnum.usable.getCode());
 		return commissionPricingDao.save(commissionPricing);
 	}
 

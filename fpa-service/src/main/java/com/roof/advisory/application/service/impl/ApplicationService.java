@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.roof.fpa.DefaultStateEnum;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.text.RandomStringGenerator;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.advisory.application.dao.api.IApplicationDao;
 import com.roof.advisory.application.entity.Application;
@@ -13,11 +15,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import static org.apache.commons.text.CharacterPredicates.DIGITS;
+import static org.apache.commons.text.CharacterPredicates.LETTERS;
+
 @Service
 public class ApplicationService implements IApplicationService {
 	private IApplicationDao applicationDao;
+	//使用字母0-9,a-z，生成20个code point(维基百科称之为'码位')的随机字符串
+	RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('0', 'z').filteredBy(LETTERS, DIGITS).build();
 
 	public Serializable save(Application application){
+		String randomLetters = generator.generate(15);
+		application.setAppCode("zx"+randomLetters);
+		application.setAppSecret(DigestUtils.md5Hex(generator.generate(10)).toUpperCase());
 		application.setState(DefaultStateEnum.usable.getCode());
 		return applicationDao.save(application);
 	}

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.roof.advisory.commissionpricing.dao">
+<mapper namespace="com.roof.advisory.advisorypricing.dao">
 
 	<sql id="columns">
-		id, app_id, consultant_id, molde_id, fix_type, unit, original_price, current_price, introduction, status, state
+		id, app_id, consultant_id, molde_id, fix_type, unit, original_price, current_price, introduction, status, state, validity_start_time, validity_end_time
 	</sql>
 
 	<sql id="columns_as">
-		id as id , app_id as appId , consultant_id as consultantId , molde_id as moldeId , fix_type as fixType , unit as unit , original_price as originalPrice , current_price as currentPrice , introduction as introduction , status as status , state as state 
+		id as id , app_id as appId , consultant_id as consultantId , molde_id as moldeId , fix_type as fixType , unit as unit , original_price as originalPrice , current_price as currentPrice , introduction as introduction , status as status , state as state , validity_start_time as validityStartTime , validity_end_time as validityEndTime 
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{appId}, #{consultantId}, #{moldeId}, #{fixType}, #{unit}, #{originalPrice}, #{currentPrice}, #{introduction}, #{status}, #{state}
+		#{id}, #{appId}, #{consultantId}, #{moldeId}, #{fixType}, #{unit}, #{originalPrice}, #{currentPrice}, #{introduction}, #{status}, #{state}, #{validityStartTime}, #{validityEndTime}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -49,29 +49,35 @@
 		<if test="state != null">
 			and state = #{state}
 		</if>
+		<if test="validityStartTime != null">
+			and validity_start_time = #{validityStartTime}
+		</if>
+		<if test="validityEndTime != null">
+			and validity_end_time = #{validityEndTime}
+		</if>
 	</sql>
 
-	<insert id="saveCommissionPricing" parameterType="com.roof.advisory.commissionpricing.entity.CommissionPricing" useGeneratedKeys="true" keyProperty="id">
+	<insert id="saveAdvisoryPricing" parameterType="com.roof.advisory.advisorypricing.entity.AdvisoryPricing" useGeneratedKeys="true" keyProperty="id">
 		<selectKey keyProperty="id" resultType="Long" order="AFTER">
 			select last_insert_id()
 		</selectKey>
-		insert into z_commission_pricing (<include refid="columns" />) 
+		insert into z_advisory_pricing (<include refid="columns" />) 
 		values (<include refid="vals" />)
 	</insert>
 
-	<delete id="deleteCommissionPricing">
-		delete from z_commission_pricing
+	<delete id="deleteAdvisoryPricing">
+		delete from z_advisory_pricing
 		where id=#{id} 
 	</delete>
 
-	<delete id="deleteByExampleCommissionPricing">
-		delete from z_commission_pricing
+	<delete id="deleteByExampleAdvisoryPricing">
+		delete from z_advisory_pricing
 		where 1=1
 		<include refid="conds" />
 	</delete>
 
-	<update id="updateCommissionPricing">
-		update z_commission_pricing
+	<update id="updateAdvisoryPricing">
+		update z_advisory_pricing
 		<set>
 			id=#{id}, 
 			app_id=#{appId}, 
@@ -83,13 +89,15 @@
 			current_price=#{currentPrice}, 
 			introduction=#{introduction}, 
 			status=#{status}, 
-			state=#{state}
+			state=#{state}, 
+			validity_start_time=#{validityStartTime}, 
+			validity_end_time=#{validityEndTime}
 		</set>
 		where id=#{id} 
 	</update>
 
-	<update id="updateIgnoreNullCommissionPricing">
-		update z_commission_pricing
+	<update id="updateIgnoreNullAdvisoryPricing">
+		update z_advisory_pricing
 		<set>
 		<if test="id != null">
 			id=#{id}, 
@@ -122,14 +130,20 @@
 			status=#{status}, 
 		</if>
 		<if test="state != null">
-			state=#{state}
+			state=#{state}, 
+		</if>
+		<if test="validityStartTime != null">
+			validity_start_time=#{validityStartTime}, 
+		</if>
+		<if test="validityEndTime != null">
+			validity_end_time=#{validityEndTime}
 		</if>
 		</set>
 		where id=#{id} 
 	</update>
 
-	<update id="updateByExampleCommissionPricing">
-		update z_commission_pricing
+	<update id="updateByExampleAdvisoryPricing">
+		update z_advisory_pricing
 		<set>
 			<if test="id != null">
 			id=#{id}, 
@@ -162,25 +176,31 @@
 			status=#{status}, 
 			</if>
 			<if test="state != null">
-			state=#{state}
+			state=#{state}, 
+			</if>
+			<if test="validityStartTime != null">
+			validity_start_time=#{validityStartTime}, 
+			</if>
+			<if test="validityEndTime != null">
+			validity_end_time=#{validityEndTime}
 			</if>
 		</set>
 		where 1=1
 		<include refid="conds" />
 	</update>
 	
-	<select id="loadCommissionPricing" resultType="com.roof.advisory.commissionpricing.entity.CommissionPricingVo">
+	<select id="loadAdvisoryPricing" resultType="com.roof.advisory.advisorypricing.entity.AdvisoryPricingVo">
 		select 
 		<include refid="columns_as"/>,
 		(SELECT NAME FROM z_consultant WHERE id = consultant_id ) as consultantName
-		from z_commission_pricing
+		from z_advisory_pricing
 		where id=#{id} 
 	</select>
 	
-	<select id="selectCommissionPricing" resultType="com.roof.advisory.commissionpricing.entity.CommissionPricingVo">
+	<select id="selectAdvisoryPricing" resultType="com.roof.advisory.advisorypricing.entity.AdvisoryPricingVo">
 		select 
 		<include refid="columns_as"/>
-		from z_commission_pricing
+		from z_advisory_pricing
 		where 1=1
 		<include refid="conds" />
 		and state = '1'

@@ -1,35 +1,34 @@
-package com.roof.advisory.commissionpricing.entity;
+package com.roof.advisory.advisorypricing.entity;
 
 import java.util.List;
 
 /**
  * @author 模版生成 <br/>
- *         表名： z_commission_pricing <br/>
- *         描述：咨询佣金定价 <br/>
+ *         表名： z_advisory_pricing <br/>
+ *         描述：咨询服务定价 <br/>
  */
-public class CommissionPricingVo extends CommissionPricing {
+public class AdvisoryPricingVo extends AdvisoryPricing {
 
-	private List<CommissionPricingVo> commissionPricingList;
+	private List<AdvisoryPricingVo> advisoryPricingList;
 	private String appName;
 	private String consultantName;// 咨询师姓名
 	private String modeName;
 
-
-	public CommissionPricingVo() {
+	public AdvisoryPricingVo() {
 		super();
 	}
 
-	public CommissionPricingVo(Long id) {
+	public AdvisoryPricingVo(Long id) {
 		super();
 		this.id = id;
 	}
 
-	public List<CommissionPricingVo> getCommissionPricingList() {
-		return commissionPricingList;
+	public List<AdvisoryPricingVo> getAdvisoryPricingList() {
+		return advisoryPricingList;
 	}
 
-	public void setCommissionPricingList(List<CommissionPricingVo> commissionPricingList) {
-		this.commissionPricingList = commissionPricingList;
+	public void setAdvisoryPricingList(List<AdvisoryPricingVo> advisoryPricingList) {
+		this.advisoryPricingList = advisoryPricingList;
 	}
 
 	public String getAppName() {

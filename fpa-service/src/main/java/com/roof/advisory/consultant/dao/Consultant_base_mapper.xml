@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.advisory.consultant.dao">
 
 	<sql id="columns">
-		id, app_id, name, head_image_url, level_id, theme_id, area_id, gender, introduction, status, state
+		id, app_id, name, username, head_image_url, level_id, theme_id, area_id, gender, introduction, user_id, mobile, reg_time, status, state
 	</sql>
 
 	<sql id="columns_as">
-		id as id , app_id as appId , name as name , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , status as status , state as state 
+		id as id , app_id as appId , name as name , username as username , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , user_id as userId , mobile as mobile , reg_time as regTime , status as status , state as state 
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{appId}, #{name}, #{headImageUrl}, #{levelId}, #{themeId}, #{areaId}, #{gender}, #{introduction}, #{status}, #{state}
+		#{id}, #{appId}, #{name}, #{username}, #{headImageUrl}, #{levelId}, #{themeId}, #{areaId}, #{gender}, #{introduction}, #{userId}, #{mobile}, #{regTime}, #{status}, #{state}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -24,6 +24,9 @@
 		</if>
 		<if test="name != null and name != ''">
 			and name = #{name}
+		</if>
+		<if test="username != null and username != ''">
+			and username = #{username}
 		</if>
 		<if test="headImageUrl != null and headImageUrl != ''">
 			and head_image_url = #{headImageUrl}
@@ -42,6 +45,15 @@
 		</if>
 		<if test="introduction != null and introduction != ''">
 			and introduction = #{introduction}
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="mobile != null and mobile != ''">
+			and mobile = #{mobile}
+		</if>
+		<if test="regTime != null">
+			and reg_time = #{regTime}
 		</if>
 		<if test="status != null">
 			and status = #{status}
@@ -76,12 +88,16 @@
 			id=#{id}, 
 			app_id=#{appId}, 
 			name=#{name}, 
+			username=#{username}, 
 			head_image_url=#{headImageUrl}, 
 			level_id=#{levelId}, 
 			theme_id=#{themeId}, 
 			area_id=#{areaId}, 
 			gender=#{gender}, 
 			introduction=#{introduction}, 
+			user_id=#{userId}, 
+			mobile=#{mobile}, 
+			reg_time=#{regTime}, 
 			status=#{status}, 
 			state=#{state}
 		</set>
@@ -100,6 +116,9 @@
 		<if test="name != null and name != ''">
 			name=#{name}, 
 		</if>
+		<if test="username != null and username != ''">
+			username=#{username}, 
+		</if>
 		<if test="headImageUrl != null and headImageUrl != ''">
 			head_image_url=#{headImageUrl}, 
 		</if>
@@ -117,6 +136,15 @@
 		</if>
 		<if test="introduction != null and introduction != ''">
 			introduction=#{introduction}, 
+		</if>
+		<if test="userId != null">
+			user_id=#{userId}, 
+		</if>
+		<if test="mobile != null and mobile != ''">
+			mobile=#{mobile}, 
+		</if>
+		<if test="regTime != null">
+			reg_time=#{regTime}, 
 		</if>
 		<if test="status != null">
 			status=#{status}, 
@@ -140,6 +168,9 @@
 			<if test="name != null and name != ''">
 			name=#{name}, 
 			</if>
+			<if test="username != null and username != ''">
+			username=#{username}, 
+			</if>
 			<if test="headImageUrl != null and headImageUrl != ''">
 			head_image_url=#{headImageUrl}, 
 			</if>
@@ -157,6 +188,15 @@
 			</if>
 			<if test="introduction != null and introduction != ''">
 			introduction=#{introduction}, 
+			</if>
+			<if test="userId != null">
+			user_id=#{userId}, 
+			</if>
+			<if test="mobile != null and mobile != ''">
+			mobile=#{mobile}, 
+			</if>
+			<if test="regTime != null">
+			reg_time=#{regTime}, 
 			</if>
 			<if test="status != null">
 			status=#{status}, 

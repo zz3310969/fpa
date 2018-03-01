@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.applicationuser.dao">
+
+	<sql id="columns">
+		id, app_id, head_image_url, name, username, moblie, email, user_id, status, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , app_id as appId , head_image_url as headImageUrl , name as name , username as username , moblie as moblie , email as email , user_id as userId , status as status , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{appId}, #{headImageUrl}, #{name}, #{username}, #{moblie}, #{email}, #{userId}, #{status}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="appId != null">
+			and app_id = #{appId}
+		</if>
+		<if test="headImageUrl != null and headImageUrl != ''">
+			and head_image_url = #{headImageUrl}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="username != null and username != ''">
+			and username = #{username}
+		</if>
+		<if test="moblie != null and moblie != ''">
+			and moblie = #{moblie}
+		</if>
+		<if test="email != null and email != ''">
+			and email = #{email}
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveApplicationUser" parameterType="com.roof.advisory.applicationuser.entity.ApplicationUser" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_application_user (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteApplicationUser">
+		delete from z_application_user
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleApplicationUser">
+		delete from z_application_user
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateApplicationUser">
+		update z_application_user
+		<set>
+			id=#{id}, 
+			app_id=#{appId}, 
+			head_image_url=#{headImageUrl}, 
+			name=#{name}, 
+			username=#{username}, 
+			moblie=#{moblie}, 
+			email=#{email}, 
+			user_id=#{userId}, 
+			status=#{status}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullApplicationUser">
+		update z_application_user
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="appId != null">
+			app_id=#{appId}, 
+		</if>
+		<if test="headImageUrl != null and headImageUrl != ''">
+			head_image_url=#{headImageUrl}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="username != null and username != ''">
+			username=#{username}, 
+		</if>
+		<if test="moblie != null and moblie != ''">
+			moblie=#{moblie}, 
+		</if>
+		<if test="email != null and email != ''">
+			email=#{email}, 
+		</if>
+		<if test="userId != null">
+			user_id=#{userId}, 
+		</if>
+		<if test="status != null">
+			status=#{status}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleApplicationUser">
+		update z_application_user
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="appId != null">
+			app_id=#{appId}, 
+			</if>
+			<if test="headImageUrl != null and headImageUrl != ''">
+			head_image_url=#{headImageUrl}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="username != null and username != ''">
+			username=#{username}, 
+			</if>
+			<if test="moblie != null and moblie != ''">
+			moblie=#{moblie}, 
+			</if>
+			<if test="email != null and email != ''">
+			email=#{email}, 
+			</if>
+			<if test="userId != null">
+			user_id=#{userId}, 
+			</if>
+			<if test="status != null">
+			status=#{status}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadApplicationUser" resultType="com.roof.advisory.applicationuser.entity.ApplicationUserVo">
+		select 
+		<include refid="columns_as"/>
+		from z_application_user
+		where id=#{id} 
+	</select>
+	
+	<select id="selectApplicationUser" resultType="com.roof.advisory.applicationuser.entity.ApplicationUserVo">
+		select 
+		<include refid="columns_as"/>
+		from z_application_user
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

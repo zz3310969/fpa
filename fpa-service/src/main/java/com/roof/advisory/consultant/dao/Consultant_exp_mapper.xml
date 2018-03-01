@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.advisory.consultant.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.app_id as appId, t1.name as name, t1.head_image_url as headImageUrl, t1.level_id as levelId, t1.theme_id as themeId, t1.area_id as areaId, t1.gender as gender, t1.introduction as introduction, t1.status as status, t1.state as state
+		t1.id as id, t1.app_id as appId, t1.name as name, t1.username as username, t1.head_image_url as headImageUrl, t1.level_id as levelId, t1.theme_id as themeId, t1.area_id as areaId, t1.gender as gender, t1.introduction as introduction, t1.user_id as userId, t1.mobile as mobile, t1.reg_time as regTime, t1.status as status, t1.state as state
 	</sql>
 	
 	<select id="selectConsultantPage" resultType="com.roof.advisory.consultant.entity.ConsultantVo">
