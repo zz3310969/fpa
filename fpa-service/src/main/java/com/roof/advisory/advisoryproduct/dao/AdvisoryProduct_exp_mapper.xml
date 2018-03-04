@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.advisoryproduct.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.name as name, t1.code as code, t1.app_id as appId, t1.cons_id as consId, t1.remark as remark, t1.modes_id as modesId, t1.status as status, t1.state as state, t1.advis_id as advisId, t1.validity_start_time as validityStartTime, t1.validity_end_time as validityEndTime
+	</sql>
+	
+	<select id="selectAdvisoryProductPage" resultType="com.roof.advisory.advisoryproduct.entity.AdvisoryProductVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		z_advisory_product t1
+		join
+		(SELECT
+		id
+		from
+		z_advisory_product
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectAdvisoryProductCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from z_advisory_product
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.commentitems.dao">
+
+	<sql id="columns">
+		id, name, eval_mode, total_score, prosetaion_type, status, state, comment_template
+	</sql>
+
+	<sql id="columns_as">
+		id as id , name as name , eval_mode as evalMode , total_score as totalScore , prosetaion_type as prosetaionType , status as status , state as state , comment_template as commentTemplate 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{name}, #{evalMode}, #{totalScore}, #{prosetaionType}, #{status}, #{state}, #{commentTemplate}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="evalMode != null and evalMode != ''">
+			and eval_mode = #{evalMode}
+		</if>
+		<if test="totalScore != null">
+			and total_score = #{totalScore}
+		</if>
+		<if test="prosetaionType != null and prosetaionType != ''">
+			and prosetaion_type = #{prosetaionType}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+		<if test="commentTemplate != null">
+			and comment_template = #{commentTemplate}
+		</if>
+	</sql>
+
+	<insert id="saveCommentItems" parameterType="com.roof.advisory.commentitems.entity.CommentItems" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_comment_items (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCommentItems">
+		delete from z_comment_items
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCommentItems">
+		delete from z_comment_items
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCommentItems">
+		update z_comment_items
+		<set>
+			id=#{id}, 
+			name=#{name}, 
+			eval_mode=#{evalMode}, 
+			total_score=#{totalScore}, 
+			prosetaion_type=#{prosetaionType}, 
+			status=#{status}, 
+			state=#{state}, 
+			comment_template=#{commentTemplate}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCommentItems">
+		update z_comment_items
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="evalMode != null and evalMode != ''">
+			eval_mode=#{evalMode}, 
+		</if>
+		<if test="totalScore != null">
+			total_score=#{totalScore}, 
+		</if>
+		<if test="prosetaionType != null and prosetaionType != ''">
+			prosetaion_type=#{prosetaionType}, 
+		</if>
+		<if test="status != null">
+			status=#{status}, 
+		</if>
+		<if test="state != null">
+			state=#{state}, 
+		</if>
+		<if test="commentTemplate != null">
+			comment_template=#{commentTemplate}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCommentItems">
+		update z_comment_items
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="evalMode != null and evalMode != ''">
+			eval_mode=#{evalMode}, 
+			</if>
+			<if test="totalScore != null and totalScore != ''">
+			total_score=#{totalScore}, 
+			</if>
+			<if test="prosetaionType != null and prosetaionType != ''">
+			prosetaion_type=#{prosetaionType}, 
+			</if>
+			<if test="status != null">
+			status=#{status}, 
+			</if>
+			<if test="state != null">
+			state=#{state}, 
+			</if>
+			<if test="commentTemplate != null">
+			comment_template=#{commentTemplate}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCommentItems" resultType="com.roof.advisory.commentitems.entity.CommentItemsVo">
+		select 
+		<include refid="columns_as"/>
+		from z_comment_items
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCommentItems" resultType="com.roof.advisory.commentitems.entity.CommentItemsVo">
+		select 
+		<include refid="columns_as"/>
+		from z_comment_items
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

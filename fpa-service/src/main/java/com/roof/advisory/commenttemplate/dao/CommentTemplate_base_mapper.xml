@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.commenttemplate.dao">
+
+	<sql id="columns">
+		id, name, app_id, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , name as name , app_id as appId , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{name}, #{appId}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="appId != null">
+			and app_id = #{appId}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveCommentTemplate" parameterType="com.roof.advisory.commenttemplate.entity.CommentTemplate" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_comment_template (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteCommentTemplate">
+		delete from z_comment_template
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleCommentTemplate">
+		delete from z_comment_template
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateCommentTemplate">
+		update z_comment_template
+		<set>
+			id=#{id}, 
+			name=#{name}, 
+			app_id=#{appId}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullCommentTemplate">
+		update z_comment_template
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="appId != null">
+			app_id=#{appId}, 
+		</if>
+		<if test="state != null">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleCommentTemplate">
+		update z_comment_template
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="appId != null">
+			app_id=#{appId}, 
+			</if>
+			<if test="state != null">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadCommentTemplate" resultType="com.roof.advisory.commenttemplate.entity.CommentTemplateVo">
+		select 
+		<include refid="columns_as"/>
+		from z_comment_template
+		where id=#{id} 
+	</select>
+	
+	<select id="selectCommentTemplate" resultType="com.roof.advisory.commenttemplate.entity.CommentTemplateVo">
+		select 
+		<include refid="columns_as"/>
+		from z_comment_template
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>
