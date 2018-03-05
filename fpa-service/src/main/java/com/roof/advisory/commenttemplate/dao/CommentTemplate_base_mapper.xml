@@ -8,7 +8,7 @@
 	</sql>
 
 	<sql id="columns_as">
-		id as id , name as name , app_id as appId , state as state 
+		id as id , name as name , app_id as appId , state as state
 	</sql>
 
 
@@ -20,7 +20,7 @@
 			and id = #{id}
 		</if>
 		<if test="name != null and name != ''">
-			and name = #{name}
+			and name like CONCAT('%', #{name}, '%')
 		</if>
 		<if test="appId != null">
 			and app_id = #{appId}

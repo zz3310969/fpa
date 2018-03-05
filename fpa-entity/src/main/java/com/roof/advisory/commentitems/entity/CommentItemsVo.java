@@ -4,28 +4,57 @@ import java.util.List;
 
 /**
  * @author 模版生成 <br/>
- *         表名： z_comment_items <br/>
- *         描述：评价项表 <br/>
+ * 表名： z_comment_items <br/>
+ * 描述：评价项表 <br/>
  */
 public class CommentItemsVo extends CommentItems {
 
-	private List<CommentItemsVo> commentItemsList;
+    private String commentTemplateName;
 
-	public CommentItemsVo() {
-		super();
-	}
+    private String evalModeText;
 
-	public CommentItemsVo(Long id) {
-		super();
-		this.id = id;
-	}
+    private String prosetaionTypeText;
 
-	public List<CommentItemsVo> getCommentItemsList() {
-		return commentItemsList;
-	}
+    private List<CommentItemsVo> commentItemsList;
 
-	public void setCommentItemsList(List<CommentItemsVo> commentItemsList) {
-		this.commentItemsList = commentItemsList;
-	}
+    public CommentItemsVo() {
+        super();
+    }
 
+    public CommentItemsVo(Long id) {
+        super();
+        this.id = id;
+    }
+
+    public List<CommentItemsVo> getCommentItemsList() {
+        return commentItemsList;
+    }
+
+    public void setCommentItemsList(List<CommentItemsVo> commentItemsList) {
+        this.commentItemsList = commentItemsList;
+    }
+
+    public String getCommentTemplateName() {
+        return commentTemplateName;
+    }
+
+    public void setCommentTemplateName(String commentTemplateName) {
+        this.commentTemplateName = commentTemplateName;
+    }
+
+    public String getEvalModeText() {
+        return evalModeText;
+    }
+
+    public void setEvalModeText(String evalModeText) {
+        this.evalModeText = evalModeText;
+    }
+
+    public String getProsetaionTypeText() {
+        return prosetaionTypeText;
+    }
+
+    public void setProsetaionTypeText(String prosetaionTypeText) {
+        this.prosetaionTypeText = prosetaionTypeText;
+    }
 }

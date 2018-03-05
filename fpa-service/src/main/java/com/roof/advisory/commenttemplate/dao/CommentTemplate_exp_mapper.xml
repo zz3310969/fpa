@@ -8,6 +8,7 @@
 	
 	<select id="selectCommentTemplatePage" resultType="com.roof.advisory.commenttemplate.entity.CommentTemplateVo">
 		select
+		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName,
 		<include refid="columnsAs"/>
 		from
 		z_comment_template t1

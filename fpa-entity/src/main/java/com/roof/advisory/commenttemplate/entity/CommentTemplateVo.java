@@ -9,6 +9,9 @@ import java.util.List;
  */
 public class CommentTemplateVo extends CommentTemplate {
 
+	private String appName;
+
+
 	private List<CommentTemplateVo> commentTemplateList;
 
 	public CommentTemplateVo() {
@@ -28,4 +31,11 @@ public class CommentTemplateVo extends CommentTemplate {
 		this.commentTemplateList = commentTemplateList;
 	}
 
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
 }
