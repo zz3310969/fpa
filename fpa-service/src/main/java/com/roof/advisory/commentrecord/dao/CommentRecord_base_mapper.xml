@@ -1,177 +1,179 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.advisory.commentrecord.dao">
 
-	<sql id="columns">
+    <sql id="columns">
 		app_id, item_id, consultant_id, eval_result, order_number, evaluator, eval_time, status, state, id
 	</sql>
 
-	<sql id="columns_as">
+    <sql id="columns_as">
 		app_id as appId , item_id as itemId , consultant_id as consultantId , eval_result as evalResult , order_number as orderNumber , evaluator as evaluator , eval_time as evalTime , status as status , state as state , id as id 
 	</sql>
 
 
-	<sql id="vals">
+    <sql id="vals">
 		#{appId}, #{itemId}, #{consultantId}, #{evalResult}, #{orderNumber}, #{evaluator}, #{evalTime}, #{status}, #{state}, #{id}
 	</sql>
-	<sql id="conds">
-		<if test="appId != null">
-			and app_id = #{appId}
-		</if>
-		<if test="itemId != null">
-			and item_id = #{itemId}
-		</if>
-		<if test="consultantId != null">
-			and consultant_id = #{consultantId}
-		</if>
-		<if test="evalResult != null and evalResult != ''">
-			and eval_result = #{evalResult}
-		</if>
-		<if test="orderNumber != null and orderNumber != ''">
-			and order_number = #{orderNumber}
-		</if>
-		<if test="evaluator != null and evaluator != ''">
-			and evaluator = #{evaluator}
-		</if>
-		<if test="evalTime != null">
-			and eval_time = #{evalTime}
-		</if>
-		<if test="status != null">
-			and status = #{status}
-		</if>
-		<if test="state != null">
-			and state = #{state}
-		</if>
-		<if test="id != null">
-			and id = #{id}
-		</if>
-	</sql>
+    <sql id="conds">
+        <if test="appId != null">
+            and app_id = #{appId}
+        </if>
+        <if test="itemId != null">
+            and item_id = #{itemId}
+        </if>
+        <if test="consultantId != null">
+            and consultant_id = #{consultantId}
+        </if>
+        <if test="evalResult != null and evalResult != ''">
+            and eval_result like CONCAT('%', #{evalResult}, '%')
+        </if>
+        <if test="orderNumber != null and orderNumber != ''">
+            and order_number like CONCAT('%', #{orderNumber}, '%')
+        </if>
+        <if test="evaluator != null and evaluator != ''">
+            and evaluator  like CONCAT('%', #{evaluator}, '%')
+        </if>
 
-	<insert id="saveCommentRecord" parameterType="com.roof.advisory.commentrecord.entity.CommentRecord" useGeneratedKeys="true" keyProperty="id">
-		<selectKey keyProperty="id" resultType="Long" order="AFTER">
-			select last_insert_id()
-		</selectKey>
-		insert into z_comment_record (<include refid="columns" />) 
-		values (<include refid="vals" />)
-	</insert>
+        <if test="evalTime != null">
+            and eval_time = #{evalTime}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+        <if test="id != null">
+            and id = #{id}
+        </if>
+    </sql>
 
-	<delete id="deleteCommentRecord">
+    <insert id="saveCommentRecord" parameterType="com.roof.advisory.commentrecord.entity.CommentRecord"
+            useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into z_comment_record (<include refid="columns"/>)
+        values (<include refid="vals"/>)
+    </insert>
+
+    <delete id="deleteCommentRecord">
 		delete from z_comment_record
 		where id=#{id} 
 	</delete>
 
-	<delete id="deleteByExampleCommentRecord">
-		delete from z_comment_record
-		where 1=1
-		<include refid="conds" />
-	</delete>
+    <delete id="deleteByExampleCommentRecord">
+        delete from z_comment_record
+        where 1=1
+        <include refid="conds"/>
+    </delete>
 
-	<update id="updateCommentRecord">
-		update z_comment_record
-		<set>
-			app_id=#{appId}, 
-			item_id=#{itemId}, 
-			consultant_id=#{consultantId}, 
-			eval_result=#{evalResult}, 
-			order_number=#{orderNumber}, 
-			evaluator=#{evaluator}, 
-			eval_time=#{evalTime}, 
-			status=#{status}, 
-			state=#{state}, 
-			id=#{id}
-		</set>
-		where id=#{id} 
-	</update>
+    <update id="updateCommentRecord">
+        update z_comment_record
+        <set>
+            app_id=#{appId},
+            item_id=#{itemId},
+            consultant_id=#{consultantId},
+            eval_result=#{evalResult},
+            order_number=#{orderNumber},
+            evaluator=#{evaluator},
+            eval_time=#{evalTime},
+            status=#{status},
+            state=#{state},
+            id=#{id}
+        </set>
+        where id=#{id}
+    </update>
 
-	<update id="updateIgnoreNullCommentRecord">
-		update z_comment_record
-		<set>
-		<if test="appId != null">
-			app_id=#{appId}, 
-		</if>
-		<if test="itemId != null">
-			item_id=#{itemId}, 
-		</if>
-		<if test="consultantId != null">
-			consultant_id=#{consultantId}, 
-		</if>
-		<if test="evalResult != null and evalResult != ''">
-			eval_result=#{evalResult}, 
-		</if>
-		<if test="orderNumber != null and orderNumber != ''">
-			order_number=#{orderNumber}, 
-		</if>
-		<if test="evaluator != null and evaluator != ''">
-			evaluator=#{evaluator}, 
-		</if>
-		<if test="evalTime != null">
-			eval_time=#{evalTime}, 
-		</if>
-		<if test="status != null">
-			status=#{status}, 
-		</if>
-		<if test="state != null">
-			state=#{state}, 
-		</if>
-		<if test="id != null">
-			id=#{id}
-		</if>
-		</set>
-		where id=#{id} 
-	</update>
+    <update id="updateIgnoreNullCommentRecord">
+        update z_comment_record
+        <set>
+            <if test="appId != null">
+                app_id=#{appId},
+            </if>
+            <if test="itemId != null">
+                item_id=#{itemId},
+            </if>
+            <if test="consultantId != null">
+                consultant_id=#{consultantId},
+            </if>
+            <if test="evalResult != null and evalResult != ''">
+                eval_result=#{evalResult},
+            </if>
+            <if test="orderNumber != null and orderNumber != ''">
+                order_number=#{orderNumber},
+            </if>
+            <if test="evaluator != null and evaluator != ''">
+                evaluator=#{evaluator},
+            </if>
+            <if test="evalTime != null">
+                eval_time=#{evalTime},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="state != null">
+                state=#{state},
+            </if>
+            <if test="id != null">
+                id=#{id}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
 
-	<update id="updateByExampleCommentRecord">
-		update z_comment_record
-		<set>
-			<if test="appId != null">
-			app_id=#{appId}, 
-			</if>
-			<if test="itemId != null">
-			item_id=#{itemId}, 
-			</if>
-			<if test="consultantId != null">
-			consultant_id=#{consultantId}, 
-			</if>
-			<if test="evalResult != null and evalResult != ''">
-			eval_result=#{evalResult}, 
-			</if>
-			<if test="orderNumber != null and orderNumber != ''">
-			order_number=#{orderNumber}, 
-			</if>
-			<if test="evaluator != null and evaluator != ''">
-			evaluator=#{evaluator}, 
-			</if>
-			<if test="evalTime != null">
-			eval_time=#{evalTime}, 
-			</if>
-			<if test="status != null">
-			status=#{status}, 
-			</if>
-			<if test="state != null">
-			state=#{state}, 
-			</if>
-			<if test="id != null">
-			id=#{id}
-			</if>
-		</set>
-		where 1=1
-		<include refid="conds" />
-	</update>
-	
-	<select id="loadCommentRecord" resultType="com.roof.advisory.commentrecord.entity.CommentRecordVo">
-		select 
-		<include refid="columns_as"/>
-		from z_comment_record
-		where id=#{id} 
-	</select>
-	
-	<select id="selectCommentRecord" resultType="com.roof.advisory.commentrecord.entity.CommentRecordVo">
-		select 
-		<include refid="columns_as"/>
-		from z_comment_record
-		where 1=1
-		<include refid="conds" />
-		and state = '1'
-	</select>
+    <update id="updateByExampleCommentRecord">
+        update z_comment_record
+        <set>
+            <if test="appId != null">
+                app_id=#{appId},
+            </if>
+            <if test="itemId != null">
+                item_id=#{itemId},
+            </if>
+            <if test="consultantId != null">
+                consultant_id=#{consultantId},
+            </if>
+            <if test="evalResult != null and evalResult != ''">
+                eval_result=#{evalResult},
+            </if>
+            <if test="orderNumber != null and orderNumber != ''">
+                order_number=#{orderNumber},
+            </if>
+            <if test="evaluator != null and evaluator != ''">
+                evaluator=#{evaluator},
+            </if>
+            <if test="evalTime != null">
+                eval_time=#{evalTime},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="state != null">
+                state=#{state},
+            </if>
+            <if test="id != null">
+                id=#{id}
+            </if>
+        </set>
+        where 1=1
+        <include refid="conds"/>
+    </update>
+
+    <select id="loadCommentRecord" resultType="com.roof.advisory.commentrecord.entity.CommentRecordVo">
+        select
+        <include refid="columns_as"/>
+        from z_comment_record
+        where id=#{id}
+    </select>
+
+    <select id="selectCommentRecord" resultType="com.roof.advisory.commentrecord.entity.CommentRecordVo">
+        select
+        <include refid="columns_as"/>
+        from z_comment_record
+        where 1=1
+        <include refid="conds"/>
+        and state = '1'
+    </select>
 </mapper>

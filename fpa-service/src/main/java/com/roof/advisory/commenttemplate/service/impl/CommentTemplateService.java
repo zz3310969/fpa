@@ -16,6 +16,7 @@ public class CommentTemplateService implements ICommentTemplateService {
 	private ICommentTemplateDao commentTemplateDao;
 
 	public Serializable save(CommentTemplate commentTemplate){
+		commentTemplate.setState(1);
 		return commentTemplateDao.save(commentTemplate);
 	}
 

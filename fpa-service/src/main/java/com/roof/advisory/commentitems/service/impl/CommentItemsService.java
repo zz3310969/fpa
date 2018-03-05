@@ -15,43 +15,54 @@ import org.springframework.stereotype.Service;
 public class CommentItemsService implements ICommentItemsService {
 	private ICommentItemsDao commentItemsDao;
 
-	public Serializable save(CommentItems commentItems){
+	@Override
+    public Serializable save(CommentItems commentItems){
+		commentItems.setState(1);
 		return commentItemsDao.save(commentItems);
 	}
 
-	public void delete(CommentItems commentItems){
+	@Override
+    public void delete(CommentItems commentItems){
 		commentItemsDao.delete(commentItems);
 	}
 	
-	public void deleteByExample(CommentItems commentItems){
+	@Override
+    public void deleteByExample(CommentItems commentItems){
 		commentItemsDao.deleteByExample(commentItems);
 	}
 
-	public void update(CommentItems commentItems){
+	@Override
+    public void update(CommentItems commentItems){
 		commentItemsDao.update(commentItems);
 	}
 	
-	public void updateIgnoreNull(CommentItems commentItems){
+	@Override
+    public void updateIgnoreNull(CommentItems commentItems){
 		commentItemsDao.updateIgnoreNull(commentItems);
 	}
 		
-	public void updateByExample(CommentItems commentItems){
+	@Override
+    public void updateByExample(CommentItems commentItems){
 		commentItemsDao.update("updateByExampleCommentItems", commentItems);
 	}
 
-	public CommentItemsVo load(CommentItems commentItems){
+	@Override
+    public CommentItemsVo load(CommentItems commentItems){
 		return (CommentItemsVo)commentItemsDao.reload(commentItems);
 	}
 	
-	public CommentItemsVo selectForObject(CommentItems commentItems){
+	@Override
+    public CommentItemsVo selectForObject(CommentItems commentItems){
 		return (CommentItemsVo)commentItemsDao.selectForObject("selectCommentItems",commentItems);
 	}
 	
-	public List<CommentItemsVo> selectForList(CommentItems commentItems){
+	@Override
+    public List<CommentItemsVo> selectForList(CommentItems commentItems){
 		return (List<CommentItemsVo>)commentItemsDao.selectForList("selectCommentItems",commentItems);
 	}
 	
-	public Page page(Page page, CommentItems commentItems) {
+	@Override
+    public Page page(Page page, CommentItems commentItems) {
 		return commentItemsDao.page(page, commentItems);
 	}
 

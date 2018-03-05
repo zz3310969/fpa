@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.advisory.commentitems.dao">
-	<sql id="columnsAs">
-		t1.id as id, t1.name as name, t1.eval_mode as evalMode, t1.total_score as totalScore, t1.prosetaion_type as prosetaionType, t1.status as status, t1.state as state, t1.comment_template as commentTemplate
+    <sql id="columnsAs">
+		t1.id as id, t1.name as name, t1.eval_mode as evalMode, t1.total_score as totalScore,
+		t1.prosetaion_type as prosetaionType, t1.status as status, t1.state as state, t1.comment_template as commentTemplate
 	</sql>
-	
-	<select id="selectCommentItemsPage" resultType="com.roof.advisory.commentitems.entity.CommentItemsVo">
-		select
-		<include refid="columnsAs"/>
-		from
-		z_comment_items t1
-		join
-		(SELECT
-		id
-		from
-		z_comment_items
-		where 1=1
-		<include refid="conds" />
-		and state = '1'
-		order by id desc
-		limit #{firstrownum}, #{limit}) t2
-		where t1.id = t2.id
-	</select>
-	
-	<select id="selectCommentItemsCount" resultType="java.lang.Long">
-		select
-		count(id)
-		from z_comment_items
-		where 1=1
-		<include refid="conds" />
-		and state = '1'
-	</select>
+
+    <select id="selectCommentItemsPage" resultType="com.roof.advisory.commentitems.entity.CommentItemsVo">
+        select
+        (SELECT NAME FROM z_comment_template WHERE id = t1.comment_template ) as commentTemplateName,
+        (SELECT text FROM s_dictionary WHERE val = t1.eval_mode ) as evalModeText,
+        (SELECT text FROM s_dictionary WHERE val = t1.prosetaion_type ) as prosetaionTypeText,
+        <include refid="columnsAs"/>
+        from
+        z_comment_items t1
+        join
+        (SELECT
+        id
+        from
+        z_comment_items
+        where 1=1
+        <include refid="conds"/>
+        and state = '1'
+        order by id desc
+        limit #{firstrownum}, #{limit}) t2
+        where t1.id = t2.id
+    </select>
+
+    <select id="selectCommentItemsCount" resultType="java.lang.Long">
+        select
+        count(id)
+        from z_comment_items
+        where 1=1
+        <include refid="conds"/>
+        and state = '1'
+    </select>
 </mapper>
