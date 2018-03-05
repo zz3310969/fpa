@@ -4,6 +4,14 @@ import java.util.List;
 import java.util.Map;
 import com.google.common.collect.Maps;
 import javax.servlet.http.HttpServletRequest;
+
+import com.roof.advisory.DefaultStatusEnum;
+import com.roof.advisory.advisorymodes.entity.AdvisoryModes;
+import com.roof.advisory.advisorymodes.entity.AdvisoryModesVo;
+import com.roof.advisory.advisorymodes.service.api.IAdvisoryModesService;
+import com.roof.advisory.application.entity.Application;
+import com.roof.advisory.application.entity.ApplicationVo;
+import com.roof.advisory.application.service.api.IApplicationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.roof.roof.dataaccess.api.Page;
@@ -23,10 +31,20 @@ import org.springframework.web.bind.annotation.*;
 public class AdvisoryProductController {
 	private IAdvisoryProductService advisoryProductService;
 
+	@Autowired
+	private IApplicationService applicationService;
+	@Autowired
+	private IAdvisoryModesService advisoryModesService;
 	@ApiOperation(value = "获得服务产品基础信息")
 	@RequestMapping(value = "advisoryproduct/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
 		Map<String,Object> map = Maps.newHashMap();
+		List<ApplicationVo> apps = applicationService.selectForList(new Application());
+		map.put("apps",apps);
+		List<AdvisoryModesVo> modes = advisoryModesService.selectForList(new AdvisoryModes());
+		map.put("modes",modes);
+		DefaultStatusEnum[] status = DefaultStatusEnum.values();
+		map.put("status",status);
 		return new Result(Result.SUCCESS, map);
 	}
 

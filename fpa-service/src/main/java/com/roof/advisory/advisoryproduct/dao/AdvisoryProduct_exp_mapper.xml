@@ -8,7 +8,9 @@
 	
 	<select id="selectAdvisoryProductPage" resultType="com.roof.advisory.advisoryproduct.entity.AdvisoryProductVo">
 		select
-		<include refid="columnsAs"/>
+		<include refid="columnsAs"/>,
+		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName,
+		(SELECT NAME FROM z_advisory_modes WHERE id = t1.modes_id ) as modelName
 		from
 		z_advisory_product t1
 		join

@@ -10,6 +10,7 @@ import java.util.List;
 public class AdvisoryProductVo extends AdvisoryProduct {
 
 	private List<AdvisoryProductVo> advisoryProductList;
+	protected String modelName;// 服务模式
 
 	public AdvisoryProductVo() {
 		super();
@@ -28,4 +29,11 @@ public class AdvisoryProductVo extends AdvisoryProduct {
 		this.advisoryProductList = advisoryProductList;
 	}
 
+	public String getModelName() {
+		return modelName;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
 }
