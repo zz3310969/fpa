@@ -16,6 +16,7 @@ public class ConsultantVo extends Consultant {
 	private String levelName;
 	private String themeName;
 	private GenderEnum genderEnum;
+	private String[] areas;
 
 	public ConsultantVo() {
 		super();
@@ -63,5 +64,13 @@ public class ConsultantVo extends Consultant {
 
 	public void setGenderEnum(GenderEnum genderEnum) {
 		this.genderEnum = genderEnum;
+	}
+
+	public String[] getAreas() {
+		return areas;
+	}
+
+	public void setAreas(String[] areas) {
+		this.areas = areas;
 	}
 }

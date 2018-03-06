@@ -45,6 +45,9 @@ public class Consultant implements Serializable {
 	protected Date regTime;// 注册时间
 	protected String username;//登陆账号
 	protected String mobile;//手机
+	protected String country;
+	protected String province;
+	protected String city;
 
 	public Consultant() {
 		super();
@@ -163,5 +166,29 @@ public class Consultant implements Serializable {
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 }

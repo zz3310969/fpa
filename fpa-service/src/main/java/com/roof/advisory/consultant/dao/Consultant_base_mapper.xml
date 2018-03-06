@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.advisory.consultant.dao">
 
 	<sql id="columns">
-		id, app_id, name, username, head_image_url, level_id, theme_id, area_id, gender, introduction, user_id, mobile, reg_time, status, state
+		id, app_id, name, username, head_image_url, level_id, theme_id, area_id, gender, introduction, user_id, mobile, reg_time, status, state, country, province, city
 	</sql>
 
 	<sql id="columns_as">
-		id as id , app_id as appId , name as name , username as username , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , user_id as userId , mobile as mobile , reg_time as regTime , status as status , state as state 
+		id as id , app_id as appId , name as name , username as username , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , user_id as userId , mobile as mobile , reg_time as regTime , status as status , state as state , country as country , province as province , city as city 
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{appId}, #{name}, #{username}, #{headImageUrl}, #{levelId}, #{themeId}, #{areaId}, #{gender}, #{introduction}, #{userId}, #{mobile}, #{regTime}, #{status}, #{state}
+		#{id}, #{appId}, #{name}, #{username}, #{headImageUrl}, #{levelId}, #{themeId}, #{areaId}, #{gender}, #{introduction}, #{userId}, #{mobile}, #{regTime}, #{status}, #{state}, #{country}, #{province}, #{city}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -61,6 +61,15 @@
 		<if test="state != null">
 			and state = #{state}
 		</if>
+		<if test="country != null and country != ''">
+			and country = #{country}
+		</if>
+		<if test="province != null and province != ''">
+			and province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+			and city = #{city}
+		</if>
 	</sql>
 
 	<insert id="saveConsultant" parameterType="com.roof.advisory.consultant.entity.Consultant" useGeneratedKeys="true" keyProperty="id">
@@ -99,7 +108,10 @@
 			mobile=#{mobile}, 
 			reg_time=#{regTime}, 
 			status=#{status}, 
-			state=#{state}
+			state=#{state}, 
+			country=#{country}, 
+			province=#{province}, 
+			city=#{city}
 		</set>
 		where id=#{id} 
 	</update>
@@ -150,7 +162,16 @@
 			status=#{status}, 
 		</if>
 		<if test="state != null">
-			state=#{state}
+			state=#{state}, 
+		</if>
+		<if test="country != null and country != ''">
+			country=#{country}, 
+		</if>
+		<if test="province != null and province != ''">
+			province=#{province}, 
+		</if>
+		<if test="city != null and city != ''">
+			city=#{city}
 		</if>
 		</set>
 		where id=#{id} 
@@ -202,7 +223,16 @@
 			status=#{status}, 
 			</if>
 			<if test="state != null">
-			state=#{state}
+			state=#{state}, 
+			</if>
+			<if test="country != null and country != ''">
+			country=#{country}, 
+			</if>
+			<if test="province != null and province != ''">
+			province=#{province}, 
+			</if>
+			<if test="city != null and city != ''">
+			city=#{city}
 			</if>
 		</set>
 		where 1=1

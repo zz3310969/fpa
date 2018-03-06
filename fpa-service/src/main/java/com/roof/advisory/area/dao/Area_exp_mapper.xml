@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.area.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.nation_cn as nationCn, t1.province_cn as provinceCn, t1.city_cn as cityCn, t1.nation as nation, t1.province as province, t1.city as city, t1.nationality as nationality, t1.autonomous as autonomous, t1.country as country, t1.create_date as createDate, t1.state as state
+	</sql>
+	
+	<select id="selectAreaPage" resultType="com.roof.advisory.area.entity.AreaVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		z_area t1
+		join
+		(SELECT
+		id
+		from
+		z_area
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectAreaCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from z_area
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>

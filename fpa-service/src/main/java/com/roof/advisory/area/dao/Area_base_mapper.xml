@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.area.dao">
+
+	<sql id="columns">
+		id, nation_cn, province_cn, city_cn, nation, province, city, nationality, autonomous, country, create_date, state
+	</sql>
+
+	<sql id="columns_as">
+		id as id , nation_cn as nationCn , province_cn as provinceCn , city_cn as cityCn , nation as nation , province as province , city as city , nationality as nationality , autonomous as autonomous , country as country , create_date as createDate , state as state 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{nationCn}, #{provinceCn}, #{cityCn}, #{nation}, #{province}, #{city}, #{nationality}, #{autonomous}, #{country}, #{createDate}, #{state}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="nationCn != null and nationCn != ''">
+			and nation_cn = #{nationCn}
+		</if>
+		<if test="provinceCn != null and provinceCn != ''">
+			and province_cn = #{provinceCn}
+		</if>
+		<if test="cityCn != null and cityCn != ''">
+			and city_cn = #{cityCn}
+		</if>
+		<if test="nation != null and nation != ''">
+			and nation = #{nation}
+		</if>
+		<if test="province != null and province != ''">
+			and province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+			and city = #{city}
+		</if>
+		<if test="nationality != null and nationality != ''">
+			and nationality = #{nationality}
+		</if>
+		<if test="autonomous != null and autonomous != ''">
+			and autonomous = #{autonomous}
+		</if>
+		<if test="country != null and country != ''">
+			and country = #{country}
+		</if>
+		<if test="createDate != null">
+			and create_date = #{createDate}
+		</if>
+		<if test="state != null and state != ''">
+			and state = #{state}
+		</if>
+	</sql>
+
+	<insert id="saveArea" parameterType="com.roof.advisory.area.entity.Area" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_area (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteArea">
+		delete from z_area
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleArea">
+		delete from z_area
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateArea">
+		update z_area
+		<set>
+			id=#{id}, 
+			nation_cn=#{nationCn}, 
+			province_cn=#{provinceCn}, 
+			city_cn=#{cityCn}, 
+			nation=#{nation}, 
+			province=#{province}, 
+			city=#{city}, 
+			nationality=#{nationality}, 
+			autonomous=#{autonomous}, 
+			country=#{country}, 
+			create_date=#{createDate}, 
+			state=#{state}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullArea">
+		update z_area
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="nationCn != null and nationCn != ''">
+			nation_cn=#{nationCn}, 
+		</if>
+		<if test="provinceCn != null and provinceCn != ''">
+			province_cn=#{provinceCn}, 
+		</if>
+		<if test="cityCn != null and cityCn != ''">
+			city_cn=#{cityCn}, 
+		</if>
+		<if test="nation != null and nation != ''">
+			nation=#{nation}, 
+		</if>
+		<if test="province != null and province != ''">
+			province=#{province}, 
+		</if>
+		<if test="city != null and city != ''">
+			city=#{city}, 
+		</if>
+		<if test="nationality != null and nationality != ''">
+			nationality=#{nationality}, 
+		</if>
+		<if test="autonomous != null and autonomous != ''">
+			autonomous=#{autonomous}, 
+		</if>
+		<if test="country != null and country != ''">
+			country=#{country}, 
+		</if>
+		<if test="createDate != null">
+			create_date=#{createDate}, 
+		</if>
+		<if test="state != null and state != ''">
+			state=#{state}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleArea">
+		update z_area
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="nationCn != null and nationCn != ''">
+			nation_cn=#{nationCn}, 
+			</if>
+			<if test="provinceCn != null and provinceCn != ''">
+			province_cn=#{provinceCn}, 
+			</if>
+			<if test="cityCn != null and cityCn != ''">
+			city_cn=#{cityCn}, 
+			</if>
+			<if test="nation != null and nation != ''">
+			nation=#{nation}, 
+			</if>
+			<if test="province != null and province != ''">
+			province=#{province}, 
+			</if>
+			<if test="city != null and city != ''">
+			city=#{city}, 
+			</if>
+			<if test="nationality != null and nationality != ''">
+			nationality=#{nationality}, 
+			</if>
+			<if test="autonomous != null and autonomous != ''">
+			autonomous=#{autonomous}, 
+			</if>
+			<if test="country != null and country != ''">
+			country=#{country}, 
+			</if>
+			<if test="createDate != null">
+			create_date=#{createDate}, 
+			</if>
+			<if test="state != null and state != ''">
+			state=#{state}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadArea" resultType="com.roof.advisory.area.entity.AreaVo">
+		select 
+		<include refid="columns_as"/>
+		from z_area
+		where id=#{id} 
+	</select>
+	
+	<select id="selectArea" resultType="com.roof.advisory.area.entity.AreaVo">
+		select 
+		<include refid="columns_as"/>
+		from z_area
+		where 1=1
+		<include refid="conds" />
+		and state = '1'
+	</select>
+</mapper>
