@@ -33,4 +33,5 @@ app/app_
 target/
 overlays/
 *.iml
+.DS_Store
 fpa-wechat/src/main/webapp/WEB-INF/jetty-web.xml
