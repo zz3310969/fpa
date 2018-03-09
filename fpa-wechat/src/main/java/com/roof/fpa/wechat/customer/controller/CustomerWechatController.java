@@ -19,6 +19,7 @@ import com.roof.fpa.charactercolor.entity.CharacterColorVo;
 import com.roof.fpa.partner.service.api.IPartnerService;
 import com.roof.fpa.theme.entity.Theme;
 import com.roof.fpa.theme.entity.ThemeVo;
+import com.roof.fpa.weixin.service.impl.WeChatDto;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.roof.roof.dataaccess.api.Page;
@@ -69,8 +70,21 @@ public class CustomerWechatController {
 			if(StringUtils.isEmpty(customer.getCode())){
 				return new Result(Result.FAIL,"code不能为空");
 			}
-			Long id = (Long) customerService.saveOrUpdate(customer);
-			return new Result(Result.SUCCESS,id);
+			WeChatDto weChatDto =  customerService.saveOrUpdate(customer);
+			return new Result(Result.SUCCESS,weChatDto.getUserId());
+		} else {
+			return new Result(Result.FAIL,"数据传输失败!");
+		}
+	}
+
+	@RequestMapping(value = "v2/customer", method = {RequestMethod.POST})
+	public @ResponseBody Result create_v2(@RequestBody CustomerVo customer) {
+		if (customer != null) {
+			if(StringUtils.isEmpty(customer.getCode())){
+				return new Result(Result.FAIL,"code不能为空");
+			}
+			WeChatDto weChatDto =  customerService.saveOrUpdate(customer);
+			return new Result(Result.SUCCESS,weChatDto);
 		} else {
 			return new Result(Result.FAIL,"数据传输失败!");
 		}

@@ -50,6 +50,12 @@ public class CustomerController {
 	    page = customerService.page(page, customer);
 	    return new Result(Result.SUCCESS, page);
 	}
+
+	@RequestMapping(value = "customer/openid/{openid}", method = {RequestMethod.GET})
+	public @ResponseBody Result<CustomerVo> loadByOpenId(@PathVariable String openid) {
+		CustomerVo customerVo = customerService.loadByOpenid(openid);
+		return new Result(Result.SUCCESS,customerVo);
+	}
 	
 
 

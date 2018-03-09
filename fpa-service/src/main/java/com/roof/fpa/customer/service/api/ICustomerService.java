@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.Serializable;
 
 import com.roof.fpa.cardtestresult.entity.SimilerResult;
+import com.roof.fpa.weixin.service.impl.WeChatDto;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.fpa.customer.entity.Customer;
 import com.roof.fpa.customer.entity.CustomerVo;
@@ -73,7 +74,7 @@ public interface ICustomerService {
 	 * @param customer
 	 * @return
 	 */
-	public Serializable saveOrUpdate(CustomerVo customer);
+	public WeChatDto saveOrUpdate(CustomerVo customer);
 
 
 	SimilerResult similer(Long userId, Long friendId);

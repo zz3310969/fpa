@@ -123,11 +123,12 @@ public class CustomerService implements ICustomerService {
 	}
 
 
-	public Serializable saveOrUpdate(CustomerVo customerVo) {
+	public WeChatDto saveOrUpdate(CustomerVo customerVo) {
 		Customer customer = new Customer();
 		BeanUtils.copyProperties(customerVo, customer);
+		WeChatDto weChatDto = null;
 		try {
-			WeChatDto weChatDto = weChatHander.getWeChatDto(customerVo.getCode());
+			weChatDto = weChatHander.getWeChatDto(customerVo.getCode());
 			if (weChatDto != null && StringUtils.isEmpty(weChatDto.getErrcode())) {
 				customer.setWeixinOpenId(weChatDto.getOpenid());
 				customer.setUnionid(weChatDto.getUnionid());
@@ -138,15 +139,19 @@ public class CustomerService implements ICustomerService {
 			logger.error("获取微信Openid出错:", e.getCause());
 		}
 		Assert.notNull(customer.getWeixinOpenId(), "openid不能为空");
+		Assert.notNull(weChatDto, "WeChatDto不能为空");
 		CustomerVo vo = loadByOpenid(customer.getWeixinOpenId());
 		customer.setUseable(DefaultUseableEnum.usable.getCode());
 		if (vo == null) {
 			customer.setFollowTime(new Date());
-			return customerDao.save(customer);
+			Long id = (Long) customerDao.save(customer);
+			weChatDto.setUserId(id);
+			return weChatDto;
 		} else {
 			customer.setId(vo.getId());
 			updateIgnoreNull(customer);
-			return vo.getId();
+			weChatDto.setUserId(vo.getId());
+			return weChatDto;
 		}
 	}
 

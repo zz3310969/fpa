@@ -11,6 +11,8 @@ public class WeChatDto {
     private String errcode;
     private String errmsg;
 
+    private Long userId;
+
     public String getOpenid() {
         return openid;
     }
@@ -49,5 +51,13 @@ public class WeChatDto {
 
     public void setErrmsg(String errmsg) {
         this.errmsg = errmsg;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
