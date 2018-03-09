@@ -16,6 +16,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
 	private IAdvisoryOrderDao advisoryOrderDao;
 
 	public Serializable save(AdvisoryOrder advisoryOrder){
+		advisoryOrder.setState(1);
 		return advisoryOrderDao.save(advisoryOrder);
 	}
 
@@ -53,6 +54,11 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
 	
 	public Page page(Page page, AdvisoryOrder advisoryOrder) {
 		return advisoryOrderDao.page(page, advisoryOrder);
+	}
+
+	@Override
+	public Page pageVo(Page page, AdvisoryOrderVo advisoryOrderVo) {
+		return advisoryOrderDao.pageVo(page, advisoryOrderVo);
 	}
 
 	@Autowired

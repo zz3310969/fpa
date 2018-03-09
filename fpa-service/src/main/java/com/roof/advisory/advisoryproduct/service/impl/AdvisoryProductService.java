@@ -16,6 +16,7 @@ public class AdvisoryProductService implements IAdvisoryProductService {
 	private IAdvisoryProductDao advisoryProductDao;
 
 	public Serializable save(AdvisoryProduct advisoryProduct){
+		advisoryProduct.setState(1);
 		return advisoryProductDao.save(advisoryProduct);
 	}
 

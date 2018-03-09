@@ -4,32 +4,32 @@
 <mapper namespace="com.roof.advisory.advisoryorder.dao">
 
 	<sql id="columns">
-		id, order_num, custom_id, product_id_id, tel, len_time, order_amount, pay_amount, order_time, order_status, state
+		id, order_num, custom_id, product_id, tel, len_time, order_amount, pay_amount, order_time, order_status, state
 	</sql>
 
 	<sql id="columns_as">
-		id as id , order_num as orderNum , custom_id as customId , product_id_id as productIdId , tel as tel , len_time as lenTime , order_amount as orderAmount , pay_amount as payAmount , order_time as orderTime , order_status as orderStatus , state as state 
+		id as id , order_num as orderNum , custom_id as customId , product_id as productId , tel as tel , len_time as lenTime , order_amount as orderAmount , pay_amount as payAmount , order_time as orderTime , order_status as orderStatus , state as state 
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{orderNum}, #{customId}, #{productIdId}, #{tel}, #{lenTime}, #{orderAmount}, #{payAmount}, #{orderTime}, #{orderStatus}, #{state}
+		#{id}, #{orderNum}, #{customId}, #{productId}, #{tel}, #{lenTime}, #{orderAmount}, #{payAmount}, #{orderTime}, #{orderStatus}, #{state}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
 			and id = #{id}
 		</if>
 		<if test="orderNum != null and orderNum != ''">
-			and order_num = #{orderNum}
+			and order_num like CONCAT('%', #{orderNum}, '%')
 		</if>
 		<if test="customId != null">
 			and custom_id = #{customId}
 		</if>
-		<if test="productIdId != null">
-			and product_id_id = #{productIdId}
+		<if test="productId != null">
+			and product_id = #{productId}
 		</if>
 		<if test="tel != null and tel != ''">
-			and tel = #{tel}
+			and tel like CONCAT('%', #{tel}, '%')
 		</if>
 		<if test="lenTime != null">
 			and len_time = #{lenTime}
@@ -76,7 +76,7 @@
 			id=#{id}, 
 			order_num=#{orderNum}, 
 			custom_id=#{customId}, 
-			product_id_id=#{productIdId}, 
+			product_id=#{productId}, 
 			tel=#{tel}, 
 			len_time=#{lenTime}, 
 			order_amount=#{orderAmount}, 
@@ -100,8 +100,8 @@
 		<if test="customId != null">
 			custom_id=#{customId}, 
 		</if>
-		<if test="productIdId != null">
-			product_id_id=#{productIdId}, 
+		<if test="productId != null">
+			product_id=#{productId}, 
 		</if>
 		<if test="tel != null and tel != ''">
 			tel=#{tel}, 
@@ -140,8 +140,8 @@
 			<if test="customId != null">
 			custom_id=#{customId}, 
 			</if>
-			<if test="productIdId != null">
-			product_id_id=#{productIdId}, 
+			<if test="productId != null">
+			product_id=#{productId}, 
 			</if>
 			<if test="tel != null and tel != ''">
 			tel=#{tel}, 

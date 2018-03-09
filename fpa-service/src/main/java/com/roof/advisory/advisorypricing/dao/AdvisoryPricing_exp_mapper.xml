@@ -3,7 +3,8 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.advisory.advisorypricing.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.app_id as appId, t1.consultant_id as consultantId, t1.molde_id as moldeId, t1.fix_type as fixType, t1.unit as unit, t1.original_price as originalPrice, t1.current_price as currentPrice, t1.introduction as introduction, t1.status as status, t1.state as state, t1.validity_start_time as validityStartTime, t1.validity_end_time as validityEndTime
+		t1.id as id, t1.app_id as appId, t1.consultant_id as consultantId, t1.molde_id as moldeId,
+		t1.fix_type as fixType, t1.unit as unit, t1.original_price as originalPrice, t1.current_price as currentPrice, t1.introduction as introduction, t1.status as status, t1.state as state, t1.validity_start_time as validityStartTime, t1.validity_end_time as validityEndTime
 	</sql>
 	
 	<select id="selectAdvisoryPricingPage" resultType="com.roof.advisory.advisorypricing.entity.AdvisoryPricingVo">

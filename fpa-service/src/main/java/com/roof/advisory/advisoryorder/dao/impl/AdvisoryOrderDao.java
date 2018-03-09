@@ -3,6 +3,7 @@ package com.roof.advisory.advisoryorder.dao.impl;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo;
 import org.apache.commons.lang3.StringUtils;
 import org.roof.dataaccess.PageQuery;
 import org.roof.roof.dataaccess.api.AbstractDao;
@@ -25,6 +26,13 @@ public class AdvisoryOrderDao extends AbstractDao implements IAdvisoryOrderDao {
 		IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectAdvisoryOrderPage", "selectAdvisoryOrderCount");
 		//IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectAdvisoryOrderPage", null);
 		return pageQuery.select(advisoryOrder);
+	}
+
+	@Override
+	public Page pageVo(Page page, AdvisoryOrderVo advisoryOrderVo) {
+		IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectAdvisoryOrderVoPage", "selectAdvisoryOrderVoCount");
+		//IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectAdvisoryOrderPage", null);
+		return pageQuery.select(advisoryOrderVo);
 	}
 	
 	@Autowired
