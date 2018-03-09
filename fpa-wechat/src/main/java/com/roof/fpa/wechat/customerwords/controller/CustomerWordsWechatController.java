@@ -1,21 +1,15 @@
-package com.roof.fpa.wechat.controller;
+package com.roof.fpa.wechat.customerwords.controller;
 
-import com.google.common.collect.Maps;
 import com.roof.fpa.customerwords.entity.CustomerWords;
 import com.roof.fpa.customerwords.entity.CustomerWordsVo;
 import com.roof.fpa.customerwords.service.api.ICustomerWordsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.roof.roof.dataaccess.api.Page;
-import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @Api(value = "customerwords", description = "客户留言管理")
 @Controller
