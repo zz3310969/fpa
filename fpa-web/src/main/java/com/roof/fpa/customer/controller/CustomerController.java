@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.roof.fpa.DefaultStateEnum;
 import com.roof.fpa.DefaultUseableEnum;
@@ -55,6 +56,17 @@ public class CustomerController {
 	public @ResponseBody Result<CustomerVo> loadByOpenId(@PathVariable String openid) {
 		CustomerVo customerVo = customerService.loadByOpenid(openid);
 		return new Result(Result.SUCCESS,customerVo);
+	}
+	@RequestMapping(value = "customer/openids", method = {RequestMethod.GET})
+	public @ResponseBody Result<List<CustomerVo>> loadByOpenIds(@RequestParam(value = "openids") String[] openids) {
+		List<CustomerVo> list = Lists.newArrayList();
+		if(openids != null && openids.length > 0){
+			for (String openid :openids){
+				CustomerVo customerVo = customerService.loadByOpenid(openid);
+				list.add(customerVo);
+			}
+		}
+		return new Result(Result.SUCCESS,list);
 	}
 	
 
