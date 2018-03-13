@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface ICosService {
 
-    Map<String, Object> getSign();
+    Map<String, Object> getSign(Map<String,String> params);
 
     Map<String,Object> getConfiguration();
 

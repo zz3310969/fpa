@@ -29,6 +29,7 @@
 				<value>classpath:app-ds.properties</value>
 				<value>classpath:project.properties</value>
 				<value>classpath:tencent-ocs.properties</value>
+				<value>classpath:im.properties</value>
 				<value>classpath:/activiti/activiti.properties</value>
 			</list>
 		</property>

@@ -1,5 +1,6 @@
 package com.roof.fpa.core.http;
 
+import com.google.common.collect.Maps;
 import org.apache.http.*;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
@@ -50,9 +51,11 @@ public class HttpClientUtil {
 
     static final int timeOut = 10 * 1000;
 
-    private static CloseableHttpClient httpClient = null;
+    //private static CloseableHttpClient httpClient = null;
 
     private final static Object syncLock = new Object();
+
+    private final static Map<String,CloseableHttpClient> map = Maps.newConcurrentMap();
 
     private static void config(HttpRequestBase httpRequestBase) {
         // 设置Header等
@@ -87,14 +90,15 @@ public class HttpClientUtil {
             hostname = arr[0];
             port = Integer.parseInt(arr[1]);
         }
-        if (httpClient == null) {
+        if (!map.containsKey(hostname)) {
             synchronized (syncLock) {
-                if (httpClient == null) {
-                    httpClient = createHttpClient(200, 40, 100, hostname, port);
+                if (!map.containsKey(hostname)) {
+                    CloseableHttpClient httpClient = createHttpClient(200, 40, 100, hostname, port);
+                    map.put(hostname,httpClient);
                 }
             }
         }
-        return httpClient;
+        return map.get(hostname);
     }
 
     /**

@@ -92,7 +92,7 @@ public class AreaService implements IAreaService {
 
 		List<AreaTreeSelect> list = map.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
 
-		System.out.println(list);
+		//System.out.println(list);
 
 		return list;
 

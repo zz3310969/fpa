@@ -5,7 +5,9 @@ import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.auth.COSSigner;
 import com.qcloud.cos.http.HttpMethodName;
+import com.qcloud.cos.utils.UrlEncoderUtils;
 import com.roof.advisory.cos.service.api.ICosService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.roof.commons.RoofDateUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,12 +38,21 @@ public class CosService implements ICosService {
     private Long times = 60L * 1000;
 
     @Override
-    public Map<String,Object> getSign() {
+    public Map<String,Object> getSign(Map<String,String> params) {
         Map<String,Object> map = Maps.newHashMap();
         COSCredentials cred = new BasicCOSCredentials( secret_id, secret_key);
         COSSigner cosSigner = new COSSigner();
         Date expiredTime =  RoofDateUtils.addHours(new Date(),2);
-        String sign = cosSigner.buildAuthorizationStr(HttpMethodName.POST, "/", cred, expiredTime);
+        HttpMethodName methodName = HttpMethodName.POST;
+        if(StringUtils.isNoneBlank(params.get("Method"))){
+            methodName = HttpMethodName.valueOf(params.get("Method"));
+        }
+        String resouce_path = "/";
+        if(StringUtils.isNoneBlank(params.get("Key"))){
+            resouce_path = UrlEncoderUtils.encode(params.get("Key")) ;
+        }
+
+        String sign = cosSigner.buildAuthorizationStr(methodName, resouce_path, cred, expiredTime);
         map.put("expiredTime",expiredTime.getTime() - times);
         map.put("sign",sign);
         return map;
