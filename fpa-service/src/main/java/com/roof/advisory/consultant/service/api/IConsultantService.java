@@ -3,6 +3,7 @@ package com.roof.advisory.consultant.service.api;
 import java.util.List;
 import java.io.Serializable;
 
+import com.roof.advisory.consultant.entity.ConsultantWechatVo;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.advisory.consultant.entity.Consultant;
 import com.roof.advisory.consultant.entity.ConsultantVo;
@@ -58,5 +59,10 @@ public interface IConsultantService {
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */
 	public abstract Page page(Page page, Consultant consultant);
+
+	/**
+	 * 按对象中的非空属性作为条件，进行分页查询
+	 */
+	public abstract Page pageWechat(Page page, ConsultantWechatVo consultantWechatVo);
 
 }

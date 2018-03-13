@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.roof.advisory.consultant.entity.ConsultantWechatVo;
 import com.roof.fpa.DefaultStateEnum;
 import com.roof.fpa.account.service.api.IAccountService;
 import com.roof.fpa.counselor.entity.Counselor;
@@ -93,6 +94,10 @@ public class ConsultantService implements IConsultantService {
 	
 	public Page page(Page page, Consultant consultant) {
 		return consultantDao.page(page, consultant);
+	}
+
+	public Page pageWechat(Page page, ConsultantWechatVo consultantWechatVo) {
+		return consultantDao.pageWechat(page, consultantWechatVo);
 	}
 
 	@Autowired
