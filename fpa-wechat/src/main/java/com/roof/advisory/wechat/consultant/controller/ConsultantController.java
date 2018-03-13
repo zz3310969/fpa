@@ -1,5 +1,7 @@
 package com.roof.advisory.wechat.consultant.controller;
 
+import com.roof.advisory.commentrecord.entity.CommentRecord;
+import com.roof.advisory.commentrecord.service.api.ICommentRecordService;
 import com.roof.advisory.consultant.entity.Consultant;
 import com.roof.advisory.consultant.entity.ConsultantVo;
 import com.roof.advisory.consultant.entity.ConsultantWechatVo;
@@ -32,6 +34,9 @@ public class ConsultantController {
     @Autowired
     private IConsultantService consultantService;
 
+    @Autowired
+    private ICommentRecordService commentRecordService;
+
     @ApiOperation(value = "获得咨询师列表")
     @RequestMapping(value = "consultant", method = {RequestMethod.GET})
     public @ResponseBody
@@ -46,6 +51,17 @@ public class ConsultantController {
     public @ResponseBody Result<ConsultantWechatVo> load(@PathVariable Long id) {
         ConsultantWechatVo consultantWechatVo = consultantService.loadForWechat(new ConsultantWechatVo(id));
         return new Result(Result.SUCCESS,consultantWechatVo);
+    }
+
+    @ApiOperation(value = "根据咨询师id获取用户评价列表")
+    @RequestMapping(value = "consultant/commentRecord/{id}", method = {RequestMethod.GET})
+    public @ResponseBody
+    Result<Page> commentRecordlist(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) {
+        Page page = PageUtils.createPage(request);
+        CommentRecord commentRecord = new CommentRecord();
+        commentRecord.setConsultantId(id);
+        page =  commentRecordService.page(page,commentRecord);
+        return new Result(Result.SUCCESS, page);
     }
 
     @RequestMapping(value = "consultant/config", method = {RequestMethod.GET})
