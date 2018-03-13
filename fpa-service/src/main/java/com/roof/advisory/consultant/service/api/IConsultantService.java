@@ -65,4 +65,6 @@ public interface IConsultantService {
 	 */
 	public abstract Page pageWechat(Page page, ConsultantWechatVo consultantWechatVo);
 
+	public abstract ConsultantWechatVo loadForWechat(ConsultantWechatVo consultant);
+
 }

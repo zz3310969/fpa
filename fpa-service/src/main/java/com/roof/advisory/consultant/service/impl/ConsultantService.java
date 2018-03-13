@@ -100,6 +100,10 @@ public class ConsultantService implements IConsultantService {
 		return consultantDao.pageWechat(page, consultantWechatVo);
 	}
 
+	public ConsultantWechatVo loadForWechat(ConsultantWechatVo consultant){
+		return (ConsultantWechatVo)consultantDao.reload(consultant);
+	}
+
 	@Autowired
 	public void setIConsultantDao(
 			@Qualifier("consultantDao") IConsultantDao  consultantDao) {

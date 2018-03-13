@@ -245,6 +245,20 @@
 		from z_consultant
 		where id=#{id} 
 	</select>
+
+	<select id="loadConsultantWechatVo" resultType="com.roof.advisory.consultant.entity.ConsultantWechatVo">
+		select
+		(SELECT level_name FROM z_level WHERE id = t1.level_id ) as levelName,
+		(1) as isOnline,
+		(1) as canOrder,
+		(9.9) as grade,
+		(1000) as times,
+		(SELECT NAME FROM z_advisory_theme WHERE id = t1.theme_id ) as themeName,
+		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName,
+		<include refid="columns_as"/>
+		from z_consultant t1
+		where t1.id=#{id}
+	</select>
 	
 	<select id="selectConsultant" resultType="com.roof.advisory.consultant.entity.ConsultantVo">
 		select 
