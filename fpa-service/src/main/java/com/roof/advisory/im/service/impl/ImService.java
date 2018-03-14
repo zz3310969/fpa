@@ -20,40 +20,43 @@ public class ImService implements IImService {
 
     private static final Logger logger = LoggerFactory.getLogger(ImService.class);
 
+
     @Value("${im.baseUrl}")
     private String imBaseUrl;
+
     @Override
-    public void openSession(ImRequest imRequest) {
-        imRequest.setSeq(new Date().getTime()+"");
+    public Long openSession(ImRequest imRequest) {
+        Long sessionId = null;
+        imRequest.setSeq(System.currentTimeMillis() + "");
         try {
-            String str = HttpClientUtil.post(imBaseUrl+"session/open", JSON.toJSONString(imRequest));
+            String str = HttpClientUtil.post(imBaseUrl + "session/open", JSON.toJSONString(imRequest));
             ImResponse response = JSON.parseObject(str, ImResponse.class);
-            if(!StringUtils.equals(response.getState(),"success")){
-                logger.error("openSession出错:",response.getMessage());
-            }else {
-                Map map =  response.getResult();
-                map.get("id");
+            if (!StringUtils.equals(response.getState(), "success")) {
+                logger.error("openSession出错:", response.getMessage());
+            } else {
+                Map map = response.getResult();
+                sessionId = Long.valueOf(map.get("id").toString());
             }
             logger.info(str);
         } catch (IOException e) {
-            logger.error("openSession出错:",e.getCause());
+            logger.error("openSession出错:", e.getCause());
         }
-
+        return sessionId;
     }
 
     @Override
     public void closeSession(ImRequest imRequest) {
-        imRequest.setSeq(new Date().getTime()+"");
+        imRequest.setSeq(System.currentTimeMillis() + "");
         try {
-            String str =  HttpClientUtil.post(imBaseUrl+"session/open",JSON.toJSONString(imRequest));
+            String str = HttpClientUtil.post(imBaseUrl + "session/open", JSON.toJSONString(imRequest));
             ImResponse response = JSON.parseObject(str, ImResponse.class);
-            if(!StringUtils.equals(response.getState(),"success")){
-                logger.error("closeSession出错:",response.getMessage());
-            }else {
+            if (!StringUtils.equals(response.getState(), "success")) {
+                logger.error("closeSession出错:", response.getMessage());
+            } else {
 
             }
         } catch (IOException e) {
-            logger.error("closeSession出错:",e.getCause());
+            logger.error("closeSession出错:", e.getCause());
         }
 
     }

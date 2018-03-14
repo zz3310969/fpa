@@ -3,6 +3,7 @@ package com.roof.advisory.advisoryproduct.service.api;
 import java.util.List;
 import java.io.Serializable;
 
+import com.roof.advisory.consultant.entity.Consultant;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.advisory.advisoryproduct.entity.AdvisoryProduct;
 import com.roof.advisory.advisoryproduct.entity.AdvisoryProductVo;
@@ -58,5 +59,7 @@ public interface IAdvisoryProductService {
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */
 	public abstract Page page(Page page, AdvisoryProduct advisoryProduct);
+
+	public Serializable findAndCreate(Long consultantId);
 
 }

@@ -1,13 +1,29 @@
 package com.roof.advisory.im.service;
 
 public class ImRequest {
+
+    public final static String IM_OPENSESSION = "openSession";
+    /**
+     * openSession
+     */
     private String requestType;
+    /**
+     * 用户token
+     */
     private String token;
     private String seq;
+
     private String sender;
     private String receiver;
+    /**
+     * 开始时间
+     */
     private Long startTime;
     private Long endTime;
+    /**
+     * 关闭时必填
+     */
+    private Long sessionId;
 
     public String getRequestType() {
         return requestType;
@@ -63,5 +79,13 @@ public class ImRequest {
 
     public void setEndTime(Long endTime) {
         this.endTime = endTime;
+    }
+
+    public Long getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 }

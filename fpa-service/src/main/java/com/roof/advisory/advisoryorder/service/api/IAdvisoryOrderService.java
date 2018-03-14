@@ -1,5 +1,6 @@
 package com.roof.advisory.advisoryorder.service.api;
 
+import java.util.Date;
 import java.util.List;
 import java.io.Serializable;
 
@@ -60,5 +61,7 @@ public interface IAdvisoryOrderService {
     public abstract Page page(Page page, AdvisoryOrder advisoryOrder);
 
     public Page pageVo(Page page, AdvisoryOrderVo advisoryOrderVo);
+
+    public String createOrderNum(Date date);
 
 }

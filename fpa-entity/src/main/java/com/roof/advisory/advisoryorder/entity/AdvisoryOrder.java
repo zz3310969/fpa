@@ -16,6 +16,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 @ApiModel(value = "z_advisory_order", description = "订单")
 public class AdvisoryOrder implements Serializable {
+
     // 需要手动添加非默认的serialVersionUID
     @ApiModelProperty(value = "主键")
     protected Long id;// 主键
@@ -41,6 +42,9 @@ public class AdvisoryOrder implements Serializable {
     protected String orderStatus;// 订单状态
     @ApiModelProperty(value = "逻辑删除状态")
     protected Integer state;// 逻辑删除状态
+
+    @ApiModelProperty(value = "聊天标示")
+    protected Long sessionId;
 
     public AdvisoryOrder() {
         super();
@@ -138,5 +142,13 @@ public class AdvisoryOrder implements Serializable {
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public Long getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 }
