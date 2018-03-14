@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.customer.dao">
 
 	<sql id="columns">
-		id, weixin_open_id, weixin_head_image, nick_name, name, mobile, gender, area, follow_time, country, province, city, language,useable,unionid
+		id, weixin_open_id, weixin_head_image, nick_name, name, mobile, gender, area, follow_time, country, province, city, language,useable,unionid,user_id
 	</sql>
 
 	<sql id="columns_as">
-		id as id , weixin_open_id as weixinOpenId , weixin_head_image as weixinHeadImage , nick_name as nickName , name as name , mobile as mobile , gender as gender , area as area , follow_time as followTime , country as country , province as province , city as city , language as language ,useable as useable,unionid as unionid
+		id as id , weixin_open_id as weixinOpenId , weixin_head_image as weixinHeadImage , nick_name as nickName , name as name , mobile as mobile , gender as gender , area as area , follow_time as followTime , country as country , province as province , city as city , language as language ,useable as useable,unionid as unionid,user_id as userId
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{weixinOpenId}, #{weixinHeadImage}, #{nickName}, #{name}, #{mobile}, #{gender}, #{area}, #{followTime}, #{country}, #{province}, #{city}, #{language},#{useable},#{unionid}
+		#{id}, #{weixinOpenId}, #{weixinHeadImage}, #{nickName}, #{name}, #{mobile}, #{gender}, #{area}, #{followTime}, #{country}, #{province}, #{city}, #{language},#{useable},#{unionid},#{userId}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -61,6 +61,9 @@
 		<if test="unionid != null and unionid != ''">
 			and unionid = #{unionid}
 		</if>
+		<if test="userId != null ">
+			and user_id = #{userId}
+		</if>
 
 	</sql>
 
@@ -100,7 +103,8 @@
 			province=#{province}, 
 			city=#{city}, 
 			language=#{language},
-			unionid = #{unionid}
+			unionid = #{unionid},
+			user_id = #{userId}
 		</set>
 		where id=#{id} 
 	</update>
@@ -151,7 +155,10 @@
 			language=#{language},
 		</if>
 		<if test="unionid != null and unionid != ''">
-			unionid = #{unionid}
+			unionid = #{unionid},
+		</if>
+		<if test="userId != null ">
+			user_id = #{userId}
 		</if>
 		</set>
 		where id=#{id} 
@@ -203,7 +210,10 @@
 			language=#{language},
 			</if>
 			<if test="unionid != null and unionid != ''">
-				unionid = #{unionid}
+				unionid = #{unionid},
+			</if>
+			<if test="userId != null ">
+				user_id = #{userId}
 			</if>
 		</set>
 		where 1=1

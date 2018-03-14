@@ -49,6 +49,8 @@ public class Customer implements Serializable {
 
 	protected String unionid;
 
+	protected Long userId;
+
 	public Customer() {
 		super();
 	}
@@ -164,5 +166,13 @@ public class Customer implements Serializable {
 
 	public void setUnionid(String unionid) {
 		this.unionid = unionid;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }

@@ -3,8 +3,11 @@ package com.roof.fpa.customer.service.impl;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.roof.advisory.wxsession.service.api.IWxSessionService;
 import com.roof.fpa.DefaultUseableEnum;
 import com.roof.fpa.cache.api.ICacheHander;
 import com.roof.fpa.cardtestresult.entity.CardTestResult;
@@ -16,8 +19,10 @@ import com.roof.fpa.cardtestresult.service.impl.CardsComparer;
 import com.roof.fpa.cardtestresult.service.impl.MaxScoreCalculator;
 import com.roof.fpa.cardtestresultdetail.service.api.ICardTestResultDetailService;
 import com.roof.fpa.cardunit.entity.CardUnit;
+import com.roof.fpa.counselor.entity.Counselor;
 import com.roof.fpa.weixin.service.api.IWeChatHander;
 import com.roof.fpa.weixin.service.impl.WeChatDto;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.roof.roof.dataaccess.api.Page;
@@ -26,6 +31,11 @@ import com.roof.fpa.customer.entity.Customer;
 import com.roof.fpa.customer.entity.CustomerVo;
 import com.roof.fpa.customer.service.api.ICustomerService;
 import org.roof.web.dictionary.entity.Dictionary;
+import org.roof.web.role.entity.BaseRole;
+import org.roof.web.role.entity.Role;
+import org.roof.web.user.entity.User;
+import org.roof.web.user.service.api.IUserService;
+import org.roof.web.user.service.impl.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -55,11 +65,36 @@ public class CustomerService implements ICustomerService {
 
 	@Autowired
 	private IWeChatHander weChatHander;
+	@Autowired
+	private IWxSessionService wxSessionService;
+	@Autowired
+	private IUserService userService;
 
 	public Serializable save(Customer customer) {
 		Assert.notNull(customer.getWeixinOpenId(), "opid不能为空");
 		customer.setUseable(DefaultUseableEnum.usable.getCode());
+		User user = customerConvertUser(customer);
+		//userService.save(user);
+		customer.setUserId(user.getId());
 		return customerDao.save(customer);
+	}
+
+	public User customerConvertUser(Customer customer){
+		User user = new User();
+		String [] rolesIds = null;//counselorRoles.split(",");
+		if (rolesIds != null) {
+			Set<BaseRole> roles = new HashSet<BaseRole>();
+			for (String roleId : rolesIds) {
+				roles.add(new Role(Long.valueOf(roleId), null));
+			}
+			user.setRoles(roles);
+		}
+		user.setUsername(customer.getWeixinOpenId());
+		user.setName(customer.getNickName());
+		user.setCreate_date(new Date());
+		//String password = "customer";
+		//user.setPassword(DigestUtils.md5Hex(password).toUpperCase());
+		return user;
 	}
 
 	public void delete(Customer customer) {
@@ -146,13 +181,13 @@ public class CustomerService implements ICustomerService {
 			customer.setFollowTime(new Date());
 			Long id = (Long) customerDao.save(customer);
 			weChatDto.setUserId(id);
-			return weChatDto;
 		} else {
 			customer.setId(vo.getId());
 			updateIgnoreNull(customer);
 			weChatDto.setUserId(vo.getId());
-			return weChatDto;
 		}
+		weChatDto.setSession_token(wxSessionService.createToken(weChatDto.getOpenid()));
+		return weChatDto;
 	}
 
 	@Override
