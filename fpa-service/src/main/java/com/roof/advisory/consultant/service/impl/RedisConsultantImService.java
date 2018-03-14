@@ -1,7 +1,7 @@
 package com.roof.advisory.consultant.service.impl;
 
 import com.roof.advisory.consultant.entity.Consultant;
-import com.roof.advisory.consultant.service.api.IConsultantSyncImService;
+import com.roof.advisory.consultant.service.api.IConsultantImService;
 
 import java.util.List;
 
@@ -11,8 +11,7 @@ import java.util.List;
  * @author liht
  * @date 2018/3/13
  */
-public class RedisConsultantSyncImService implements IConsultantSyncImService {
-
+public class RedisConsultantImService implements IConsultantImService {
 
 
     @Override
@@ -20,10 +19,6 @@ public class RedisConsultantSyncImService implements IConsultantSyncImService {
         return null;
     }
 
-    @Override
-    public void getAllFromImServer() {
-
-    }
 
     @Override
     public Boolean isOnLine(Consultant consultant) {

@@ -10,18 +10,13 @@ import java.util.List;
  * @author liht
  * @date 2018/3/13
  */
-public interface IConsultantSyncImService {
+public interface IConsultantImService {
     /**
      * 获取所有在线咨询师
      *
      * @return
      */
     public List<Consultant> getAllOnLine();
-
-    /**
-     * 获取所有在线用户从IM系统
-     */
-    public void getAllFromImServer();
 
     /**
      * 是否在线
