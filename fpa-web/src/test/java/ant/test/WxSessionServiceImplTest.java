@@ -16,6 +16,8 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.List;
+
 /**
  * Created by liangl on 2018/1/6.
  */
@@ -51,6 +53,29 @@ public class WxSessionServiceImplTest extends AbstractJUnit4SpringContextTests {
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerVo,customer);
         customerService.update(customer);
+
+    }
+
+    @org.junit.Test
+    public void reAllCustomer() throws Exception {
+        //imService.openSession();
+        List<CustomerVo> customerVos = customerService.selectForList(new Customer());
+        for (CustomerVo customerVo :customerVos ){
+            if(!userService.sameUsername(null,customerVo.getWeixinOpenId())){
+                User user = customerService.customerConvertUser(customerVo);
+                userService.save(user);
+                customerVo.setUserId(user.getId());
+
+                Customer customer = new Customer();
+                BeanUtils.copyProperties(customerVo,customer);
+                customerService.update(customer);
+            }
+
+
+
+        }
+
+
 
     }
 

@@ -6,6 +6,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.roof.advisory.cos.service.api.ICosService;
 import com.roof.fpa.cache.impl.CacheFactory;
 import com.roof.fpa.cardunit.entity.CardUnit;
 import com.roof.fpa.cardunit.entity.CardUnitVo;
@@ -27,6 +28,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -50,6 +52,9 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
 
     private FileInfoService fileInfoService;
     private FileService fileService;
+
+    @Autowired
+    private ICosService cosService;
 
     //Cache<Object, Object> cache = CacheFactory.getInstance().getPicCache();
     @Autowired
@@ -119,8 +124,14 @@ public class FpaPicServiceImpl implements IFpaPicService,InitializingBean {
 
         ByteArrayInputStream in = new ByteArrayInputStream(file.getBytes());
         FileInfo fileinfo = fileManager.saveFile(in, xdata);
-        this.middleImage(fileinfo.getRealPath(),toMiddlePath(fileinfo.getRealPath()));
+        //this.middleImage(fileinfo.getRealPath(),toMiddlePath(fileinfo.getRealPath()));
+        this.smallImage(fileinfo.getRealPath(),toSmallPath(fileinfo.getRealPath()));
         return fileinfo;
+    }
+
+    public String uploadCos(FileInfo fileinfo){
+        String path =  cosService.uploadHeadImg(fileinfo.getName(),new File(toSmallPath(fileinfo.getRealPath())));
+        return path;
     }
 
     public  byte[] getMiddleFileByBase(String filename){

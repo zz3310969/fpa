@@ -51,7 +51,7 @@
 
 	<!-- 权限名称必须以 ROLE_ 开头 -->
 	<http auto-config="true" use-expressions="true" pattern="/**">
-		<intercept-url pattern="/oauth/*" access="permitAll()" />
+		<intercept-url pattern="/currentUser" access="permitAll()" />
 
 		<custom-filter ref="oAuth2AuthenticationProcessingFilter"
 					   before="CAS_FILTER"  />

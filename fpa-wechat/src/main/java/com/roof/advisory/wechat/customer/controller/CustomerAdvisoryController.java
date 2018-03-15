@@ -21,12 +21,14 @@ import org.roof.spring.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.NumberUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * com.roof.advisory.wechat.customer.controller
@@ -57,7 +59,11 @@ public class CustomerAdvisoryController {
     @ApiOperation(value = "客户咨询初始化")
     @RequestMapping(value = "customer/openseesion", method = {RequestMethod.POST})
     public @ResponseBody
-    Result list(String token, Long consultantId, String weixinOpenId, HttpServletRequest request) {
+    Result list(@RequestBody Map map,  HttpServletRequest request) {
+        String token = (String) map.get("token");
+        String weixinOpenId = (String) map.get("weixinOpenId");
+        Long consultantId = Long.valueOf(map.get("consultantId")+"");
+
         ConsultantVo consultantVo = consultantService.load(new Consultant(consultantId));
         CustomerVo customerVo = customerService.loadByOpenid(weixinOpenId);
         //开始远程调用openseesion
@@ -67,9 +73,10 @@ public class CustomerAdvisoryController {
         imRequest.setReceiver(consultantVo.getUsername());
         imRequest.setStartTime(System.currentTimeMillis());
         imRequest.setRequestType(ImRequest.IM_OPENSESSION);
+        imRequest.setEndTime(System.currentTimeMillis()+1000*60*60*12);
         Long sessionId = imService.openSession(imRequest);
         //seesion已经存在
-        if (sessionId != null) {
+        if (sessionId == null) {
             return new Result(Result.SUCCESS);
         }
         //创建订单,绑定sessionId

@@ -34,7 +34,8 @@ public class FpaPicController {
     public Result uploadFile(@RequestParam("upfile") MultipartFile file, HttpServletRequest request) {
         try {
             FileInfo fileinfo = fpaPicService.saveFile(file);
-            return new Result(Result.SUCCESS, "", fileinfo.getName());
+            String path = fpaPicService.uploadCos(fileinfo);
+            return new Result(Result.SUCCESS, "", path);
         } catch (Exception e) {
             return new Result(Result.FAIL, "上传失败");
         }

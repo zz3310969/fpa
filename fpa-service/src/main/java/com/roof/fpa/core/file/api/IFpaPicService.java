@@ -18,5 +18,6 @@ public interface IFpaPicService {
 
     public InputStream getBigFile(String filename);
 
+    public String uploadCos(FileInfo fileinfo);
 
 }

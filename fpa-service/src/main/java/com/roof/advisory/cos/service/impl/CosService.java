@@ -1,10 +1,16 @@
 package com.roof.advisory.cos.service.impl;
 
 import com.google.common.collect.Maps;
+import com.qcloud.cos.COSClient;
+import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.auth.COSSigner;
 import com.qcloud.cos.http.HttpMethodName;
+import com.qcloud.cos.model.ObjectMetadata;
+import com.qcloud.cos.model.PutObjectRequest;
+import com.qcloud.cos.model.PutObjectResult;
+import com.qcloud.cos.region.Region;
 import com.qcloud.cos.utils.UrlEncoderUtils;
 import com.roof.advisory.cos.service.api.ICosService;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +19,7 @@ import org.roof.commons.RoofDateUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Map;
 
@@ -33,6 +40,11 @@ public class CosService implements ICosService {
     private String pathPrefix;
     @Value("${tencent.ocs.cosUrl}")
     private String cosUrl;
+
+    @Value("${tencent.ocs.head.bucket}")
+    private String headBucket;
+    @Value("${tencent.ocs.head.cosUrl}")
+    private String headCosUrl;
 
 
     private Long times = 60L * 1000;
@@ -66,5 +78,29 @@ public class CosService implements ICosService {
         map.put("path", pathPrefix + "/" + DateFormatUtils.format(new Date(), "yyyyMM") + "/");
         map.put("cosUrl",cosUrl);
         return map;
+    }
+
+    @Override
+    public String uploadHeadImg(String key, File file) {
+        String  path = "head" + "/" + DateFormatUtils.format(new Date(), "yyyyMM") + "/"+key;
+
+        // 设置秘钥
+        COSCredentials cred = new BasicCOSCredentials(appid, secret_id, secret_key);
+        // 设置区域, 这里设置为华北
+        ClientConfig clientConfig = new ClientConfig(new Region(region));
+        // 生成 cos 客户端对象
+        COSClient cosClient = new COSClient(cred, clientConfig);
+
+        String bucketName = headBucket+"-"+appid;
+        // 上传 object, 建议 20M 以下的文件使用该接口
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, path, file);
+
+        PutObjectResult putObjectResult = cosClient.putObject(putObjectRequest);
+        //System.out.println(putObjectResult);
+
+        // 关闭客户端 (关闭后台线程)
+
+        cosClient.shutdown();
+        return headCosUrl+path;
     }
 }
