@@ -69,4 +69,17 @@
 		<include refid="conds" />
 		and state = '1'
 	</select>
+
+	<select id="selectForListByUsernames" resultType="java.lang.Long">
+		select
+		id
+		from z_consultant
+		where 1=1
+		username in(
+		<foreach collection="usernames" item="item" index="index"
+				 separator=",">
+			#{item}
+		</foreach>
+		)
+	</select>
 </mapper>

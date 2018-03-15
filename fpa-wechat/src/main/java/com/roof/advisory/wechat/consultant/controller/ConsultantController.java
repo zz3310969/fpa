@@ -48,9 +48,10 @@ public class ConsultantController {
 
     @ApiOperation(value = "根据ID加载咨询师")
     @RequestMapping(value = "consultant/{id}", method = {RequestMethod.GET})
-    public @ResponseBody Result<ConsultantWechatVo> load(@PathVariable Long id) {
+    public @ResponseBody
+    Result<ConsultantWechatVo> load(@PathVariable Long id) {
         ConsultantWechatVo consultantWechatVo = consultantService.loadForWechat(new ConsultantWechatVo(id));
-        return new Result(Result.SUCCESS,consultantWechatVo);
+        return new Result(Result.SUCCESS, consultantWechatVo);
     }
 
     @ApiOperation(value = "根据咨询师id获取用户评价列表")
@@ -60,14 +61,9 @@ public class ConsultantController {
         Page page = PageUtils.createPage(request);
         CommentRecord commentRecord = new CommentRecord();
         commentRecord.setConsultantId(id);
-        page =  commentRecordService.page(page,commentRecord);
+        page = commentRecordService.page(page, commentRecord);
         return new Result(Result.SUCCESS, page);
     }
 
-    @RequestMapping(value = "consultant/config", method = {RequestMethod.GET})
-    public @ResponseBody
-    Result getConfiguration(HttpServletResponse response, HttpServletRequest request) {
-        return new Result(Result.SUCCESS, cosService.getConfiguration());
-    }
 
 }

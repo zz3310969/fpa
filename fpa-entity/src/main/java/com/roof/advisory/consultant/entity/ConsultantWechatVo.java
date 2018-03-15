@@ -12,6 +12,7 @@ import java.util.List;
 public class ConsultantWechatVo extends Consultant {
 
     private List<ConsultantWechatVo> consultantList;
+
     /**
      * 咨询师等级
      */

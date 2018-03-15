@@ -1,6 +1,7 @@
 package com.roof.advisory.im.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.roof.advisory.consultant.service.api.IConsultantService;
 import com.roof.advisory.im.service.ImRequest;
 import com.roof.advisory.im.service.ImResponse;
 import com.roof.advisory.im.service.api.IImService;
@@ -8,7 +9,9 @@ import com.roof.fpa.core.http.HttpClientUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,6 +23,8 @@ public class ImService implements IImService {
 
     private static final Logger logger = LoggerFactory.getLogger(ImService.class);
 
+    @Autowired
+    private IConsultantService consultantService;
 
     @Value("${im.baseUrl}")
     private String imBaseUrl;
@@ -59,5 +64,24 @@ public class ImService implements IImService {
             logger.error("closeSession出错:", e.getCause());
         }
 
+    }
+
+    @Async
+    @Override
+    public void getAllUsers() {
+        try {
+            String str = HttpClientUtil.get(imBaseUrl + "/user/queryOnline");
+            logger.info(str);
+            ImResponse response = JSON.parseObject(str, ImResponse.class);
+            if (!StringUtils.equals(response.getState(), "success")) {
+                logger.error("getAllUsers出错:", response.getMessage());
+            } else {
+                logger.info(str);
+//                String[] usernames = response.getMessage();
+//                consultantService.selectForListByUsernames(usernames);
+            }
+        } catch (Exception e) {
+            logger.error("getAllUsers出错:", e.getCause());
+        }
     }
 }

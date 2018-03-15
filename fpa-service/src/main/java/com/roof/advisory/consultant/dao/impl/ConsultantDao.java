@@ -29,9 +29,9 @@ public class ConsultantDao extends AbstractDao implements IConsultantDao {
         return pageQuery.select(consultant);
     }
 
+    @Override
     public Page pageWechat(Page page, ConsultantWechatVo consultantWechatVo) {
         IPageQuery pageQuery = pageQueryFactory.getPageQuery(page, "selectConsultantWechatPage", "selectConsultantWechatCount");
-        //IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectConsultantPage", null);
         return pageQuery.select(consultantWechatVo);
     }
 
