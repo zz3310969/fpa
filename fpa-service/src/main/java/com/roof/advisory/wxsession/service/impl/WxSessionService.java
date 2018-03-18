@@ -76,14 +76,14 @@ public class WxSessionService implements IWxSessionService {
 
         //userService.login()
 
-        ClientDetails authenticatedClient = new BaseClientDetails(clientId, null, "", "password", null);;
-        /*try{
+        ClientDetails authenticatedClient = null;//new BaseClientDetails(clientId, null, "", "password", null);;
+        try{
             authenticatedClient = getClientDetailsService().loadClientByClientId(clientId);
         }catch (NoSuchClientException e){
             ClientDetails clientDetails = new BaseClientDetails(clientId, null, "", "password", null);
             clientRegistrationService.addClientDetails(clientDetails);
             authenticatedClient = getClientDetailsService().loadClientByClientId(clientId);
-        }*/
+        }
 
         TokenRequest tokenRequest = getOAuth2RequestFactory().createTokenRequest(parameters, authenticatedClient);
 /*

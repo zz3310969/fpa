@@ -74,7 +74,7 @@ public class CustomerService implements ICustomerService {
 		Assert.notNull(customer.getWeixinOpenId(), "opid不能为空");
 		customer.setUseable(DefaultUseableEnum.usable.getCode());
 		User user = customerConvertUser(customer);
-		//userService.save(user);
+		userService.save(user);
 		customer.setUserId(user.getId());
 		return customerDao.save(customer);
 	}
