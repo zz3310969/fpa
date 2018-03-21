@@ -19,6 +19,8 @@ import com.roof.advisory.quickreply.entity.QuickReplyVo;
 import com.roof.advisory.quickreply.service.api.IQuickReplyService;
 import org.roof.web.dictionary.entity.Dictionary;
 import org.roof.web.dictionary.service.api.IDictionaryService;
+import org.roof.web.user.entity.User;
+import org.roof.web.user.service.api.BaseUserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -53,6 +55,22 @@ public class QuickReplyController {
 	    Page page = PageUtils.createPage(request);
 	    page = quickReplyService.page(page, quickReply);
 	    return new Result(Result.SUCCESS, page);
+	}
+
+	@RequestMapping(value = "quickreply/my", method = {RequestMethod.GET})
+	public @ResponseBody Result<List<QuickReplyVo>> my_list(QuickReply quickReply, HttpServletRequest request) {
+		Page page = PageUtils.createPage(request);
+		quickReply.setUserId(null);
+		quickReply.setType("PUBLIC");
+		List<QuickReplyVo>  publics  =  quickReplyService.selectForList(quickReply);
+
+		User user = (User) BaseUserContext.getCurrentUser(request);
+		//quickReply.setUserId(user.getId());
+		quickReply.setType("PRIVATE");
+		List<QuickReplyVo> privates =  quickReplyService.selectForList(quickReply);
+		publics.addAll(privates);
+
+		return new Result(Result.SUCCESS, publics);
 	}
 
 

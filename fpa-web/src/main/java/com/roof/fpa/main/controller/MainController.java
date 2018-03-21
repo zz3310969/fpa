@@ -2,8 +2,13 @@ package com.roof.fpa.main.controller;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.roof.advisory.consultant.entity.Consultant;
+import com.roof.advisory.consultant.entity.ConsultantVo;
+import com.roof.advisory.consultant.service.api.IConsultantService;
+import org.apache.commons.lang3.StringUtils;
 import org.roof.web.user.entity.User;
 import org.roof.web.user.service.api.BaseUserContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,16 +23,26 @@ import java.util.Map;
  */
 @Controller
 public class MainController {
+    @Autowired
+    private IConsultantService consultantService;
 
     @RequestMapping(value = "currentUser", method = {RequestMethod.GET})
     public @ResponseBody Map currentUser(HttpServletRequest httpServletRequest){
         Map<String,Object> map = Maps.newHashMap();
         User user = (User) BaseUserContext.getCurrentUser(httpServletRequest);
-        map.put("name",user.getName());
+        Consultant consultant = new Consultant();
+        consultant.setUserId(user.getId());
+        ConsultantVo consultantVo = consultantService.selectForObject(consultant);
+
         map.put("avatar","https://gw.alipayobjects.com/zos/rmsportal/dRFVcIqZOYPcSNrlJsqQ.png");
+        map.put("name",user.getName());
         map.put("userid",user.getId());
         map.put("notifyCount",0);
         map.put("user",user);
+        if(consultantVo != null && StringUtils.isNoneEmpty(consultantVo.getHeadImageUrl())){
+            map.put("avatar",consultantVo.getHeadImageUrl());
+        }
+
         return  map;
     }
 
