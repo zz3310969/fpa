@@ -31,7 +31,7 @@ import java.util.Map;
 
 @Api(value = "commentrecord", description = "评价记录表管理")
 @Controller
-@RequestMapping("/fpa/wechat")
+@RequestMapping("/fpa/wechat/advisory")
 public class CommentRecordController {
     private ICommentRecordService commentRecordService;
 

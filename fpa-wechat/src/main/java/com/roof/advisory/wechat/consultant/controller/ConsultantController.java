@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping("/fpa/wechat")
+@RequestMapping("/fpa/wechat/advisory")
 public class ConsultantController {
     @Autowired
     private ICosService cosService;

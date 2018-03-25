@@ -1,5 +1,6 @@
 package com.roof.advisory.advisoryorder.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -16,6 +17,8 @@ public class AdvisoryOrderVo extends AdvisoryOrder {
 
     private String customName;
     private String productName;
+    private Long consName;
+    private boolean is
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date orderTimeStart;
@@ -70,5 +73,13 @@ public class AdvisoryOrderVo extends AdvisoryOrder {
 
     public void setOrderTimeEnd(Date orderTimeEnd) {
         this.orderTimeEnd = orderTimeEnd;
+    }
+
+    public Long getConsName() {
+        return consName;
+    }
+
+    public void setConsName(Long consName) {
+        this.consName = consName;
     }
 }

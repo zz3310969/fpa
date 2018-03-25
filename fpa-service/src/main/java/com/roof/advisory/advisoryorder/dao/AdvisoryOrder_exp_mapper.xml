@@ -6,14 +6,14 @@
 		t1.id as id, t1.order_num as orderNum, t1.custom_id as customId,
 		t1.product_id as productId, t1.tel as tel, t1.len_time as lenTime,
 		t1.order_amount as orderAmount, t1.pay_amount as payAmount, t1.order_time as orderTime,
-		t1.order_status as orderStatus, t1.state as state
+		t1.order_status as orderStatus, t1.state as state,t1.cons_id as consId
 	</sql>
 	
 	<select id="selectAdvisoryOrderPage" resultType="com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo">
 		select
 		(SELECT nick_name FROM c_customer WHERE id = t1.custom_id ) as customName,
 		(SELECT NAME FROM z_advisory_product WHERE id = t1.product_id ) as productName,
-
+		(SELECT NAME FROM z_consultant WHERE id = t1.cons_id ) as consName,
 		<include refid="columnsAs"/>
 		from
 		z_advisory_order t1

@@ -45,6 +45,8 @@ public class AdvisoryOrder implements Serializable {
 
     @ApiModelProperty(value = "聊天标示")
     protected Long sessionId;
+    @ApiModelProperty(value = "咨询师ID")
+    protected Long consId;
 
     public AdvisoryOrder() {
         super();
@@ -150,5 +152,13 @@ public class AdvisoryOrder implements Serializable {
 
     public void setSessionId(Long sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public Long getConsId() {
+        return consId;
+    }
+
+    public void setConsId(Long consId) {
+        this.consId = consId;
     }
 }
