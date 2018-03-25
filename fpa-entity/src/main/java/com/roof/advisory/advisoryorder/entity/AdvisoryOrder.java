@@ -47,6 +47,8 @@ public class AdvisoryOrder implements Serializable {
     protected Long sessionId;
     @ApiModelProperty(value = "咨询师ID")
     protected Long consId;
+    protected Long commentRecordId;
+
 
     public AdvisoryOrder() {
         super();
@@ -160,5 +162,13 @@ public class AdvisoryOrder implements Serializable {
 
     public void setConsId(Long consId) {
         this.consId = consId;
+    }
+
+    public Long getCommentRecordId() {
+        return commentRecordId;
+    }
+
+    public void setCommentRecordId(Long commentRecordId) {
+        this.commentRecordId = commentRecordId;
     }
 }

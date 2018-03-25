@@ -18,7 +18,6 @@ public class AdvisoryOrderVo extends AdvisoryOrder {
     private String customName;
     private String productName;
     private Long consName;
-    private boolean is
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date orderTimeStart;

@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.advisory.advisoryorder.dao">
 
 	<sql id="columns">
-		id, order_num, custom_id, product_id, tel, len_time, order_amount, pay_amount, order_time, order_status, state,cons_id
+		id, order_num, custom_id, product_id, tel, len_time, order_amount, pay_amount, order_time, order_status, state,cons_id,comment_record_id
 	</sql>
 
 	<sql id="columns_as">
-		id as id , order_num as orderNum , custom_id as customId , product_id as productId , tel as tel , len_time as lenTime , order_amount as orderAmount , pay_amount as payAmount , order_time as orderTime , order_status as orderStatus , state as state,cons_id as consId
+		id as id , order_num as orderNum , custom_id as customId , product_id as productId , tel as tel , len_time as lenTime , order_amount as orderAmount , pay_amount as payAmount , order_time as orderTime , order_status as orderStatus , state as state,cons_id as consId,comment_record_id as commentRecordId
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{orderNum}, #{customId}, #{productId}, #{tel}, #{lenTime}, #{orderAmount}, #{payAmount}, #{orderTime}, #{orderStatus}, #{state},#{consId}
+		#{id}, #{orderNum}, #{customId}, #{productId}, #{tel}, #{lenTime}, #{orderAmount}, #{payAmount}, #{orderTime}, #{orderStatus}, #{state},#{consId},#{commentRecordId}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -52,6 +52,9 @@
 		<if test="consId != null">
 			and cons_id = #{consId}
 		</if>
+		<if test="commentRecordId != null">
+			and comment_record_id = #{commentRecordId}
+		</if>
 	</sql>
 
 	<insert id="saveAdvisoryOrder" parameterType="com.roof.advisory.advisoryorder.entity.AdvisoryOrder" useGeneratedKeys="true" keyProperty="id">
@@ -87,7 +90,8 @@
 			order_time=#{orderTime}, 
 			order_status=#{orderStatus}, 
 			state=#{state},
-			cons_id=#{consId}
+			cons_id=#{consId},
+			comment_record_id = #{commentRecordId}
 		</set>
 		where id=#{id} 
 	</update>
@@ -129,7 +133,10 @@
 			state=#{state},
 		</if>
 		<if test="consId != null">
-			cons_id = #{consId}
+			cons_id = #{consId},
+		</if>
+		<if test="commentRecordId != null">
+			comment_record_id = #{commentRecordId}
 		</if>
 		</set>
 		where id=#{id} 
@@ -172,8 +179,12 @@
 			state=#{state},
 			</if>
 			<if test="consId != null">
-				cons_id = #{consId}
+				cons_id = #{consId},
 			</if>
+			<if test="commentRecordId != null">
+				comment_record_id = #{commentRecordId}
+			</if>
+
 		</set>
 		where 1=1
 		<include refid="conds" />
