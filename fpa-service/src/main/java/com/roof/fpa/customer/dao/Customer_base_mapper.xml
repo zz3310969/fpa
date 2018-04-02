@@ -4,16 +4,24 @@
 <mapper namespace="com.roof.fpa.customer.dao">
 
 	<sql id="columns">
-		id, weixin_open_id, weixin_head_image, nick_name, name, mobile, gender, area, follow_time, country, province, city, language,useable,unionid,user_id
+		id, weixin_open_id, weixin_head_image, nick_name, name, mobile, gender, area,
+		follow_time, country, province, city, language,useable,unionid,user_id,binary_type
 	</sql>
 
 	<sql id="columns_as">
-		id as id , weixin_open_id as weixinOpenId , weixin_head_image as weixinHeadImage , nick_name as nickName , name as name , mobile as mobile , gender as gender , area as area , follow_time as followTime , country as country , province as province , city as city , language as language ,useable as useable,unionid as unionid,user_id as userId
+		id as id , weixin_open_id as weixinOpenId , weixin_head_image as weixinHeadImage ,
+		nick_name as nickName , name as name , mobile as mobile , gender as gender ,
+		area as area , follow_time as followTime , country as country , province as province ,
+		city as city , language as language ,useable as useable,unionid as unionid,user_id as userId ,
+		binary_type as binaryType
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{weixinOpenId}, #{weixinHeadImage}, #{nickName}, #{name}, #{mobile}, #{gender}, #{area}, #{followTime}, #{country}, #{province}, #{city}, #{language},#{useable},#{unionid},#{userId}
+		#{id}, #{weixinOpenId}, #{weixinHeadImage}, #{nickName}, #{name}, #{mobile},
+		#{gender}, #{area}, #{followTime}, #{country}, #{province}, #{city},
+		#{language},#{useable},#{unionid},#{userId} ,
+		#{binaryType}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -64,6 +72,9 @@
 		<if test="userId != null ">
 			and user_id = #{userId}
 		</if>
+		<if test="binaryType != null ">
+			and binary_type = #{binaryType}
+		</if>
 
 	</sql>
 
@@ -104,6 +115,7 @@
 			city=#{city}, 
 			language=#{language},
 			unionid = #{unionid},
+			binary_type = #{binaryType},
 			user_id = #{userId}
 		</set>
 		where id=#{id} 
@@ -158,7 +170,10 @@
 			unionid = #{unionid},
 		</if>
 		<if test="userId != null ">
-			user_id = #{userId}
+			user_id = #{userId},
+		</if>
+		<if test="binaryType != null ">
+			binary_type = #{binaryType}
 		</if>
 		</set>
 		where id=#{id} 
@@ -213,7 +228,10 @@
 				unionid = #{unionid},
 			</if>
 			<if test="userId != null ">
-				user_id = #{userId}
+				user_id = #{userId},
+			</if>
+			<if test="binaryType != null ">
+				binary_type = #{binaryType}
 			</if>
 		</set>
 		where 1=1
