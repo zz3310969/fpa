@@ -12,6 +12,7 @@ public class WeChatDto {
     private String errmsg;
 
     private Long userId;
+    private String[] userTags;
 
     public String getOpenid() {
         return openid;
@@ -67,5 +68,13 @@ public class WeChatDto {
 
     public void setSession_token(String session_token) {
         this.session_token = session_token;
+    }
+
+    public String[] getUserTags() {
+        return userTags;
+    }
+
+    public void setUserTags(String[] userTags) {
+        this.userTags = userTags;
     }
 }
