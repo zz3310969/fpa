@@ -180,7 +180,7 @@ public class CustomerService implements ICustomerService {
         customer.setUseable(DefaultUseableEnum.usable.getCode());
         if (vo == null) {
             customer.setFollowTime(new Date());
-            Long id = (Long) customerDao.save(customer);
+            Long id = (Long) this.save(customer);
             weChatDto.setUserId(id);
         } else {
             customer.setId(vo.getId());
