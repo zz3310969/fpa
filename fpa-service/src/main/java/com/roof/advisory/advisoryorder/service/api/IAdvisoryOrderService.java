@@ -10,6 +10,7 @@ import com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo;
 
 public interface IAdvisoryOrderService {
 
+
     /**
      * 将对象保存，返回该条记录的操作数量，保存成功之后，将主键填充到参数对象中
      */
@@ -44,6 +45,8 @@ public interface IAdvisoryOrderService {
      * 按对象中的主键进行数据加载，如果是DRDS，还需要添加拆分键
      */
     public abstract AdvisoryOrderVo load(AdvisoryOrder advisoryOrder);
+
+    public abstract AdvisoryOrderVo loadByOrdernum(String orderNum);
 
     /**
      * 按对象中的非空属性作为条件，进行查询实体

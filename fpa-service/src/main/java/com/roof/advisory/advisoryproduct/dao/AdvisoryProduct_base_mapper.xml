@@ -1,197 +1,198 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.advisory.advisoryproduct.dao">
 
-	<sql id="columns">
+    <sql id="columns">
 		id, name, code, app_id, cons_id, remark, modes_id, status, state, advis_id, validity_start_time, validity_end_time
 	</sql>
 
-	<sql id="columns_as">
+    <sql id="columns_as">
 		id as id , name as name , code as code , app_id as appId , cons_id as consId , remark as remark , modes_id as modesId , status as status , state as state , advis_id as advisId , validity_start_time as validityStartTime , validity_end_time as validityEndTime 
 	</sql>
 
 
-	<sql id="vals">
+    <sql id="vals">
 		#{id}, #{name}, #{code}, #{appId}, #{consId}, #{remark}, #{modesId}, #{status}, #{state}, #{advisId}, #{validityStartTime}, #{validityEndTime}
 	</sql>
-	<sql id="conds">
-		<if test="id != null">
-			and id = #{id}
-		</if>
-		<if test="name != null and name != ''">
-			and name like CONCAT('%', #{name}, '%')
-		</if>
-		<if test="code != null and code != ''">
-			and code = #{code}
-		</if>
-		<if test="appId != null">
-			and app_id = #{appId}
-		</if>
-		<if test="consId != null">
-			and cons_id = #{consId}
-		</if>
-		<if test="remark != null and remark != ''">
-			and remark = #{remark}
-		</if>
-		<if test="modesId != null">
-			and modes_id = #{modesId}
-		</if>
-		<if test="status != null">
-			and status = #{status}
-		</if>
-		<if test="state != null">
-			and state = #{state}
-		</if>
-		<if test="advisId != null">
-			and advis_id = #{advisId}
-		</if>
-		<if test="validityStartTime != null">
-			and validity_start_time = #{validityStartTime}
-		</if>
-		<if test="validityEndTime != null">
-			and validity_end_time = #{validityEndTime}
-		</if>
-	</sql>
+    <sql id="conds">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            and name like CONCAT('%', #{name}, '%')
+        </if>
+        <if test="code != null and code != ''">
+            and code = #{code}
+        </if>
+        <if test="appId != null">
+            and app_id = #{appId}
+        </if>
+        <if test="consId != null">
+            and cons_id = #{consId}
+        </if>
+        <if test="remark != null and remark != ''">
+            and remark = #{remark}
+        </if>
+        <if test="modesId != null">
+            and modes_id = #{modesId}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+        <if test="advisId != null">
+            and advis_id = #{advisId}
+        </if>
+        <if test="validityStartTime != null">
+            and validity_start_time = #{validityStartTime}
+        </if>
+        <if test="validityEndTime != null">
+            and validity_end_time = #{validityEndTime}
+        </if>
+    </sql>
 
-	<insert id="saveAdvisoryProduct" parameterType="com.roof.advisory.advisoryproduct.entity.AdvisoryProduct" useGeneratedKeys="true" keyProperty="id">
-		<selectKey keyProperty="id" resultType="Long" order="AFTER">
-			select last_insert_id()
-		</selectKey>
-		insert into z_advisory_product (<include refid="columns" />) 
-		values (<include refid="vals" />)
-	</insert>
+    <insert id="saveAdvisoryProduct" parameterType="com.roof.advisory.advisoryproduct.entity.AdvisoryProduct"
+            useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into z_advisory_product (<include refid="columns"/>)
+        values (<include refid="vals"/>)
+    </insert>
 
-	<delete id="deleteAdvisoryProduct">
+    <delete id="deleteAdvisoryProduct">
 		delete from z_advisory_product
 		where id=#{id} 
 	</delete>
 
-	<delete id="deleteByExampleAdvisoryProduct">
-		delete from z_advisory_product
-		where 1=1
-		<include refid="conds" />
-	</delete>
+    <delete id="deleteByExampleAdvisoryProduct">
+        delete from z_advisory_product
+        where 1=1
+        <include refid="conds"/>
+    </delete>
 
-	<update id="updateAdvisoryProduct">
-		update z_advisory_product
-		<set>
-			id=#{id}, 
-			name=#{name}, 
-			code=#{code}, 
-			app_id=#{appId}, 
-			cons_id=#{consId}, 
-			remark=#{remark}, 
-			modes_id=#{modesId}, 
-			status=#{status}, 
-			state=#{state}, 
-			advis_id=#{advisId}, 
-			validity_start_time=#{validityStartTime}, 
-			validity_end_time=#{validityEndTime}
-		</set>
-		where id=#{id} 
-	</update>
+    <update id="updateAdvisoryProduct">
+        update z_advisory_product
+        <set>
+            id=#{id},
+            name=#{name},
+            code=#{code},
+            app_id=#{appId},
+            cons_id=#{consId},
+            remark=#{remark},
+            modes_id=#{modesId},
+            status=#{status},
+            state=#{state},
+            advis_id=#{advisId},
+            validity_start_time=#{validityStartTime},
+            validity_end_time=#{validityEndTime}
+        </set>
+        where id=#{id}
+    </update>
 
-	<update id="updateIgnoreNullAdvisoryProduct">
-		update z_advisory_product
-		<set>
-		<if test="id != null">
-			id=#{id}, 
-		</if>
-		<if test="name != null and name != ''">
-			name=#{name}, 
-		</if>
-		<if test="code != null and code != ''">
-			code=#{code}, 
-		</if>
-		<if test="appId != null">
-			app_id=#{appId}, 
-		</if>
-		<if test="consId != null">
-			cons_id=#{consId}, 
-		</if>
-		<if test="remark != null and remark != ''">
-			remark=#{remark}, 
-		</if>
-		<if test="modesId != null">
-			modes_id=#{modesId}, 
-		</if>
-		<if test="status != null">
-			status=#{status}, 
-		</if>
-		<if test="state != null">
-			state=#{state}, 
-		</if>
-		<if test="advisId != null">
-			advis_id=#{advisId}, 
-		</if>
-		<if test="validityStartTime != null">
-			validity_start_time=#{validityStartTime}, 
-		</if>
-		<if test="validityEndTime != null">
-			validity_end_time=#{validityEndTime}
-		</if>
-		</set>
-		where id=#{id} 
-	</update>
+    <update id="updateIgnoreNullAdvisoryProduct">
+        update z_advisory_product
+        <set>
+            <if test="id != null">
+                id=#{id},
+            </if>
+            <if test="name != null and name != ''">
+                name=#{name},
+            </if>
+            <if test="code != null and code != ''">
+                code=#{code},
+            </if>
+            <if test="appId != null">
+                app_id=#{appId},
+            </if>
+            <if test="consId != null">
+                cons_id=#{consId},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark=#{remark},
+            </if>
+            <if test="modesId != null">
+                modes_id=#{modesId},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="state != null">
+                state=#{state},
+            </if>
+            <if test="advisId != null">
+                advis_id=#{advisId},
+            </if>
+            <if test="validityStartTime != null">
+                validity_start_time=#{validityStartTime},
+            </if>
+            <if test="validityEndTime != null">
+                validity_end_time=#{validityEndTime}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
 
-	<update id="updateByExampleAdvisoryProduct">
-		update z_advisory_product
-		<set>
-			<if test="id != null">
-			id=#{id}, 
-			</if>
-			<if test="name != null and name != ''">
-			name=#{name}, 
-			</if>
-			<if test="code != null and code != ''">
-			code=#{code}, 
-			</if>
-			<if test="appId != null">
-			app_id=#{appId}, 
-			</if>
-			<if test="consId != null">
-			cons_id=#{consId}, 
-			</if>
-			<if test="remark != null and remark != ''">
-			remark=#{remark}, 
-			</if>
-			<if test="modesId != null">
-			modes_id=#{modesId}, 
-			</if>
-			<if test="status != null">
-			status=#{status}, 
-			</if>
-			<if test="state != null">
-			state=#{state}, 
-			</if>
-			<if test="advisId != null">
-			advis_id=#{advisId}, 
-			</if>
-			<if test="validityStartTime != null">
-			validity_start_time=#{validityStartTime}, 
-			</if>
-			<if test="validityEndTime != null">
-			validity_end_time=#{validityEndTime}
-			</if>
-		</set>
-		where 1=1
-		<include refid="conds" />
-	</update>
-	
-	<select id="loadAdvisoryProduct" resultType="com.roof.advisory.advisoryproduct.entity.AdvisoryProductVo">
-		select 
-		<include refid="columns_as"/>
-		from z_advisory_product
-		where id=#{id} 
-	</select>
-	
-	<select id="selectAdvisoryProduct" resultType="com.roof.advisory.advisoryproduct.entity.AdvisoryProductVo">
-		select 
-		<include refid="columns_as"/>
-		from z_advisory_product
-		where 1=1
-		<include refid="conds" />
-		and state = '1'
-	</select>
+    <update id="updateByExampleAdvisoryProduct">
+        update z_advisory_product
+        <set>
+            <if test="id != null">
+                id=#{id},
+            </if>
+            <if test="name != null and name != ''">
+                name=#{name},
+            </if>
+            <if test="code != null and code != ''">
+                code=#{code},
+            </if>
+            <if test="appId != null">
+                app_id=#{appId},
+            </if>
+            <if test="consId != null">
+                cons_id=#{consId},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark=#{remark},
+            </if>
+            <if test="modesId != null">
+                modes_id=#{modesId},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="state != null">
+                state=#{state},
+            </if>
+            <if test="advisId != null">
+                advis_id=#{advisId},
+            </if>
+            <if test="validityStartTime != null">
+                validity_start_time=#{validityStartTime},
+            </if>
+            <if test="validityEndTime != null">
+                validity_end_time=#{validityEndTime}
+            </if>
+        </set>
+        where 1=1
+        <include refid="conds"/>
+    </update>
+
+    <select id="loadAdvisoryProduct" resultType="com.roof.advisory.advisoryproduct.entity.AdvisoryProductVo">
+        select
+        <include refid="columns_as"/>
+        from z_advisory_product
+        where id=#{id}
+    </select>
+
+    <select id="selectAdvisoryProduct" resultType="com.roof.advisory.advisoryproduct.entity.AdvisoryProductVo">
+        select
+        <include refid="columns_as"/>
+        from z_advisory_product
+        where 1=1
+        <include refid="conds"/>
+        and state = '1'
+    </select>
 </mapper>

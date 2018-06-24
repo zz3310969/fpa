@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 public class AdvisoryOrderService implements IAdvisoryOrderService {
@@ -58,6 +59,15 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
     @Override
     public AdvisoryOrderVo load(AdvisoryOrder advisoryOrder) {
         return (AdvisoryOrderVo) advisoryOrderDao.reload(advisoryOrder);
+    }
+
+    @Override
+    public AdvisoryOrderVo loadByOrdernum(String orderNum) {
+        Assert.isNull(orderNum, "订单号不能为空");
+        AdvisoryOrder order = new AdvisoryOrder();
+        order.setOrderNum(orderNum);
+        AdvisoryOrderVo advisoryOrderVo = (AdvisoryOrderVo) advisoryOrderDao.selectForObject("selectAdvisoryOrder", order);
+        return advisoryOrderVo;
     }
 
     @Override

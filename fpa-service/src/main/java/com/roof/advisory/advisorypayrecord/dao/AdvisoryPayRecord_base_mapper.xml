@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.advisorypayrecord.dao">
+
+	<sql id="columns">
+		id, order_id, fee, platform, record_type, prepay_id, request_data, response_data
+	</sql>
+
+	<sql id="columns_as">
+		id as id , order_id as orderId , fee as fee , platform as platform , record_type as recordType , prepay_id as prepayId , request_data as requestData , response_data as responseData 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{orderId}, #{fee}, #{platform}, #{recordType}, #{prepayId}, #{requestData}, #{responseData}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="orderId != null">
+			and order_id = #{orderId}
+		</if>
+		<if test="fee != null">
+			and fee = #{fee}
+		</if>
+		<if test="platform != null and platform != ''">
+			and platform = #{platform}
+		</if>
+		<if test="recordType != null and recordType != ''">
+			and record_type = #{recordType}
+		</if>
+		<if test="prepayId != null and prepayId != ''">
+			and prepay_id = #{prepayId}
+		</if>
+		<if test="requestData != null and requestData != ''">
+			and request_data = #{requestData}
+		</if>
+		<if test="responseData != null and responseData != ''">
+			and response_data = #{responseData}
+		</if>
+	</sql>
+
+	<insert id="saveAdvisoryPayRecord" parameterType="com.roof.advisory.advisorypayrecord.entity.AdvisoryPayRecord" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_advisory_pay_record (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteAdvisoryPayRecord">
+		delete from z_advisory_pay_record
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleAdvisoryPayRecord">
+		delete from z_advisory_pay_record
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateAdvisoryPayRecord">
+		update z_advisory_pay_record
+		<set>
+			id=#{id}, 
+			order_id=#{orderId}, 
+			fee=#{fee}, 
+			platform=#{platform}, 
+			record_type=#{recordType}, 
+			prepay_id=#{prepayId}, 
+			request_data=#{requestData}, 
+			response_data=#{responseData}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullAdvisoryPayRecord">
+		update z_advisory_pay_record
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="orderId != null">
+			order_id=#{orderId}, 
+		</if>
+		<if test="fee != null">
+			fee=#{fee}, 
+		</if>
+		<if test="platform != null and platform != ''">
+			platform=#{platform}, 
+		</if>
+		<if test="recordType != null and recordType != ''">
+			record_type=#{recordType}, 
+		</if>
+		<if test="prepayId != null and prepayId != ''">
+			prepay_id=#{prepayId}, 
+		</if>
+		<if test="requestData != null and requestData != ''">
+			request_data=#{requestData}, 
+		</if>
+		<if test="responseData != null and responseData != ''">
+			response_data=#{responseData}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleAdvisoryPayRecord">
+		update z_advisory_pay_record
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="orderId != null">
+			order_id=#{orderId}, 
+			</if>
+			<if test="fee != null">
+			fee=#{fee}, 
+			</if>
+			<if test="platform != null and platform != ''">
+			platform=#{platform}, 
+			</if>
+			<if test="recordType != null and recordType != ''">
+			record_type=#{recordType}, 
+			</if>
+			<if test="prepayId != null and prepayId != ''">
+			prepay_id=#{prepayId}, 
+			</if>
+			<if test="requestData != null and requestData != ''">
+			request_data=#{requestData}, 
+			</if>
+			<if test="responseData != null and responseData != ''">
+			response_data=#{responseData}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadAdvisoryPayRecord" resultType="com.roof.advisory.advisorypayrecord.entity.AdvisoryPayRecordVo">
+		select 
+		<include refid="columns_as"/>
+		from z_advisory_pay_record
+		where id=#{id} 
+	</select>
+	
+	<select id="selectAdvisoryPayRecord" resultType="com.roof.advisory.advisorypayrecord.entity.AdvisoryPayRecordVo">
+		select 
+		<include refid="columns_as"/>
+		from z_advisory_pay_record
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

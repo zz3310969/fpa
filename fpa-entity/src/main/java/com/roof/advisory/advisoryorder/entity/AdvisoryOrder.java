@@ -31,9 +31,13 @@ public class AdvisoryOrder implements Serializable {
     @ApiModelProperty(value = "服务时长（分钟）")
     protected Long lenTime;// 服务时长（分钟）
     @ApiModelProperty(value = "订单金额")
-    protected Double orderAmount;// 订单金额
+    protected Integer orderAmount;// 订单金额(分)
     @ApiModelProperty(value = "支付金额")
-    protected Long payAmount;// 支付金额
+    protected Integer payAmount;// 支付金额
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "付款时间")
+    private Date payTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "下单时间")
@@ -47,7 +51,20 @@ public class AdvisoryOrder implements Serializable {
     protected Long sessionId;
     @ApiModelProperty(value = "咨询师ID")
     protected Long consId;
+    @ApiModelProperty(value = "评价id")
     protected Long commentRecordId;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "聊天开始时间")
+    private Date imStartTime;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "聊天结束时间")
+    private Date imEndTime;
+    @ApiModelProperty(value = "实际服务时长")
+    private Integer finalLenTime;
+    @ApiModelProperty(value = "父订单id")
+    private Long parentOrderId;
 
 
     public AdvisoryOrder() {
@@ -108,19 +125,19 @@ public class AdvisoryOrder implements Serializable {
         this.lenTime = lenTime;
     }
 
-    public Double getOrderAmount() {
+    public Integer getOrderAmount() {
         return orderAmount;
     }
 
-    public void setOrderAmount(Double orderAmount) {
+    public void setOrderAmount(Integer orderAmount) {
         this.orderAmount = orderAmount;
     }
 
-    public Long getPayAmount() {
+    public Integer getPayAmount() {
         return payAmount;
     }
 
-    public void setPayAmount(Long payAmount) {
+    public void setPayAmount(Integer payAmount) {
         this.payAmount = payAmount;
     }
 
@@ -170,5 +187,45 @@ public class AdvisoryOrder implements Serializable {
 
     public void setCommentRecordId(Long commentRecordId) {
         this.commentRecordId = commentRecordId;
+    }
+
+    public Date getImStartTime() {
+        return imStartTime;
+    }
+
+    public void setImStartTime(Date imStartTime) {
+        this.imStartTime = imStartTime;
+    }
+
+    public Date getImEndTime() {
+        return imEndTime;
+    }
+
+    public void setImEndTime(Date imEndTime) {
+        this.imEndTime = imEndTime;
+    }
+
+    public Integer getFinalLenTime() {
+        return finalLenTime;
+    }
+
+    public void setFinalLenTime(Integer finalLenTime) {
+        this.finalLenTime = finalLenTime;
+    }
+
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
+    public Long getParentOrderId() {
+        return parentOrderId;
+    }
+
+    public void setParentOrderId(Long parentOrderId) {
+        this.parentOrderId = parentOrderId;
     }
 }

@@ -16,7 +16,7 @@ import java.util.concurrent.Executor;
  * @date 2018/3/14
  */
 @Configuration
-@ComponentScan(value = "com.roof.advisory.im.service.impl")
+@ComponentScan(value = "com.roof.advisory")
 @EnableAsync //利用@EnableAsync注解开启异步任务支持
 public class TaskExecutorConfig implements AsyncConfigurer {
     /**

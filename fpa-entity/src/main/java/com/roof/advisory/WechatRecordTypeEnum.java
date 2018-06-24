@@ -11,26 +11,24 @@ import java.lang.reflect.Type;
  * @author liht
  * @date 2018/03/07
  */
-public enum OrderStatusEnum implements JSONSerializable {
+public enum WechatRecordTypeEnum implements JSONSerializable {
 
-    submitted("submitted", "提交订单", "submitted"),
-    wechatPrepayed("wechatPrepayed", "已经获得微信预订单", "submitted"),
-    payed("payed", "已付款", "payed"), completed("completed", "已完成", "completed"),
-    canceled("canceled", "已取消", "canceled");
+    getprepayid("getprepayid", "微信获取预支付编码", "getprepayid"),
+    wechatNoticePayded("wechatNoticePayded", "微信支付成功", "wechatNoticePayded");
 
 
     private String code;
     private String display;
     private String value;
 
-    private OrderStatusEnum(String code, String display, String value) {
+    private WechatRecordTypeEnum(String code, String display, String value) {
         this.code = code;
         this.display = display;
         this.value = value;
     }
 
-    public static OrderStatusEnum getEnumByCode(String code) {
-        for (OrderStatusEnum stateEnum : values()) {
+    public static WechatRecordTypeEnum getEnumByCode(String code) {
+        for (WechatRecordTypeEnum stateEnum : values()) {
             if (stateEnum.getCode().equals(code)) {
                 return stateEnum;
             }

@@ -19,6 +19,8 @@ public class AdvisoryOrderVo extends AdvisoryOrder {
     private String productName;
     private Long consName;
 
+    private String ip;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date orderTimeStart;
 
@@ -80,5 +82,13 @@ public class AdvisoryOrderVo extends AdvisoryOrder {
 
     public void setConsName(Long consName) {
         this.consName = consName;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }

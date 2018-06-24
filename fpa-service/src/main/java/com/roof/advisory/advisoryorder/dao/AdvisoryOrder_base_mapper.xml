@@ -1,208 +1,271 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.advisory.advisoryorder.dao">
 
-	<sql id="columns">
-		id, order_num, custom_id, product_id, tel, len_time, order_amount, pay_amount, order_time, order_status, state,cons_id,comment_record_id
+    <sql id="columns">
+		id, order_num, custom_id, product_id, tel,
+		len_time, order_amount, pay_amount, order_time,
+		order_status, state,cons_id,comment_record_id,
+		im_start_time,im_end_time,final_len_time,pay_time,parent_order_id
 	</sql>
 
-	<sql id="columns_as">
-		id as id , order_num as orderNum , custom_id as customId , product_id as productId , tel as tel , len_time as lenTime , order_amount as orderAmount , pay_amount as payAmount , order_time as orderTime , order_status as orderStatus , state as state,cons_id as consId,comment_record_id as commentRecordId
+    <sql id="columns_as">
+		id as id , order_num as orderNum , custom_id as customId ,
+		product_id as productId , tel as tel , len_time as lenTime ,
+		order_amount as orderAmount , pay_amount as payAmount ,
+		order_time as orderTime , order_status as orderStatus ,
+		state as state,cons_id as consId,comment_record_id as commentRecordId,
+		im_start_time as imStartTime,im_end_time as imEndTime,final_len_time as finalLenTime,
+		pay_time as payTime,parent_order_id as parentOrderId
 	</sql>
 
 
-	<sql id="vals">
-		#{id}, #{orderNum}, #{customId}, #{productId}, #{tel}, #{lenTime}, #{orderAmount}, #{payAmount}, #{orderTime}, #{orderStatus}, #{state},#{consId},#{commentRecordId}
+    <sql id="vals">
+		#{id}, #{orderNum}, #{customId}, #{productId}, #{tel},
+		#{lenTime}, #{orderAmount}, #{payAmount}, #{orderTime},
+		#{orderStatus}, #{state},#{consId},#{commentRecordId},
+		#{imStartTime},#{imEndTime},#{finalLenTime},#{payTime},#{parentOrderId}
 	</sql>
-	<sql id="conds">
-		<if test="id != null">
-			and id = #{id}
-		</if>
-		<if test="orderNum != null and orderNum != ''">
-			and order_num like CONCAT('%', #{orderNum}, '%')
-		</if>
-		<if test="customId != null">
-			and custom_id = #{customId}
-		</if>
-		<if test="productId != null">
-			and product_id = #{productId}
-		</if>
-		<if test="tel != null and tel != ''">
-			and tel like CONCAT('%', #{tel}, '%')
-		</if>
-		<if test="lenTime != null">
-			and len_time = #{lenTime}
-		</if>
-		<if test="orderAmount != null">
-			and order_amount = #{orderAmount}
-		</if>
-		<if test="payAmount != null">
-			and pay_amount = #{payAmount}
-		</if>
-		<if test="orderTime != null">
-			and order_time = #{orderTime}
-		</if>
-		<if test="orderStatus != null">
-			and order_status = #{orderStatus}
-		</if>
-		<if test="state != null">
-			and state = #{state}
-		</if>
-		<if test="consId != null">
-			and cons_id = #{consId}
-		</if>
-		<if test="commentRecordId != null">
-			and comment_record_id = #{commentRecordId}
-		</if>
-	</sql>
+    <sql id="conds">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="orderNum != null and orderNum != ''">
+            and order_num like CONCAT('%', #{orderNum}, '%')
+        </if>
+        <if test="customId != null">
+            and custom_id = #{customId}
+        </if>
+        <if test="productId != null">
+            and product_id = #{productId}
+        </if>
+        <if test="parentOrderId != null">
+            and parent_order_id = #{parentOrderId}
+        </if>
+        <if test="tel != null and tel != ''">
+            and tel like CONCAT('%', #{tel}, '%')
+        </if>
+        <if test="lenTime != null">
+            and len_time = #{lenTime}
+        </if>
+        <if test="orderAmount != null">
+            and order_amount = #{orderAmount}
+        </if>
+        <if test="payAmount != null">
+            and pay_amount = #{payAmount}
+        </if>
+        <if test="orderTime != null">
+            and order_time = #{orderTime}
+        </if>
+        <if test="imStartTime != null">
+            and im_start_time = #{imStartTime}
+        </if>
+        <if test="imEndTime != null">
+            and im_end_time = #{imEndTime}
+        </if>
+        <if test="payTime != null">
+            and pay_time = #{payTime}
+        </if>
+        <if test="finalLenTime != null">
+            and final_len_time = #{finalLenTime}
+        </if>
+        <if test="orderStatus != null">
+            and order_status = #{orderStatus}
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+        <if test="consId != null">
+            and cons_id = #{consId}
+        </if>
+        <if test="commentRecordId != null">
+            and comment_record_id = #{commentRecordId}
+        </if>
+    </sql>
 
-	<insert id="saveAdvisoryOrder" parameterType="com.roof.advisory.advisoryorder.entity.AdvisoryOrder" useGeneratedKeys="true" keyProperty="id">
-		<selectKey keyProperty="id" resultType="Long" order="AFTER">
-			select last_insert_id()
-		</selectKey>
-		insert into z_advisory_order (<include refid="columns" />) 
-		values (<include refid="vals" />)
-	</insert>
+    <insert id="saveAdvisoryOrder" parameterType="com.roof.advisory.advisoryorder.entity.AdvisoryOrder"
+            useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into z_advisory_order (<include refid="columns"/>)
+        values (<include refid="vals"/>)
+    </insert>
 
-	<delete id="deleteAdvisoryOrder">
+    <delete id="deleteAdvisoryOrder">
 		delete from z_advisory_order
 		where id=#{id} 
 	</delete>
 
-	<delete id="deleteByExampleAdvisoryOrder">
-		delete from z_advisory_order
-		where 1=1
-		<include refid="conds" />
-	</delete>
+    <delete id="deleteByExampleAdvisoryOrder">
+        delete from z_advisory_order
+        where 1=1
+        <include refid="conds"/>
+    </delete>
 
-	<update id="updateAdvisoryOrder">
-		update z_advisory_order
-		<set>
-			id=#{id}, 
-			order_num=#{orderNum}, 
-			custom_id=#{customId}, 
-			product_id=#{productId}, 
-			tel=#{tel}, 
-			len_time=#{lenTime}, 
-			order_amount=#{orderAmount}, 
-			pay_amount=#{payAmount}, 
-			order_time=#{orderTime}, 
-			order_status=#{orderStatus}, 
-			state=#{state},
-			cons_id=#{consId},
-			comment_record_id = #{commentRecordId}
-		</set>
-		where id=#{id} 
-	</update>
+    <update id="updateAdvisoryOrder">
+        update z_advisory_order
+        <set>
+            id=#{id},
+            order_num=#{orderNum},
+            custom_id=#{customId},
+            product_id=#{productId},
+            parent_order_id=#{parentOrderId},
+            tel=#{tel},
+            len_time=#{lenTime},
+            order_amount=#{orderAmount},
+            pay_amount=#{payAmount},
+            order_time=#{orderTime},
+            im_start_time=#{imStartTime},
+            im_end_time=#{imEndTime},
+            pay_time=#{payTime},
+            final_len_time=#{finalLenTime},
+            order_status=#{orderStatus},
+            state=#{state},
+            cons_id=#{consId},
+            comment_record_id = #{commentRecordId}
+        </set>
+        where id=#{id}
+    </update>
 
-	<update id="updateIgnoreNullAdvisoryOrder">
-		update z_advisory_order
-		<set>
-		<if test="id != null">
-			id=#{id}, 
-		</if>
-		<if test="orderNum != null and orderNum != ''">
-			order_num=#{orderNum}, 
-		</if>
-		<if test="customId != null">
-			custom_id=#{customId}, 
-		</if>
-		<if test="productId != null">
-			product_id=#{productId}, 
-		</if>
-		<if test="tel != null and tel != ''">
-			tel=#{tel}, 
-		</if>
-		<if test="lenTime != null">
-			len_time=#{lenTime}, 
-		</if>
-		<if test="orderAmount != null">
-			order_amount=#{orderAmount}, 
-		</if>
-		<if test="payAmount != null">
-			pay_amount=#{payAmount}, 
-		</if>
-		<if test="orderTime != null">
-			order_time=#{orderTime}, 
-		</if>
-		<if test="orderStatus != null">
-			order_status=#{orderStatus}, 
-		</if>
-		<if test="state != null">
-			state=#{state},
-		</if>
-		<if test="consId != null">
-			cons_id = #{consId},
-		</if>
-		<if test="commentRecordId != null">
-			comment_record_id = #{commentRecordId}
-		</if>
-		</set>
-		where id=#{id} 
-	</update>
+    <update id="updateIgnoreNullAdvisoryOrder">
+        update z_advisory_order
+        <set>
+            <if test="id != null">
+                id=#{id},
+            </if>
+            <if test="orderNum != null and orderNum != ''">
+                order_num=#{orderNum},
+            </if>
+            <if test="customId != null">
+                custom_id=#{customId},
+            </if>
+            <if test="productId != null">
+                product_id=#{productId},
+            </if>
+            <if test="parentOrderId != null">
+                parent_order_id=#{parentOrderId},
+            </if>
+            <if test="tel != null and tel != ''">
+                tel=#{tel},
+            </if>
+            <if test="lenTime != null">
+                len_time=#{lenTime},
+            </if>
+            <if test="orderAmount != null">
+                order_amount=#{orderAmount},
+            </if>
+            <if test="payAmount != null">
+                pay_amount=#{payAmount},
+            </if>
+            <if test="orderTime != null">
+                order_time=#{orderTime},
+            </if>
+            <if test="imStartTime != null">
+                im_start_time = #{imStartTime},
+            </if>
+            <if test="imEndTime != null">
+                im_end_time = #{imEndTime},
+            </if>
+            <if test="payTime != null">
+                pay_time = #{payTime},
+            </if>
+            <if test="finalLenTime != null">
+                final_len_time = #{finalLenTime},
+            </if>
+            <if test="orderStatus != null">
+                order_status=#{orderStatus},
+            </if>
+            <if test="state != null">
+                state=#{state},
+            </if>
+            <if test="consId != null">
+                cons_id = #{consId},
+            </if>
+            <if test="commentRecordId != null">
+                comment_record_id = #{commentRecordId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
 
-	<update id="updateByExampleAdvisoryOrder">
-		update z_advisory_order
-		<set>
-			<if test="id != null">
-			id=#{id}, 
-			</if>
-			<if test="orderNum != null and orderNum != ''">
-			order_num=#{orderNum}, 
-			</if>
-			<if test="customId != null">
-			custom_id=#{customId}, 
-			</if>
-			<if test="productId != null">
-			product_id=#{productId}, 
-			</if>
-			<if test="tel != null and tel != ''">
-			tel=#{tel}, 
-			</if>
-			<if test="lenTime != null">
-			len_time=#{lenTime}, 
-			</if>
-			<if test="orderAmount != null and orderAmount != ''">
-			order_amount=#{orderAmount}, 
-			</if>
-			<if test="payAmount != null">
-			pay_amount=#{payAmount}, 
-			</if>
-			<if test="orderTime != null">
-			order_time=#{orderTime}, 
-			</if>
-			<if test="orderStatus != null">
-			order_status=#{orderStatus}, 
-			</if>
-			<if test="state != null">
-			state=#{state},
-			</if>
-			<if test="consId != null">
-				cons_id = #{consId},
-			</if>
-			<if test="commentRecordId != null">
-				comment_record_id = #{commentRecordId}
-			</if>
+    <update id="updateByExampleAdvisoryOrder">
+        update z_advisory_order
+        <set>
+            <if test="id != null">
+                id=#{id},
+            </if>
+            <if test="orderNum != null and orderNum != ''">
+                order_num=#{orderNum},
+            </if>
+            <if test="customId != null">
+                custom_id=#{customId},
+            </if>
+            <if test="productId != null">
+                product_id=#{productId},
+            </if>
+            <if test="parentOrderId != null">
+                parent_order_id=#{parentOrderId},
+            </if>
+            <if test="tel != null and tel != ''">
+                tel=#{tel},
+            </if>
+            <if test="lenTime != null">
+                len_time=#{lenTime},
+            </if>
+            <if test="orderAmount != null and orderAmount != ''">
+                order_amount=#{orderAmount},
+            </if>
+            <if test="payAmount != null">
+                pay_amount=#{payAmount},
+            </if>
+            <if test="orderTime != null">
+                order_time=#{orderTime},
+            </if>
+            <if test="imStartTime != null">
+                im_start_time = #{imStartTime},
+            </if>
+            <if test="imEndTime != null">
+                im_end_time = #{imEndTime},
+            </if>
+            <if test="payTime != null">
+                pay_time = #{payTime},
+            </if>
+            <if test="finalLenTime != null">
+                final_len_time = #{finalLenTime},
+            </if>
+            <if test="orderStatus != null">
+                order_status=#{orderStatus},
+            </if>
+            <if test="state != null">
+                state=#{state},
+            </if>
+            <if test="consId != null">
+                cons_id = #{consId},
+            </if>
+            <if test="commentRecordId != null">
+                comment_record_id = #{commentRecordId}
+            </if>
 
-		</set>
-		where 1=1
-		<include refid="conds" />
-	</update>
-	
-	<select id="loadAdvisoryOrder" resultType="com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo">
-		select 
-		<include refid="columns_as"/>
-		from z_advisory_order
-		where id=#{id} 
-	</select>
-	
-	<select id="selectAdvisoryOrder" resultType="com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo">
-		select 
-		<include refid="columns_as"/>
-		from z_advisory_order
-		where 1=1
-		<include refid="conds" />
-		and state = '1'
-	</select>
+        </set>
+        where 1=1
+        <include refid="conds"/>
+    </update>
+
+    <select id="loadAdvisoryOrder" resultType="com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo">
+        select
+        <include refid="columns_as"/>
+        from z_advisory_order
+        where id=#{id}
+    </select>
+
+    <select id="selectAdvisoryOrder" resultType="com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo">
+        select
+        <include refid="columns_as"/>
+        from z_advisory_order
+        where 1=1
+        <include refid="conds"/>
+        and state = '1'
+    </select>
 </mapper>

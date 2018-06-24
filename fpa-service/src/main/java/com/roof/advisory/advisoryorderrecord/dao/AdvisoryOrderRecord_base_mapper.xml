@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.advisory.advisoryorderrecord.dao">
+
+	<sql id="columns">
+		id, order_id, event_type, event, event_time, event_note
+	</sql>
+
+	<sql id="columns_as">
+		id as id , order_id as orderId , event_type as eventType , event as event , event_time as eventTime , event_note as eventNote 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{orderId}, #{eventType}, #{event}, #{eventTime}, #{eventNote}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="orderId != null">
+			and order_id = #{orderId}
+		</if>
+		<if test="eventType != null and eventType != ''">
+			and event_type = #{eventType}
+		</if>
+		<if test="event != null and event != ''">
+			and event = #{event}
+		</if>
+		<if test="eventTime != null">
+			and event_time = #{eventTime}
+		</if>
+		<if test="eventNote != null and eventNote != ''">
+			and event_note = #{eventNote}
+		</if>
+	</sql>
+
+	<insert id="saveAdvisoryOrderRecord" parameterType="com.roof.advisory.advisoryorderrecord.entity.AdvisoryOrderRecord" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into z_advisory_order_record (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteAdvisoryOrderRecord">
+		delete from z_advisory_order_record
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleAdvisoryOrderRecord">
+		delete from z_advisory_order_record
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateAdvisoryOrderRecord">
+		update z_advisory_order_record
+		<set>
+			id=#{id}, 
+			order_id=#{orderId}, 
+			event_type=#{eventType}, 
+			event=#{event}, 
+			event_time=#{eventTime}, 
+			event_note=#{eventNote}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullAdvisoryOrderRecord">
+		update z_advisory_order_record
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="orderId != null">
+			order_id=#{orderId}, 
+		</if>
+		<if test="eventType != null and eventType != ''">
+			event_type=#{eventType}, 
+		</if>
+		<if test="event != null and event != ''">
+			event=#{event}, 
+		</if>
+		<if test="eventTime != null">
+			event_time=#{eventTime}, 
+		</if>
+		<if test="eventNote != null and eventNote != ''">
+			event_note=#{eventNote}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleAdvisoryOrderRecord">
+		update z_advisory_order_record
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="orderId != null">
+			order_id=#{orderId}, 
+			</if>
+			<if test="eventType != null and eventType != ''">
+			event_type=#{eventType}, 
+			</if>
+			<if test="event != null and event != ''">
+			event=#{event}, 
+			</if>
+			<if test="eventTime != null">
+			event_time=#{eventTime}, 
+			</if>
+			<if test="eventNote != null and eventNote != ''">
+			event_note=#{eventNote}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadAdvisoryOrderRecord" resultType="com.roof.advisory.advisoryorderrecord.entity.AdvisoryOrderRecordVo">
+		select 
+		<include refid="columns_as"/>
+		from z_advisory_order_record
+		where id=#{id} 
+	</select>
+	
+	<select id="selectAdvisoryOrderRecord" resultType="com.roof.advisory.advisoryorderrecord.entity.AdvisoryOrderRecordVo">
+		select 
+		<include refid="columns_as"/>
+		from z_advisory_order_record
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

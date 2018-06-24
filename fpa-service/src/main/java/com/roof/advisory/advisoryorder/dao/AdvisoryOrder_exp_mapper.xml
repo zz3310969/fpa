@@ -1,78 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.advisory.advisoryorder.dao">
-	<sql id="columnsAs">
+    <sql id="columnsAs">
 		t1.id as id, t1.order_num as orderNum, t1.custom_id as customId,
 		t1.product_id as productId, t1.tel as tel, t1.len_time as lenTime,
 		t1.order_amount as orderAmount, t1.pay_amount as payAmount, t1.order_time as orderTime,
-		t1.order_status as orderStatus, t1.state as state,t1.cons_id as consId
+		t1.order_status as orderStatus, t1.state as state,t1.cons_id as consId,
+		t1.im_start_time as imStartTime,t1.im_end_time as imEndTime,t1.final_len_time as finalLenTime,
+		t1.pay_time as payTime ,t1.parent_order_id as parentOrderId
 	</sql>
-	
-	<select id="selectAdvisoryOrderPage" resultType="com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo">
-		select
-		(SELECT nick_name FROM c_customer WHERE id = t1.custom_id ) as customName,
-		(SELECT NAME FROM z_advisory_product WHERE id = t1.product_id ) as productName,
-		(SELECT NAME FROM z_consultant WHERE id = t1.cons_id ) as consName,
-		<include refid="columnsAs"/>
-		from
-		z_advisory_order t1
-		join
-		(SELECT
-		id
-		from
-		z_advisory_order
-		where 1=1
-		<include refid="conds" />
-		and state = '1'
-		order by id desc
-		limit #{firstrownum}, #{limit}) t2
-		where t1.id = t2.id
-	</select>
-	
-	<select id="selectAdvisoryOrderCount" resultType="java.lang.Long">
-		select
-		count(id)
-		from z_advisory_order
-		where 1=1
-		<include refid="conds" />
-		and state = '1'
-	</select>
 
-	<select id="selectAdvisoryOrderVoPage" resultType="com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo">
-		select
-		(SELECT nick_name FROM c_customer WHERE id = t1.custom_id ) as customName,
-		(SELECT NAME FROM z_advisory_product WHERE id = t1.product_id ) as productName,
+    <select id="selectAdvisoryOrderPage" resultType="com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo">
+        select
+        (SELECT nick_name FROM c_customer WHERE id = t1.custom_id ) as customName,
+        (SELECT NAME FROM z_advisory_product WHERE id = t1.product_id ) as productName,
+        (SELECT NAME FROM z_consultant WHERE id = t1.cons_id ) as consName,
+        <include refid="columnsAs"/>
+        from
+        z_advisory_order t1
+        join
+        (SELECT
+        id
+        from
+        z_advisory_order
+        where 1=1
+        <include refid="conds"/>
+        and state = '1'
+        order by id desc
+        limit #{firstrownum}, #{limit}) t2
+        where t1.id = t2.id
+    </select>
 
-		<include refid="columnsAs"/>
-		from
-		z_advisory_order t1
-		join
-		(SELECT
-		id
-		from
-		z_advisory_order
-		where 1=1
-		<include refid="conds" />
-		<if test="orderTimeStart != null and orderTimeEnd != null">
-			and order_time BETWEEN  #{orderTimeStart} and #{orderTimeEnd}
-		</if>
-		and state = '1'
-		order by id desc
-		limit #{firstrownum}, #{limit}) t2
-		where t1.id = t2.id
-	</select>
+    <select id="selectAdvisoryOrderCount" resultType="java.lang.Long">
+        select
+        count(id)
+        from z_advisory_order
+        where 1=1
+        <include refid="conds"/>
+        and state = '1'
+    </select>
 
-	<select id="selectAdvisoryOrderVoCount" resultType="java.lang.Long">
-		select
-		count(id)
-		from z_advisory_order
-		where 1=1
-		<include refid="conds" />
-		<if test="orderTimeStart != null and orderTimeEnd != null">
-			and order_time BETWEEN  #{orderTimeStart} and #{orderTimeEnd}
-		</if>
-		and state = '1'
-	</select>
+    <select id="selectAdvisoryOrderVoPage" resultType="com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo">
+        select
+        (SELECT nick_name FROM c_customer WHERE id = t1.custom_id ) as customName,
+        (SELECT NAME FROM z_advisory_product WHERE id = t1.product_id ) as productName,
+
+        <include refid="columnsAs"/>
+        from
+        z_advisory_order t1
+        join
+        (SELECT
+        id
+        from
+        z_advisory_order
+        where 1=1
+        <include refid="conds"/>
+        <if test="orderTimeStart != null and orderTimeEnd != null">
+            and order_time BETWEEN #{orderTimeStart} and #{orderTimeEnd}
+        </if>
+        and state = '1'
+        order by id desc
+        limit #{firstrownum}, #{limit}) t2
+        where t1.id = t2.id
+    </select>
+
+    <select id="selectAdvisoryOrderVoCount" resultType="java.lang.Long">
+        select
+        count(id)
+        from z_advisory_order
+        where 1=1
+        <include refid="conds"/>
+        <if test="orderTimeStart != null and orderTimeEnd != null">
+            and order_time BETWEEN #{orderTimeStart} and #{orderTimeEnd}
+        </if>
+        and state = '1'
+    </select>
 
 </mapper>

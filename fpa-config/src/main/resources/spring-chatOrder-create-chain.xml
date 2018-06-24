@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="chatOrderCreateChain" class="com.roof.chain.support.GenericChain">
+        <property name="startNodeName" value="checkOrderData"/>
+        <property name="nodes">
+            <list>
+                <!--校验订单数据-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="checkOrderData"/>
+                    <property name="target">
+                        <bean class="com.roof.advisory.advisoryorder.service.impl.CheckOrderData">
+                            <property name="advisoryOrderService" ref="advisoryOrderService"/>
+                            <property name="advisoryPricingService" ref="advisoryPricingService"/>
+                            <property name="advisoryProductService" ref="advisoryProductService"/>
+                            <property name="customerService" ref="customerService"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="calculateLenTime"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--计算聊天时长-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="calculateLenTime"/>
+                    <property name="target">
+                        <bean class="com.roof.advisory.advisoryorder.service.impl.CalculateLenTime">
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="createOrder"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--创建订单-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="createOrder"/>
+                    <property name="target">
+                        <bean class="com.roof.advisory.advisoryorder.service.impl.CreateOrder">
+                            <property name="advisoryOrderService" ref="advisoryOrderService"/>
+                            <property name="advisoryOrderRecordService" ref="advisoryOrderRecordService"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="linkOrder"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--关联父级订单-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="linkOrder"/>
+                    <property name="target">
+                        <bean class="com.roof.advisory.advisoryorder.service.impl.LinkOrder">
+                            <property name="advisoryOrderService" ref="advisoryOrderService"/>
+                            <property name="advisoryOrderRecordService" ref="advisoryOrderRecordService"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="wechatGetPrepayId"/>
+                        </map>
+                    </property>
+                </bean>
+                <!--调用微信预订单接口-->
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="wechatGetPrepayId"/>
+                    <property name="target">
+                        <bean class="com.roof.advisory.advisoryorder.service.impl.WechatGetPrepayId">
+                            <property name="advisoryPayRecordService" ref="advisoryPayRecordService"/>
+                            <property name="advisoryOrderService" ref="advisoryOrderService"/>
+                            <property name="advisoryOrderRecordService" ref="advisoryOrderRecordService"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value=""/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>
