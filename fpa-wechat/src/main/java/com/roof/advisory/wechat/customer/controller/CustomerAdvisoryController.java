@@ -112,7 +112,7 @@ public class CustomerAdvisoryController {
 
 
     @ApiOperation(value = "创建订单")
-    @RequestMapping(value = "customer/createOrder", method = {RequestMethod.POST})
+    @RequestMapping(value = "customer/createOrder", method = {RequestMethod.GET})
     protected @ResponseBody
     Result createOrder(AdvisoryOrderVo advisoryOrderVo, HttpServletRequest request) {
         ValueStack valueStack = new GenericValueStack();
