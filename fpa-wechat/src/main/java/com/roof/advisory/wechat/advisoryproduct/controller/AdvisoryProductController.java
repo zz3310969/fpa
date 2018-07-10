@@ -37,18 +37,6 @@ import java.util.Map;
 public class AdvisoryProductController {
     private IAdvisoryProductService advisoryProductService;
 
-    @Autowired
-    private IApplicationService applicationService;
-    @Autowired
-    private IAdvisoryModesService advisoryModesService;
-
-    @Autowired
-    private IConsultantService consultantService;
-
-    @Autowired
-    private IAdvisoryPricingService advisoryPricingService;
-
-
     @ApiOperation(value = "获得服务产品分页列表")
     @RequestMapping(value = "advisoryproduct", method = {RequestMethod.GET})
     public @ResponseBody

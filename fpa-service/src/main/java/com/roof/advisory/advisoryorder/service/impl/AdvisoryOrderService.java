@@ -63,7 +63,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
 
     @Override
     public AdvisoryOrderVo loadByOrdernum(String orderNum) {
-        Assert.isNull(orderNum, "订单号不能为空");
+        Assert.notNull(orderNum, "订单号不能为空");
         AdvisoryOrder order = new AdvisoryOrder();
         order.setOrderNum(orderNum);
         AdvisoryOrderVo advisoryOrderVo = (AdvisoryOrderVo) advisoryOrderDao.selectForObject("selectAdvisoryOrder", order);
