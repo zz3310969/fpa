@@ -170,6 +170,7 @@ public class CustomerAdvisoryController {
                 order.setPayTime(new Date());
                 order.setOrderStatus(OrderStatusEnum.payed.getCode());
                 order.setPayAmount(map.get("cash_fee") == null ? 0 : Integer.valueOf(map.get("cash_fee")));
+                advisoryOrderService.updateIgnoreNull(order);
                 //记录订单变更记录
                 advisoryOrderRecordService.saveOrderChange(oldOrder, order);
                 //保存微信调用记录
