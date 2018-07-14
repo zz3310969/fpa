@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -182,6 +184,8 @@ public class CustomerAdvisoryController {
                 advisoryPayRecord.setRequestData(result);
                 advisoryPayRecord.setResponseData("success");
                 advisoryPayRecordService.save(advisoryPayRecord);
+                //同步发送系统消息至im
+                advisoryOrderService.sendSystemMessage(order);
             }
 
             String notifyStr = XMLUtil.setXML("SUCCESS", "");
