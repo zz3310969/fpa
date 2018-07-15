@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.roof.advisory.OrderStatusEnum;
 import org.roof.commons.RoofDateUtils;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.advisory.advisoryorder.dao.api.IAdvisoryOrderDao;
@@ -100,6 +101,15 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
         s = s.substring(s.length() - 6, s.length());
         String str = key + "-" + s;
         return str;
+    }
+
+    @Override
+    public void close(Long sessionId) {
+        AdvisoryOrder advisoryOrder = new AdvisoryOrder();
+        advisoryOrder.setImEndTime(new Date());
+        advisoryOrder.setOrderStatus(OrderStatusEnum.completed.getCode());
+        advisoryOrderDao.update("closeAdvisoryOrder", advisoryOrder);
+
     }
 
     @Autowired

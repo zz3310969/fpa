@@ -3,6 +3,8 @@ package com.roof.advisory.im.service;
 public class ImRequest {
 
     public final static String IM_OPENSESSION = "openSession";
+    public final static String IM_CLOSENSESSION = "closeSession";
+
     /**
      * openSession
      */

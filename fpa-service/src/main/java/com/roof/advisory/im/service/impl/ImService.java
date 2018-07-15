@@ -53,7 +53,7 @@ public class ImService implements IImService {
     public void closeSession(ImRequest imRequest) {
         imRequest.setSeq(System.currentTimeMillis() + "");
         try {
-            String str = HttpClientUtil.post(imBaseUrl + "session/open", JSON.toJSONString(imRequest));
+            String str = HttpClientUtil.post(imBaseUrl + "session/close", JSON.toJSONString(imRequest));
             ImResponse response = JSON.parseObject(str, ImResponse.class);
             if (!StringUtils.equals(response.getState(), "success")) {
                 logger.error("closeSession出错:", response.getMessage());

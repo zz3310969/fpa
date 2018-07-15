@@ -67,4 +67,7 @@ public interface IAdvisoryOrderService {
 
     public String createOrderNum(Date date);
 
+    public void close(Long sessionId);
+
+
 }

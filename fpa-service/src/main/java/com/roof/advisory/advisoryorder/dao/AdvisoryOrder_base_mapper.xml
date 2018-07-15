@@ -7,7 +7,7 @@
 		id, order_num, custom_id, product_id, tel,
 		len_time, order_amount, pay_amount, order_time,
 		order_status, state,cons_id,comment_record_id,
-		im_start_time,im_end_time,final_len_time,pay_time,parent_order_id
+		im_start_time,im_end_time,final_len_time,pay_time,parent_order_id,session_id
 	</sql>
 
     <sql id="columns_as">
@@ -17,7 +17,7 @@
 		order_time as orderTime , order_status as orderStatus ,
 		state as state,cons_id as consId,comment_record_id as commentRecordId,
 		im_start_time as imStartTime,im_end_time as imEndTime,final_len_time as finalLenTime,
-		pay_time as payTime,parent_order_id as parentOrderId
+		pay_time as payTime,parent_order_id as parentOrderId,session_id as sessionId
 	</sql>
 
 
@@ -25,7 +25,7 @@
 		#{id}, #{orderNum}, #{customId}, #{productId}, #{tel},
 		#{lenTime}, #{orderAmount}, #{payAmount}, #{orderTime},
 		#{orderStatus}, #{state},#{consId},#{commentRecordId},
-		#{imStartTime},#{imEndTime},#{finalLenTime},#{payTime},#{parentOrderId}
+		#{imStartTime},#{imEndTime},#{finalLenTime},#{payTime},#{parentOrderId},#{sessionId}
 	</sql>
     <sql id="conds">
         <if test="id != null">
@@ -82,6 +82,9 @@
         <if test="commentRecordId != null">
             and comment_record_id = #{commentRecordId}
         </if>
+        <if test="sessionId != null">
+            and session_id = #{sessionId}
+        </if>
     </sql>
 
     <insert id="saveAdvisoryOrder" parameterType="com.roof.advisory.advisoryorder.entity.AdvisoryOrder"
@@ -124,7 +127,8 @@
             order_status=#{orderStatus},
             state=#{state},
             cons_id=#{consId},
-            comment_record_id = #{commentRecordId}
+            comment_record_id = #{commentRecordId},
+            session_id = #{sessionId}
         </set>
         where id=#{id}
     </update>
@@ -184,7 +188,10 @@
                 cons_id = #{consId},
             </if>
             <if test="commentRecordId != null">
-                comment_record_id = #{commentRecordId}
+                comment_record_id = #{commentRecordId},
+            </if>
+            <if test="sessionId != null">
+               session_id = #{sessionId}
             </if>
         </set>
         where id=#{id}
@@ -245,9 +252,11 @@
                 cons_id = #{consId},
             </if>
             <if test="commentRecordId != null">
-                comment_record_id = #{commentRecordId}
+                comment_record_id = #{commentRecordId},
             </if>
-
+            <if test="sessionId != null">
+                session_id = #{sessionId}
+            </if>
         </set>
         where 1=1
         <include refid="conds"/>
