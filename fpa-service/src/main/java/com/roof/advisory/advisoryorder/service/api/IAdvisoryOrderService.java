@@ -10,6 +10,9 @@ import com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo;
 
 public interface IAdvisoryOrderService {
 
+    public abstract void sendSystemMessage(AdvisoryOrder order);
+
+    public abstract void sendOkSystemMessage(AdvisoryOrder order);
 
     /**
      * 将对象保存，返回该条记录的操作数量，保存成功之后，将主键填充到参数对象中

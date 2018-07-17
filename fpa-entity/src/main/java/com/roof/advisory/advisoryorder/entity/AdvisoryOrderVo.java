@@ -17,7 +17,9 @@ public class AdvisoryOrderVo extends AdvisoryOrder {
 
     private String customName;
     private String productName;
-    private Long consName;
+    private String consName;
+
+    private String viewWord;
 
     private String ip;
 
@@ -76,11 +78,11 @@ public class AdvisoryOrderVo extends AdvisoryOrder {
         this.orderTimeEnd = orderTimeEnd;
     }
 
-    public Long getConsName() {
+    public String getConsName() {
         return consName;
     }
 
-    public void setConsName(Long consName) {
+    public void setConsName(String consName) {
         this.consName = consName;
     }
 
@@ -90,5 +92,13 @@ public class AdvisoryOrderVo extends AdvisoryOrder {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getViewWord() {
+        return viewWord;
+    }
+
+    public void setViewWord(String viewWord) {
+        this.viewWord = viewWord;
     }
 }

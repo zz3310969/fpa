@@ -27,12 +27,12 @@ public class AdvisoryPricing implements Serializable {
 	@ApiModelProperty(value = "定价类型")
 	protected String fixType;// 定价类型
 	@ApiModelProperty(value = "单位")
-	protected String unit;// 单位
+	protected String unit;// 单位 分钟
 	@ApiModelProperty(value = "原单价")
 	protected Integer originalPrice;// 原单价
 	@ApiModelProperty(value = "现单价")
-	protected Integer currentPrice;// 现单价
-	@ApiModelProperty(value = "简介")
+	protected Integer currentPrice;// 现单价 多少钱
+ 	@ApiModelProperty(value = "简介")
 	protected String introduction;// 简介
 	@ApiModelProperty(value = "状态")
 	protected Integer status;// 状态

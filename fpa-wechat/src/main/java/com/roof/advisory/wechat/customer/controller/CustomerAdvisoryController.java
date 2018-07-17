@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,7 +114,7 @@ public class CustomerAdvisoryController {
 
 
     @ApiOperation(value = "创建订单")
-    @RequestMapping(value = "customer/createOrder", method = {RequestMethod.POST})
+    @RequestMapping(value = "customer/createOrder", method = {RequestMethod.GET})
     protected @ResponseBody
     Result createOrder(AdvisoryOrderVo advisoryOrderVo, HttpServletRequest request) {
         ValueStack valueStack = new GenericValueStack();
@@ -170,6 +172,7 @@ public class CustomerAdvisoryController {
                 order.setPayTime(new Date());
                 order.setOrderStatus(OrderStatusEnum.payed.getCode());
                 order.setPayAmount(map.get("cash_fee") == null ? 0 : Integer.valueOf(map.get("cash_fee")));
+                advisoryOrderService.updateIgnoreNull(order);
                 //记录订单变更记录
                 advisoryOrderRecordService.saveOrderChange(oldOrder, order);
                 //保存微信调用记录
@@ -181,6 +184,8 @@ public class CustomerAdvisoryController {
                 advisoryPayRecord.setRequestData(result);
                 advisoryPayRecord.setResponseData("success");
                 advisoryPayRecordService.save(advisoryPayRecord);
+                //同步发送系统消息至im
+                advisoryOrderService.sendSystemMessage(order);
             }
 
             String notifyStr = XMLUtil.setXML("SUCCESS", "");

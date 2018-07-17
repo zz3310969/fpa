@@ -1,17 +1,35 @@
 package com.roof.advisory.advisoryorder.service.impl;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.roof.advisory.OrderStatusEnum;
+import com.alibaba.fastjson.JSON;
+import com.roof.advisory.advisoryorder.entity.ImSystemMessage;
+import com.roof.advisory.advisoryproduct.entity.AdvisoryProduct;
+import com.roof.advisory.advisoryproduct.entity.AdvisoryProductVo;
+import com.roof.advisory.advisoryproduct.service.api.IAdvisoryProductService;
+import com.roof.advisory.consultant.entity.Consultant;
+import com.roof.advisory.consultant.entity.ConsultantVo;
+import com.roof.advisory.consultant.service.api.IConsultantService;
+import com.roof.advisory.wxsession.service.api.IWxSessionService;
+import com.roof.fpa.core.http.HttpClientUtil;
+import com.roof.fpa.customer.entity.Customer;
+import com.roof.fpa.customer.entity.CustomerVo;
+import com.roof.fpa.customer.service.api.ICustomerService;
+import org.roof.commons.PropertiesUtil;
 import org.roof.commons.RoofDateUtils;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.advisory.advisoryorder.dao.api.IAdvisoryOrderDao;
 import com.roof.advisory.advisoryorder.entity.AdvisoryOrder;
 import com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo;
 import com.roof.advisory.advisoryorder.service.api.IAdvisoryOrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.BoundValueOperations;
@@ -19,12 +37,113 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+/**
+ * @author liht
+ */
 @Service
 public class AdvisoryOrderService implements IAdvisoryOrderService {
     private IAdvisoryOrderDao advisoryOrderDao;
 
+    private Logger LOGGER = LoggerFactory.getLogger(AdvisoryOrderService.class);
+    private String IM_BASEURL = PropertiesUtil.getPorpertyString("im.baseUrl");
+
+
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private ICustomerService customerService;
+
+    @Autowired
+    private IConsultantService consultantService;
+
+    @Autowired
+    private IWxSessionService wxSessionService;
+
+    @Autowired
+    private IAdvisoryProductService advisoryProductService;
+
+    @Override
+    public void sendSystemMessage(AdvisoryOrder order) {
+        Assert.notNull(order.getCustomId(), "客户id不能为空");
+        Assert.notNull(order.getConsId(), "咨询师id不能为空");
+        Assert.notNull(order.getProductId(), "产品id不能为空");
+        //load customer
+        CustomerVo customerVo = customerService.load(new Customer(order.getCustomId()));
+        //load cons
+        ConsultantVo consultantVo = consultantService.load(new Consultant(order.getConsId()));
+        //load product
+        AdvisoryProductVo advisoryProductVo = advisoryProductService.load(new AdvisoryProduct(order.getProductId()));
+
+        String rs = "";
+        //请求im post
+
+        AdvisoryOrderVo advisoryOrderVo = new AdvisoryOrderVo();
+        BeanUtils.copyProperties(order, advisoryOrderVo);
+        advisoryOrderVo.setConsName(consultantVo.getName());
+        advisoryOrderVo.setCustomName(customerVo.getNickName());
+        advisoryOrderVo.setProductName(advisoryProductVo.getName());
+
+        advisoryOrderVo.setViewWord("你有新的客户" + customerVo.getNickName() + "想进行(" + advisoryProductVo.getName() + ")咨询，是否接单");
+
+        try {
+            rs = HttpClientUtil.post(IM_BASEURL + "/system/message", generateSystemMessage(advisoryOrderVo, customerVo, consultantVo));
+            LOGGER.info(rs);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+
+    }
+
+    @Override
+    public void sendOkSystemMessage(AdvisoryOrder order) {
+        Assert.notNull(order.getCustomId(), "客户id不能为空");
+        Assert.notNull(order.getConsId(), "咨询师id不能为空");
+        Assert.notNull(order.getProductId(), "产品id不能为空");
+        //load customer
+        CustomerVo customerVo = customerService.load(new Customer(order.getCustomId()));
+        //load cons
+        ConsultantVo consultantVo = consultantService.load(new Consultant(order.getConsId()));
+        //load product
+        AdvisoryProductVo advisoryProductVo = advisoryProductService.load(new AdvisoryProduct(order.getProductId()));
+
+        String rs = "";
+        //请求im post
+
+        AdvisoryOrderVo advisoryOrderVo = new AdvisoryOrderVo();
+        BeanUtils.copyProperties(order, advisoryOrderVo);
+        advisoryOrderVo.setConsName(consultantVo.getName());
+        advisoryOrderVo.setCustomName(customerVo.getNickName());
+        advisoryOrderVo.setProductName(advisoryProductVo.getName());
+
+        advisoryOrderVo.setViewWord("咨询师已经接受你的订单");
+
+        try {
+            rs = HttpClientUtil.post(IM_BASEURL + "/system/message", generateSystemMessage(advisoryOrderVo, consultantVo,customerVo));
+            LOGGER.info(rs);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+
+    }
+
+    public String generateSystemMessage(AdvisoryOrderVo order, CustomerVo customerVo, ConsultantVo consultantVo) {
+        ImSystemMessage message = new ImSystemMessage();
+        message.setPayload(JSON.toJSONString(order));
+        message.setToken(wxSessionService.createToken(customerVo.getWeixinOpenId()));
+        message.setReceiver(consultantVo.getUsername());
+
+        return JSON.toJSONString(message);
+    }
+
+    public String generateSystemMessage(AdvisoryOrderVo order, ConsultantVo consultantVo,CustomerVo customerVo) {
+        ImSystemMessage message = new ImSystemMessage();
+        message.setPayload(JSON.toJSONString(order));
+        message.setReceiver(customerVo.getWeixinOpenId());
+        message.setToken(wxSessionService.createToken(consultantVo.getUsername()));
+
+        return JSON.toJSONString(message);
+    }
 
     @Override
     public Serializable save(AdvisoryOrder advisoryOrder) {
@@ -64,7 +183,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
 
     @Override
     public AdvisoryOrderVo loadByOrdernum(String orderNum) {
-        Assert.isNull(orderNum, "订单号不能为空");
+        Assert.notNull(orderNum, "订单号不能为空");
         AdvisoryOrder order = new AdvisoryOrder();
         order.setOrderNum(orderNum);
         AdvisoryOrderVo advisoryOrderVo = (AdvisoryOrderVo) advisoryOrderDao.selectForObject("selectAdvisoryOrder", order);

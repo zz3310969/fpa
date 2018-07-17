@@ -20,6 +20,7 @@
 	<http pattern="/v2/api-docs*" security="none" />
 
 	<http pattern="/fpa/pic/**" security="none" />
+	<http pattern="/fpa/wechat/advisory/wechatPayResponse*" security="none" />
     <!--activiti-->
 	<http pattern="/service/**" security="none" />
 	<!--<http pattern="/workflow/**" security="none" />-->

@@ -44,7 +44,7 @@ public class CheckOrderData {
     public String doNode(AdvisoryOrderVo advisoryOrderVo, ValueStack valueStack) {
         Assert.notNull(advisoryOrderVo, "order Data must not null");
         Assert.notNull(advisoryOrderVo.getCustomId(), "customerId must not null");
-        Assert.notNull(advisoryOrderVo.getIp(), " ip must not null");
+//        Assert.notNull(advisoryOrderVo.getIp(), " ip must not null");
         Assert.notNull(advisoryOrderVo.getProductId(), "产品id不能为空");
 
         //load product

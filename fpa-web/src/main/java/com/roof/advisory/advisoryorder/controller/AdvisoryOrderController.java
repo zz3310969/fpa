@@ -25,6 +25,7 @@ import org.roof.spring.Result;
 import com.roof.advisory.advisoryorder.entity.AdvisoryOrder;
 import com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo;
 import com.roof.advisory.advisoryorder.service.api.IAdvisoryOrderService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -104,6 +105,19 @@ public class AdvisoryOrderController {
         } else {
             return new Result(Result.FAIL, "数据传输失败!");
         }
+    }
+
+    @ApiOperation(value = "根据ID更新订单")
+    @RequestMapping(value = "advisoryorder/ok/{orderNum}", method = {RequestMethod.POST})
+    public @ResponseBody
+    Result ok(@PathVariable String orderNum) {
+        AdvisoryOrderVo orderVo = advisoryOrderService.loadByOrdernum(orderNum);
+        AdvisoryOrder order
+                = new AdvisoryOrder();
+        BeanUtils.copyProperties(orderVo, order);
+        advisoryOrderService.sendOkSystemMessage(order);
+        return new Result("保存成功!");
+
     }
 
     @ApiOperation(value = "根据ID删除订单")

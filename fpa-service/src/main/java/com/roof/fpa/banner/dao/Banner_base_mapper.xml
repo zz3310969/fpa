@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.fpa.banner.dao">
+
+	<sql id="columns">
+		id, path, image_url, type
+	</sql>
+
+	<sql id="columns_as">
+		id as id , path as path , image_url as imageUrl , type as type 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{path}, #{imageUrl}, #{type}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="path != null and path != ''">
+			and path = #{path}
+		</if>
+		<if test="imageUrl != null and imageUrl != ''">
+			and image_url = #{imageUrl}
+		</if>
+		<if test="type != null and type != ''">
+			and type = #{type}
+		</if>
+	</sql>
+
+	<insert id="saveBanner" parameterType="com.roof.fpa.banner.entity.Banner" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_banner (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteBanner">
+		delete from c_banner
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleBanner">
+		delete from c_banner
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateBanner">
+		update c_banner
+		<set>
+			id=#{id}, 
+			path=#{path}, 
+			image_url=#{imageUrl}, 
+			type=#{type}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullBanner">
+		update c_banner
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="path != null and path != ''">
+			path=#{path}, 
+		</if>
+		<if test="imageUrl != null and imageUrl != ''">
+			image_url=#{imageUrl}, 
+		</if>
+		<if test="type != null and type != ''">
+			type=#{type}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleBanner">
+		update c_banner
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="path != null and path != ''">
+			path=#{path}, 
+			</if>
+			<if test="imageUrl != null and imageUrl != ''">
+			image_url=#{imageUrl}, 
+			</if>
+			<if test="type != null and type != ''">
+			type=#{type}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadBanner" resultType="com.roof.fpa.banner.entity.BannerVo">
+		select 
+		<include refid="columns_as"/>
+		from c_banner
+		where id=#{id} 
+	</select>
+	
+	<select id="selectBanner" resultType="com.roof.fpa.banner.entity.BannerVo">
+		select 
+		<include refid="columns_as"/>
+		from c_banner
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
