@@ -19,6 +19,8 @@ public class AdvisoryOrderVo extends AdvisoryOrder {
     private String productName;
     private String consName;
 
+    private String weixinOpenId;// 微信openid
+
     private String viewWord;
 
     private String ip;
@@ -100,5 +102,13 @@ public class AdvisoryOrderVo extends AdvisoryOrder {
 
     public void setViewWord(String viewWord) {
         this.viewWord = viewWord;
+    }
+
+    public String getWeixinOpenId() {
+        return weixinOpenId;
+    }
+
+    public void setWeixinOpenId(String weixinOpenId) {
+        this.weixinOpenId = weixinOpenId;
     }
 }

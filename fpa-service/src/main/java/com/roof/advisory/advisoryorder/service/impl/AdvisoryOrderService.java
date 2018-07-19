@@ -83,6 +83,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
         advisoryOrderVo.setConsName(consultantVo.getName());
         advisoryOrderVo.setCustomName(customerVo.getNickName());
         advisoryOrderVo.setProductName(advisoryProductVo.getName());
+        advisoryOrderVo.setWeixinOpenId(customerVo.getWeixinOpenId());
 
         advisoryOrderVo.setViewWord("你有新的客户" + customerVo.getNickName() + "想进行(" + advisoryProductVo.getName() + ")咨询，是否接单");
 
@@ -119,7 +120,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
         advisoryOrderVo.setViewWord("咨询师已经接受你的订单");
 
         try {
-            rs = HttpClientUtil.post(IM_BASEURL + "/system/message", generateSystemMessage(advisoryOrderVo, consultantVo,customerVo));
+            rs = HttpClientUtil.post(IM_BASEURL + "/system/message", generateSystemMessage(advisoryOrderVo, consultantVo, customerVo));
             LOGGER.info(rs);
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
@@ -136,7 +137,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
         return JSON.toJSONString(message);
     }
 
-    public String generateSystemMessage(AdvisoryOrderVo order, ConsultantVo consultantVo,CustomerVo customerVo) {
+    public String generateSystemMessage(AdvisoryOrderVo order, ConsultantVo consultantVo, CustomerVo customerVo) {
         ImSystemMessage message = new ImSystemMessage();
         message.setPayload(JSON.toJSONString(order));
         message.setReceiver(customerVo.getWeixinOpenId());
