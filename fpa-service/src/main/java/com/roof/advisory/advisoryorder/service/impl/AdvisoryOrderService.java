@@ -130,7 +130,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
     public String generateSystemMessage(AdvisoryOrderVo order, CustomerVo customerVo, ConsultantVo consultantVo) {
         ImSystemMessage message = new ImSystemMessage();
         message.setPayload(JSON.toJSONString(order));
-        message.setToken(wxSessionService.createToken(customerVo.getWeixinOpenId()));
+        message.setToken(wxSessionService.getToken(customerVo.getWeixinOpenId()));
         message.setReceiver(consultantVo.getUsername());
 
         return JSON.toJSONString(message);
@@ -140,7 +140,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
         ImSystemMessage message = new ImSystemMessage();
         message.setPayload(JSON.toJSONString(order));
         message.setReceiver(customerVo.getWeixinOpenId());
-        message.setToken(wxSessionService.createToken(consultantVo.getUsername()));
+        message.setToken(wxSessionService.getToken(consultantVo.getUsername()));
 
         return JSON.toJSONString(message);
     }

@@ -25,7 +25,7 @@ public class AdvisoryOrderServiceTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void sendSystemMessage() {
-        AdvisoryOrderVo orderVo = advisoryOrderService.load(new AdvisoryOrder((124L)));
+        AdvisoryOrderVo orderVo = advisoryOrderService.load(new AdvisoryOrder((125L)));
         AdvisoryOrder order
                 = new AdvisoryOrder();
         BeanUtils.copyProperties(orderVo, order);

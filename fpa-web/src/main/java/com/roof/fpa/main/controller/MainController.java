@@ -9,12 +9,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.roof.web.user.entity.User;
 import org.roof.web.user.service.api.BaseUserContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +41,20 @@ public class MainController {
         map.put("userid",user.getId());
         map.put("notifyCount",0);
         map.put("user",user);
+        map.put("authorities",getAuthorities(user.getAuthorities()));
         if(consultantVo != null && StringUtils.isNoneEmpty(consultantVo.getHeadImageUrl())){
             map.put("avatar",consultantVo.getHeadImageUrl());
         }
 
         return  map;
+    }
+
+    private List<String> getAuthorities(Collection<? extends GrantedAuthority> authorities){
+        List<String> list = Lists.newArrayList();
+        for (GrantedAuthority authority :authorities){
+            list.add(authority.getAuthority());
+        }
+        return list;
     }
 
     @RequestMapping(value = "notices", method = {RequestMethod.GET})

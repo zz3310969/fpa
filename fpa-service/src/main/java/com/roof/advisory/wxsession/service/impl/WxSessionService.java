@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.roof.advisory.wxsession.service.api.IWxSessionService;
 import com.roof.advisory.wxsession.store.api.WxSessionStore;
 import com.roof.fpa.customer.entity.Customer;
+import org.roof.web.user.service.api.BaseUserContext;
 import org.roof.web.user.service.api.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -114,6 +115,36 @@ public class WxSessionService implements IWxSessionService {
 
         return token.getValue();
 
+    }
+
+    @Override
+    public String getToken(String clientId) {
+        Map<String,String> parameters = Maps.newHashMap();
+        //parameters.put(OAuth2Utils.SCOPE ,this.scope);
+        parameters.put(OAuth2Utils.GRANT_TYPE ,"password");
+        parameters.put(OAuth2Utils.CLIENT_ID ,clientId);
+
+        parameters.put("username" ,clientId);
+
+        ClientDetails authenticatedClient = null;//new BaseClientDetails(clientId, null, "", "password", null);;
+        try{
+            authenticatedClient = getClientDetailsService().loadClientByClientId(clientId);
+        }catch (NoSuchClientException e){
+            throw e;
+        }
+
+        TokenRequest tokenRequest = getOAuth2RequestFactory().createTokenRequest(parameters, authenticatedClient);
+
+        Authentication userAuth = new UsernamePasswordAuthenticationToken(clientId, "");
+
+        BaseClientDetails client = new BaseClientDetails();
+        client.setClientId(clientId);
+        OAuth2Request storedOAuth2Request = getRequestFactory().createOAuth2Request(client, tokenRequest);
+        OAuth2Authentication authentication = new OAuth2Authentication(storedOAuth2Request, userAuth);
+
+        OAuth2AccessToken token = tokenServices.getAccessToken(authentication);
+
+        return token.getValue();
     }
 
 

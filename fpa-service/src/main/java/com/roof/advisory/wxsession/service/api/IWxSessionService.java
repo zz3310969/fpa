@@ -10,4 +10,7 @@ public interface IWxSessionService {
 
     String createToken(String client_id);
 
-}
+     String getToken(String clientId);
+
+
+    }
