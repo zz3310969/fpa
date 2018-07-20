@@ -63,6 +63,27 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
     @Autowired
     private IAdvisoryProductService advisoryProductService;
 
+
+    @Override
+    public void sendOpenSeesion(AdvisoryOrder order) {
+        Assert.notNull(order.getCustomId(), "客户id不能为空");
+        Assert.notNull(order.getConsId(), "咨询师id不能为空");
+        //load customer
+        CustomerVo customerVo = customerService.load(new Customer(order.getCustomId()));
+        //load cons
+        ConsultantVo consultantVo = consultantService.load(new Consultant(order.getConsId()));
+
+        String token = wxSessionService.getToken(customerVo.getWeixinOpenId());
+        String receiver = consultantVo.getUsername();
+        String sender = customerVo.getWeixinOpenId();
+
+        Long startTime = order.getImStartTime().getTime();
+        Long endTime = order.getImEndTime().getTime();
+
+        String rs = HttpClientUtil.get(IM_BASEURL + "/session/open?requestType=openSession&token=" + token + "&sender=" + sender + "&receiver=" + receiver + "&startTime=" + startTime + "&endTime=" + endTime);
+        LOGGER.info(rs);
+    }
+
     @Override
     public void sendSystemMessage(AdvisoryOrder order) {
         Assert.notNull(order.getCustomId(), "客户id不能为空");

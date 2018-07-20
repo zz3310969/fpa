@@ -10,6 +10,8 @@ import com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo;
 
 public interface IAdvisoryOrderService {
 
+    public void sendOpenSeesion(AdvisoryOrder order);
+
     public abstract void sendSystemMessage(AdvisoryOrder order);
 
     public abstract void sendOkSystemMessage(AdvisoryOrder order);

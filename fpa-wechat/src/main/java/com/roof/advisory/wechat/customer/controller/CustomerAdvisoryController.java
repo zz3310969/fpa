@@ -23,7 +23,9 @@ import com.roof.fpa.customer.service.api.ICustomerService;
 import com.roof.fpa.order.entity.OrderVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.time.DateUtils;
 import org.jdom2.JDOMException;
+import org.roof.commons.RoofDateUtils;
 import org.roof.spring.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 import java.util.SortedMap;
@@ -124,6 +127,11 @@ public class CustomerAdvisoryController {
             valueStack.set("advisoryOrderVo", advisoryOrderVo);
             chatOrderCreateChain.doChain(valueStack);
 
+            //执行完，取订单
+            AdvisoryOrder order = (AdvisoryOrder) valueStack.get("advisoryOrder");
+            //同步发送系统消息至im
+            advisoryOrderService.sendSystemMessage(order);
+
             SortedMap<Object, Object> packageP = (SortedMap<Object, Object>) valueStack.get("packageP");
             return new Result(Result.SUCCESS, packageP);
         } catch (Exception e) {
@@ -135,7 +143,7 @@ public class CustomerAdvisoryController {
     @ApiOperation(value = "微信支付回调")
     @RequestMapping(value = "wechatPayResponse")
     public @ResponseBody
-    void wechatPayResponse(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    void wechatPayResponse(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
         logger.info("微信支付回调");
         PrintWriter writer = response.getWriter();
         InputStream inStream = request.getInputStream();
@@ -172,6 +180,9 @@ public class CustomerAdvisoryController {
                 order.setPayTime(new Date());
                 order.setOrderStatus(OrderStatusEnum.payed.getCode());
                 order.setPayAmount(map.get("cash_fee") == null ? 0 : Integer.valueOf(map.get("cash_fee")));
+                Date startTime = RoofDateUtils.getNowDate();
+                order.setImStartTime(startTime);
+                order.setImEndTime(DateUtils.addMinutes(startTime, order.getLenTime().intValue()));
                 advisoryOrderService.updateIgnoreNull(order);
                 //记录订单变更记录
                 advisoryOrderRecordService.saveOrderChange(oldOrder, order);
@@ -184,8 +195,8 @@ public class CustomerAdvisoryController {
                 advisoryPayRecord.setRequestData(result);
                 advisoryPayRecord.setResponseData("success");
                 advisoryPayRecordService.save(advisoryPayRecord);
-                //同步发送系统消息至im
-                advisoryOrderService.sendSystemMessage(order);
+                //发送打开会话
+                advisoryOrderService.sendOpenSeesion(order);
             }
 
             String notifyStr = XMLUtil.setXML("SUCCESS", "");
