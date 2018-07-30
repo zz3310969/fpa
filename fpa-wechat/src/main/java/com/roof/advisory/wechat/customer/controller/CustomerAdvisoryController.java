@@ -133,6 +133,7 @@ public class CustomerAdvisoryController {
             advisoryOrderService.sendSystemMessage(order);
 
             SortedMap<Object, Object> packageP = (SortedMap<Object, Object>) valueStack.get("packageP");
+            packageP.put("order", order);
             return new Result(Result.SUCCESS, packageP);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
