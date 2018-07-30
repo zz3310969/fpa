@@ -44,7 +44,10 @@ public interface IAreaService {
 	 * 按对象中的主键进行数据加载，如果是DRDS，还需要添加拆分键
 	 */
 	public abstract AreaVo load(Area area);
-	
+
+	public abstract AreaVo loadByCache(Area area);
+
+
 	/**
 	 * 按对象中的非空属性作为条件，进行查询实体
 	 */

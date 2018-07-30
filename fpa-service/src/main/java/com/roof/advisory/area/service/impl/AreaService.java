@@ -5,11 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.roof.advisory.area.entity.AreaTreeSelect;
+import com.roof.fpa.cardunit.entity.CardUnit;
+import com.roof.fpa.cardunit.entity.CardUnitVo;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.advisory.area.dao.api.IAreaDao;
 import com.roof.advisory.area.entity.Area;
@@ -19,12 +28,25 @@ import org.roof.web.core.TreeSelectDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import static java.util.stream.Collectors.groupingBy;
 
 @Service
 public class AreaService implements IAreaService {
 	private IAreaDao areaDao;
+
+	private LoadingCache<Area, AreaVo> cache = CacheBuilder.newBuilder().maximumSize(500)
+			.refreshAfterWrite(1, TimeUnit.HOURS)
+			.build(new CacheLoader<Area, AreaVo>() {
+				@Override
+				public AreaVo load(Area area) throws Exception {
+					return selectForObject(area);
+				}
+
+
+			});
+
 
 	public Serializable save(Area area){
 		return areaDao.save(area);
@@ -53,7 +75,20 @@ public class AreaService implements IAreaService {
 	public AreaVo load(Area area){
 		return (AreaVo)areaDao.reload(area);
 	}
-	
+
+	@Override
+	public AreaVo loadByCache(Area area) {
+		Assert.notNull(area,"地区对象不能为空");
+
+		Assert.notNull(area.getProvince(),"省不能为空");
+		try {
+			return cache.get(area);
+		} catch (ExecutionException e) {
+			return selectForObject(area);
+		}
+
+	}
+
 	public AreaVo selectForObject(Area area){
 		return (AreaVo)areaDao.selectForObject("selectArea",area);
 	}
