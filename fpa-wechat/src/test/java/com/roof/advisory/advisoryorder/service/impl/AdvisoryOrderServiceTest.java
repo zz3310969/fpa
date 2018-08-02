@@ -10,6 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.io.IOException;
+
 /**
  * com.roof.advisory.advisoryorder.service.impl
  *
@@ -33,8 +35,8 @@ public class AdvisoryOrderServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void sendOpenSeesion() {
-        AdvisoryOrderVo orderVo = advisoryOrderService.load(new AdvisoryOrder((125L)));
+    public void sendOpenSeesion() throws IOException {
+        AdvisoryOrderVo orderVo = advisoryOrderService.load(new AdvisoryOrder((231L)));
         AdvisoryOrder order
                 = new AdvisoryOrder();
         BeanUtils.copyProperties(orderVo, order);

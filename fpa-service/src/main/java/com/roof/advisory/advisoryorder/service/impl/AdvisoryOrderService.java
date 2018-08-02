@@ -3,7 +3,9 @@ package com.roof.advisory.advisoryorder.service.impl;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.roof.advisory.OrderStatusEnum;
@@ -65,7 +67,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
 
 
     @Override
-    public void sendOpenSeesion(AdvisoryOrder order) {
+    public void sendOpenSeesion(AdvisoryOrder order) throws IOException {
         Assert.notNull(order.getCustomId(), "客户id不能为空");
         Assert.notNull(order.getConsId(), "咨询师id不能为空");
         //load customer
@@ -76,11 +78,28 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
         String token = wxSessionService.getToken(customerVo.getWeixinOpenId());
         String receiver = consultantVo.getUsername();
         String sender = customerVo.getWeixinOpenId();
-
-        Long startTime = order.getImStartTime().getTime();
-        Long endTime = order.getImEndTime().getTime();
-
-        String rs = HttpClientUtil.get(IM_BASEURL + "/session/open?requestType=openSession&token=" + token + "&sender=" + sender + "&receiver=" + receiver + "&startTime=" + startTime + "&endTime=" + endTime);
+        Long startTime = System.currentTimeMillis();
+        Long endTime = System.currentTimeMillis();
+        if (order.getImStartTime() != null) {
+            startTime = order.getImStartTime().getTime();
+            endTime = order.getImEndTime().getTime();
+        } else {
+            endTime = startTime + order.getLenTime() * 60000;//1分钟=60000毫秒(ms)
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("token", token);
+        map.put("sender", sender);
+        map.put("receiver", receiver);
+        map.put("requestType", "openSession");
+        map.put("startTime", startTime);
+        map.put("endTime", endTime);
+        String rs = null;
+        try {
+            rs = HttpClientUtil.post(IM_BASEURL + "/session/open?requestType=openSession", JSON.toJSONString(map));
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+            throw e;
+        }
         LOGGER.info(rs);
     }
 
