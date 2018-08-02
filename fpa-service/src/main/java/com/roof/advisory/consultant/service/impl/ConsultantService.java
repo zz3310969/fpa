@@ -1,5 +1,8 @@
 package com.roof.advisory.consultant.service.impl;
 
+import com.roof.advisory.area.entity.Area;
+import com.roof.advisory.area.entity.AreaVo;
+import com.roof.advisory.area.service.api.IAreaService;
 import com.roof.advisory.consultant.dao.api.IConsultantDao;
 import com.roof.advisory.consultant.entity.Consultant;
 import com.roof.advisory.consultant.entity.ConsultantVo;
@@ -39,6 +42,9 @@ public class ConsultantService implements IConsultantService {
     private IImService imService;
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IAreaService areaService;
 
     public Serializable save(Consultant consultant) {
         User user = counselorConsultant(consultant);
@@ -111,7 +117,17 @@ public class ConsultantService implements IConsultantService {
         //获取缓存咨询师
         
         //微信咨询师列表返回
-        return consultantDao.pageWechat(page, consultantWechatVo);
+        Page pageWechat = consultantDao.pageWechat(page, consultantWechatVo);
+        List<ConsultantWechatVo> consultantWechatVos = (List<ConsultantWechatVo>) pageWechat.getDataList();
+        for (ConsultantWechatVo consultant : consultantWechatVos){
+            Area area = new Area();
+            area.setCity(consultant.getCity());
+            area.setProvince(consultant.getProvince());
+            AreaVo vo = areaService.loadByCache(area);
+            consultant.setAreaName(vo.getProvinceCn()+"-"+vo.getCityCn());
+        }
+        pageWechat.setDataList(consultantWechatVos);
+        return pageWechat;
     }
 
     @Override

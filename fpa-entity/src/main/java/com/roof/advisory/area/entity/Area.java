@@ -3,6 +3,8 @@ package com.roof.advisory.area.entity;
 import javax.persistence.Id;
 import java.util.Date;
 import java.io.Serializable;
+import java.util.Objects;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -137,5 +139,28 @@ public class Area implements Serializable {
 		this.state = state;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Area area = (Area) o;
+		return Objects.equals(id, area.id) &&
+				Objects.equals(nationCn, area.nationCn) &&
+				Objects.equals(provinceCn, area.provinceCn) &&
+				Objects.equals(cityCn, area.cityCn) &&
+				Objects.equals(nation, area.nation) &&
+				Objects.equals(province, area.province) &&
+				Objects.equals(city, area.city) &&
+				Objects.equals(nationality, area.nationality) &&
+				Objects.equals(autonomous, area.autonomous) &&
+				Objects.equals(country, area.country) &&
+				Objects.equals(createDate, area.createDate) &&
+				Objects.equals(state, area.state);
+	}
 
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(id, nationCn, provinceCn, cityCn, nation, province, city, nationality, autonomous, country, createDate, state);
+	}
 }

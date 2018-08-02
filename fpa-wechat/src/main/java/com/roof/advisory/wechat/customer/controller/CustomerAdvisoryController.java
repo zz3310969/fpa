@@ -224,7 +224,7 @@ public class CustomerAdvisoryController {
         imRequest.setReceiver(consultantVo.getUsername());
         imRequest.setStartTime(System.currentTimeMillis());
         imRequest.setRequestType(ImRequest.IM_OPENSESSION);
-        imRequest.setEndTime(System.currentTimeMillis() + 1000 * 60 * 60 * 12);
+        imRequest.setEndTime(System.currentTimeMillis());
         Long sessionId = imService.openSession(imRequest);
         //seesion已经存在
         if (sessionId == null) {
