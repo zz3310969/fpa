@@ -181,7 +181,7 @@ public class CustomerAdvisoryController {
                 order.setPayTime(new Date());
                 order.setOrderStatus(OrderStatusEnum.payed.getCode());
                 order.setPayAmount(map.get("cash_fee") == null ? 0 : Integer.valueOf(map.get("cash_fee")));
-                Date startTime = RoofDateUtils.getNowDate();
+                Date startTime = new Date();
                 order.setImStartTime(startTime);
                 order.setImEndTime(DateUtils.addMinutes(startTime, order.getLenTime().intValue()));
                 advisoryOrderService.updateIgnoreNull(order);

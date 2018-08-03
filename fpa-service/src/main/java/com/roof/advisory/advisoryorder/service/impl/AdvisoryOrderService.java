@@ -2,6 +2,7 @@ package com.roof.advisory.advisoryorder.service.impl;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.roof.fpa.core.http.HttpClientUtil;
 import com.roof.fpa.customer.entity.Customer;
 import com.roof.fpa.customer.entity.CustomerVo;
 import com.roof.fpa.customer.service.api.ICustomerService;
+import org.apache.commons.lang.time.DateUtils;
 import org.roof.commons.PropertiesUtil;
 import org.roof.commons.RoofDateUtils;
 import org.roof.roof.dataaccess.api.Page;
@@ -67,7 +69,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
 
 
     @Override
-    public void sendOpenSeesion(AdvisoryOrder order) throws IOException {
+    public void sendOpenSeesion(AdvisoryOrder order) throws IOException, ParseException {
         Assert.notNull(order.getCustomId(), "客户id不能为空");
         Assert.notNull(order.getConsId(), "咨询师id不能为空");
         //load customer

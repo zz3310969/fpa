@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * com.roof.advisory.advisoryorder.service.impl
@@ -35,8 +36,8 @@ public class AdvisoryOrderServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void sendOpenSeesion() throws IOException {
-        AdvisoryOrderVo orderVo = advisoryOrderService.load(new AdvisoryOrder((231L)));
+    public void sendOpenSeesion() throws IOException, ParseException {
+        AdvisoryOrderVo orderVo = advisoryOrderService.load(new AdvisoryOrder((245L)));
         AdvisoryOrder order
                 = new AdvisoryOrder();
         BeanUtils.copyProperties(orderVo, order);

@@ -1,6 +1,7 @@
 package com.roof.advisory.advisoryorder.service.api;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo;
 
 public interface IAdvisoryOrderService {
 
-    public void sendOpenSeesion(AdvisoryOrder order) throws IOException;
+    public void sendOpenSeesion(AdvisoryOrder order) throws IOException, ParseException;
 
     public abstract void sendSystemMessage(AdvisoryOrder order);
 
