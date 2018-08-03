@@ -113,6 +113,23 @@ public class CustomerWechatController {
 		}
 	}
 
+	@RequestMapping(value = "customer/update/{id}", method = {RequestMethod.POST})
+	public @ResponseBody Result updateMobile(@PathVariable Long id ,@RequestBody Customer customer) {
+		if(StringUtils.isEmpty(customer.getMobile())){
+			return new Result(Result.FAIL,"mobile不能为空");
+		}
+		if(StringUtils.isEmpty(String.valueOf(customer.getId()))){
+			return new Result(Result.FAIL,"id不能为空");
+		}
+		if (id != null && customer != null) {
+			customer.setId(id);
+			customerService.updateIgnoreNull(customer);
+			return new Result("保存成功!");
+		} else {
+			return new Result(Result.FAIL,"数据传输失败!");
+		}
+	}
+
 	@RequestMapping(value = "customer/bind", method = {RequestMethod.POST})
 	public @ResponseBody Result bind(@RequestBody CustomerVo customer) {
 		executorService.submit(new Callable<Boolean>() {
