@@ -13,7 +13,6 @@
 		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName,
 		(SELECT NAME FROM z_comment_items WHERE id = t1.item_id ) as itemName,
 		(SELECT NAME FROM z_consultant WHERE id = t1.consultant_id ) as consultantName,
-
 		<include refid="columnsAs"/>
 		from
 		z_comment_record t1

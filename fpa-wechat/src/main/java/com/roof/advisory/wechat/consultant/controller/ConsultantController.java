@@ -61,7 +61,7 @@ public class ConsultantController {
         Page page = PageUtils.createPage(request);
         CommentRecord commentRecord = new CommentRecord();
         commentRecord.setConsultantId(id);
-        page = commentRecordService.page(page, commentRecord);
+        page = commentRecordService.wechatPage(page, commentRecord);
         return new Result(Result.SUCCESS, page);
     }
 

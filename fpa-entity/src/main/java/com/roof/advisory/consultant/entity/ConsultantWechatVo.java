@@ -31,10 +31,7 @@ public class ConsultantWechatVo extends Consultant {
     private List<AdvisoryTheme> themes;
 
     private String themeName;
-    /**
-     * 评分 星级
-     */
-    private Double grade;
+
     /**
      * 咨询次数
      */
@@ -94,13 +91,7 @@ public class ConsultantWechatVo extends Consultant {
         this.themes = themes;
     }
 
-    public Double getGrade() {
-        return grade;
-    }
 
-    public void setGrade(Double grade) {
-        this.grade = grade;
-    }
 
     public Long getTimes() {
         return times;

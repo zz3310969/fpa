@@ -3,6 +3,9 @@ package com.roof.advisory.commentrecord.service.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import com.roof.fpa.customer.entity.Customer;
+import com.roof.fpa.customer.entity.CustomerVo;
+import com.roof.fpa.customer.service.api.ICustomerService;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.advisory.commentrecord.dao.api.ICommentRecordDao;
 import com.roof.advisory.commentrecord.entity.CommentRecord;
@@ -16,6 +19,8 @@ import org.springframework.stereotype.Service;
 public class CommentRecordService implements ICommentRecordService {
     private ICommentRecordDao commentRecordDao;
 
+    @Autowired
+    private ICustomerService customerService;
     public Serializable save(CommentRecord commentRecord) {
         commentRecord.setState(1);
         return commentRecordDao.save(commentRecord);
@@ -55,6 +60,18 @@ public class CommentRecordService implements ICommentRecordService {
 
     public Page page(Page page, CommentRecord commentRecord) {
         return commentRecordDao.page(page, commentRecord);
+    }
+
+    public Page wechatPage(Page page, CommentRecord commentRecord) {
+        Page r = commentRecordDao.page(page, commentRecord);
+        List<CommentRecordVo> vos = (List<CommentRecordVo>) r.getDataList();
+        for (CommentRecordVo vo : vos){
+            Customer customer = new Customer(vo.getEvaluator());
+            CustomerVo customerVo = customerService.load(customer);
+            vo.setCustomer(customerVo != null? customerVo : customer);
+        }
+        r.setDataList(vos);
+        return r ;
     }
 
     @Override

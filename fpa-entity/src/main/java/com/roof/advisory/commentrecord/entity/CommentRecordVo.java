@@ -1,5 +1,6 @@
 package com.roof.advisory.commentrecord.entity;
 
+import com.roof.fpa.customer.entity.Customer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -20,6 +21,7 @@ public class CommentRecordVo extends CommentRecord {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date evalTimeEnd;
+    private Customer customer;
 
 
     private List<CommentRecordVo> commentRecordList;
@@ -79,5 +81,13 @@ public class CommentRecordVo extends CommentRecord {
 
     public void setEvalTimeEnd(Date evalTimeEnd) {
         this.evalTimeEnd = evalTimeEnd;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

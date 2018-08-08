@@ -59,6 +59,9 @@ public interface ICommentRecordService {
      */
     public abstract Page page(Page page, CommentRecord commentRecord);
 
+    public abstract Page wechatPage(Page page, CommentRecord commentRecord);
+
+
     public Page pageByVo(Page page, CommentRecordVo commentRecordVo);
 
 }

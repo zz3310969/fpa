@@ -27,7 +27,7 @@ public class CommentRecord implements Serializable {
 	@ApiModelProperty(value = "订单编号")
 	protected String orderNumber;// 订单编号
 	@ApiModelProperty(value = "评价人")
-	protected String evaluator;// 评价人
+	protected Long evaluator;// 评价人
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@ApiModelProperty(value = "评价时间")
@@ -84,10 +84,10 @@ public class CommentRecord implements Serializable {
 		this.orderNumber = orderNumber;
 	}
 	
-	public String getEvaluator() {
+	public Long getEvaluator() {
 		return evaluator;
 	}
-	public void setEvaluator(String evaluator) {
+	public void setEvaluator(Long evaluator) {
 		this.evaluator = evaluator;
 	}
 	

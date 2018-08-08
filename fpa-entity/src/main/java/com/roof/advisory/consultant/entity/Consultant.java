@@ -48,6 +48,8 @@ public class Consultant implements Serializable {
 	protected String country;
 	protected String province;
 	protected String city;
+	@ApiModelProperty(value = "分数")
+	protected Double grade;
 
 	public Consultant() {
 		super();
@@ -190,5 +192,13 @@ public class Consultant implements Serializable {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public Double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Double grade) {
+		this.grade = grade;
 	}
 }

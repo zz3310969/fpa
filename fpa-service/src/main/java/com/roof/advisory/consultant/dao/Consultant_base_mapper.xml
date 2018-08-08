@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.advisory.consultant.dao">
 
 	<sql id="columns">
-		id, app_id, name, username, head_image_url, level_id, theme_id, area_id, gender, introduction, user_id, mobile, reg_time, status, state, country, province, city
+		id, app_id, name, username, head_image_url, level_id, theme_id, area_id, gender, introduction, user_id, mobile, reg_time, status, state, country, province, city,grade
 	</sql>
 
 	<sql id="columns_as">
-		id as id , app_id as appId , name as name , username as username , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , user_id as userId , mobile as mobile , reg_time as regTime , status as status , state as state , country as country , province as province , city as city 
+		id as id , app_id as appId , name as name , username as username , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , user_id as userId , mobile as mobile , reg_time as regTime , status as status , state as state , country as country , province as province , city as city ,grade as grade
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{appId}, #{name}, #{username}, #{headImageUrl}, #{levelId}, #{themeId}, #{areaId}, #{gender}, #{introduction}, #{userId}, #{mobile}, #{regTime}, #{status}, #{state}, #{country}, #{province}, #{city}
+		#{id}, #{appId}, #{name}, #{username}, #{headImageUrl}, #{levelId}, #{themeId}, #{areaId}, #{gender}, #{introduction}, #{userId}, #{mobile}, #{regTime}, #{status}, #{state}, #{country}, #{province}, #{city} ,#{grade}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -70,6 +70,10 @@
 		<if test="city != null and city != ''">
 			and city = #{city}
 		</if>
+		<if test="grade != null">
+			and grade = #{grade}
+		</if>
+
 	</sql>
 
 	<insert id="saveConsultant" parameterType="com.roof.advisory.consultant.entity.Consultant" useGeneratedKeys="true" keyProperty="id">
@@ -111,7 +115,8 @@
 			state=#{state}, 
 			country=#{country}, 
 			province=#{province}, 
-			city=#{city}
+			city=#{city},
+			grade=#{grade}
 		</set>
 		where id=#{id} 
 	</update>
@@ -171,8 +176,12 @@
 			province=#{province}, 
 		</if>
 		<if test="city != null and city != ''">
-			city=#{city}
+			city=#{city},
 		</if>
+		<if test="grade != null">
+			grade=#{grade}
+		</if>
+
 		</set>
 		where id=#{id} 
 	</update>
@@ -232,7 +241,10 @@
 			province=#{province}, 
 			</if>
 			<if test="city != null and city != ''">
-			city=#{city}
+			city=#{city},
+			</if>
+			<if test="grade != null">
+				grade=#{grade}
 			</if>
 		</set>
 		where 1=1
@@ -251,7 +263,6 @@
 		(SELECT level_name FROM z_level WHERE id = t1.level_id ) as levelName,
 		(1) as isOnline,
 		(1) as canOrder,
-		(9.9) as grade,
 		(1000) as times,
 		(SELECT NAME FROM z_advisory_theme WHERE id = t1.theme_id ) as themeName,
 		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName,
