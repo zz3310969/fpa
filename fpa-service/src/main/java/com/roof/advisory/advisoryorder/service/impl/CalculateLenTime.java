@@ -38,8 +38,11 @@ public class CalculateLenTime {
      * @apiNote 计算时长，单位为s
      */
     public String doNode(AdvisoryOrderVo advisoryOrderVo, ValueStack valueStack) {
-        Long lenTime = 1000L;
-        valueStack.set("lenTime", lenTime);
+
+        AdvisoryPricingVo advisoryPricingVo = (AdvisoryPricingVo) valueStack.get("advisoryPricingVo");
+
+        Long lenTime = 10L;
+        valueStack.set("lenTime", advisoryPricingVo.getUnit());
         return NodeResult.SUCCESS;
     }
 
