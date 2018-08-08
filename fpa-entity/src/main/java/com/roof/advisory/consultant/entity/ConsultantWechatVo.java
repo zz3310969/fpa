@@ -41,7 +41,6 @@ public class ConsultantWechatVo extends Consultant {
      */
     private String areaName;
 
-
     public ConsultantWechatVo() {
         super();
     }
@@ -90,7 +89,6 @@ public class ConsultantWechatVo extends Consultant {
     public void setThemes(List<AdvisoryTheme> themes) {
         this.themes = themes;
     }
-
 
 
     public Long getTimes() {
