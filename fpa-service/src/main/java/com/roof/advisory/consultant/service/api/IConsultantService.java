@@ -73,4 +73,6 @@ public interface IConsultantService {
 
     public abstract List<Long> selectForListByUsernames(String[] usernames);
 
+    public List<String> selectConsultantUsernames();
+
 }

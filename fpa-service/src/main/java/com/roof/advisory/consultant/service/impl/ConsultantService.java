@@ -9,6 +9,8 @@ import com.roof.advisory.consultant.entity.ConsultantVo;
 import com.roof.advisory.consultant.entity.ConsultantWechatVo;
 import com.roof.advisory.consultant.service.api.IConsultantService;
 import com.roof.advisory.im.service.api.IImService;
+import com.roof.advisory.im.service.impl.ImService;
+import com.roof.advisory.wxsession.service.api.IWxSessionService;
 import com.roof.fpa.DefaultStateEnum;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.roof.commons.PropertiesUtil;
@@ -22,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.BoundValueOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -45,6 +49,10 @@ public class ConsultantService implements IConsultantService {
 
     @Autowired
     private IAreaService areaService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
 
     public Serializable save(Consultant consultant) {
         User user = counselorConsultant(consultant);
@@ -114,17 +122,25 @@ public class ConsultantService implements IConsultantService {
     public Page pageWechat(Page page, ConsultantWechatVo consultantWechatVo) {
         //发送异步同步在线用户请求
         imService.getAllUsers();
-        //获取缓存咨询师
-        
+        //获取在线咨询师
+        BoundValueOperations<String, List<String>> operations = redisTemplate.boundValueOps(ImService.ONLINE_USERS);
+        List<String> list = operations.get();
         //微信咨询师列表返回
         Page pageWechat = consultantDao.pageWechat(page, consultantWechatVo);
         List<ConsultantWechatVo> consultantWechatVos = (List<ConsultantWechatVo>) pageWechat.getDataList();
-        for (ConsultantWechatVo consultant : consultantWechatVos){
+        for (ConsultantWechatVo consultant : consultantWechatVos) {
             Area area = new Area();
             area.setCity(consultant.getCity());
             area.setProvince(consultant.getProvince());
             AreaVo vo = areaService.loadByCache(area);
-            consultant.setAreaName(vo.getProvinceCn()+"-"+vo.getCityCn());
+            consultant.setAreaName(vo.getProvinceCn() + "-" + vo.getCityCn());
+            //更新在线状态
+            for (String s : list
+                    ) {
+                if (consultant.getUsername().equals(s)) {
+                    consultant.setIsOnline(1);
+                }
+            }
         }
         pageWechat.setDataList(consultantWechatVos);
         return pageWechat;
@@ -141,6 +157,12 @@ public class ConsultantService implements IConsultantService {
         List<Long> ids = (List<Long>) this.consultantDao.selectForList("selectForListByUsernames", usernames);
         return ids;
     }
+
+    @Override
+    public List<String> selectConsultantUsernames() {
+        return (List<String>) this.consultantDao.selectForList("selectConsultantUsernames");
+    }
+
 
     @Autowired
     public void setIConsultantDao(
