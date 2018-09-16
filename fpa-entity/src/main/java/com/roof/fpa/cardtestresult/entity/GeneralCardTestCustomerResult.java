@@ -14,6 +14,20 @@ public class GeneralCardTestCustomerResult extends CardTestCustomerResult {
     private String scoreMaxColorName = "";
     private String scoreMaxColorCode = "";
 
+    private String redAdScore = ""; //红色优势百分比
+    private String redImScore = "";//红色过当百分比
+
+    private String blueAdScore = ""; //蓝色优势百分比
+    private String blueImScore = "";//蓝色过当百分比
+
+    private String yellowAdScore = "";//黄色优势百分比
+    private String yellowImScore = "";//黄色过当百分比
+
+    private String greenAdScore = "";//绿色优势百分比
+    private String greenImScore = "";//绿色过当百分比
+
+    private String practiceAdvice = ""; //修炼建议
+
     public Long getScoreMaxColorId() {
         return scoreMaxColorId;
     }
@@ -108,5 +122,77 @@ public class GeneralCardTestCustomerResult extends CardTestCustomerResult {
 
     public void setScoreMaxColorCode(String scoreMaxColorCode) {
         this.scoreMaxColorCode = scoreMaxColorCode;
+    }
+
+    public String getRedAdScore() {
+        return redAdScore;
+    }
+
+    public void setRedAdScore(String redAdScore) {
+        this.redAdScore = redAdScore;
+    }
+
+    public String getRedImScore() {
+        return redImScore;
+    }
+
+    public void setRedImScore(String redImScore) {
+        this.redImScore = redImScore;
+    }
+
+    public String getBlueAdScore() {
+        return blueAdScore;
+    }
+
+    public void setBlueAdScore(String blueAdScore) {
+        this.blueAdScore = blueAdScore;
+    }
+
+    public String getBlueImScore() {
+        return blueImScore;
+    }
+
+    public void setBlueImScore(String blueImScore) {
+        this.blueImScore = blueImScore;
+    }
+
+    public String getYellowAdScore() {
+        return yellowAdScore;
+    }
+
+    public void setYellowAdScore(String yellowAdScore) {
+        this.yellowAdScore = yellowAdScore;
+    }
+
+    public String getYellowImScore() {
+        return yellowImScore;
+    }
+
+    public void setYellowImScore(String yellowImScore) {
+        this.yellowImScore = yellowImScore;
+    }
+
+    public String getGreenAdScore() {
+        return greenAdScore;
+    }
+
+    public void setGreenAdScore(String greenAdScore) {
+        this.greenAdScore = greenAdScore;
+    }
+
+    public String getGreenImScore() {
+        return greenImScore;
+    }
+
+    public void setGreenImScore(String greenImScore) {
+        this.greenImScore = greenImScore;
+    }
+
+    public String getPracticeAdvice() {
+        return practiceAdvice;
+    }
+
+    public void setPracticeAdvice(String practiceAdvice) {
+        this.practiceAdvice = practiceAdvice;
     }
 }

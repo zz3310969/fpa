@@ -17,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * 得分计算
  */
@@ -24,6 +26,8 @@ public class ScoreCalculator {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScoreCalculator.class);
     private String color; //颜色
     private String valPropertyName; //结果属性名称
+    private String adScorePropertyName; //优势得分百分比属性名称
+    private String imScorePropertyName; //过当得分百分比属性名称
     private ICardUnitService cardUnitService;
     private ICardSlotService cardSlotService;
     private IDictionaryService dictionaryService;
@@ -32,6 +36,8 @@ public class ScoreCalculator {
 
     public String doNode(CardTestResultVo cardTestResultVo, GeneralCardTestCustomerResult generalCardTestCustomerResult) {
         int score = 0;
+        int advantageScore = 0;
+        int imperfectScore = 0;
         if (cardTestResultVo == null || CollectionUtils.isEmpty(cardTestResultVo.getResultDtoList()) || generalCardTestCustomerResult == null) {
             return toSuccess(score, generalCardTestCustomerResult);
         }
@@ -42,9 +48,25 @@ public class ScoreCalculator {
                 CardSlot cardSlot = cardSlotService.loadByCache(cardTestResultDto.getCardSlotId());
                 //TODO 使用场景配置的操作符
                 score += cardUnit.getScore() + cardSlot.getWeight();
+                if (cardUnit.getScore() == 1) { //优势
+                    advantageScore += (cardUnit.getScore() + cardSlot.getWeight());
+                }
+                if (cardUnit.getScore() == 3) { //过当
+                    imperfectScore = (cardUnit.getScore() + cardSlot.getWeight());
+                }
                 LOGGER.info("color:{}, cardUnitScore:{}, cardSlotWeight:{}, score:{}", color, cardUnit.getScore(), cardSlot.getWeight(), score);
             }
         }
+        advantageScore = advantageScore * 100 / 6;
+        imperfectScore = imperfectScore * 10;
+
+        try {
+            PropertyUtils.setProperty(generalCardTestCustomerResult, adScorePropertyName, String.valueOf(advantageScore));
+            PropertyUtils.setProperty(generalCardTestCustomerResult, imScorePropertyName, String.valueOf(imperfectScore));
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
         return toSuccess(score, generalCardTestCustomerResult);
     }
 
@@ -98,5 +120,21 @@ public class ScoreCalculator {
     }
     public void setCacheHander(ICacheHander cacheHander) {
         this.cacheHander = cacheHander;
+    }
+
+    public String getAdScorePropertyName() {
+        return adScorePropertyName;
+    }
+
+    public void setAdScorePropertyName(String adScorePropertyName) {
+        this.adScorePropertyName = adScorePropertyName;
+    }
+
+    public String getImScorePropertyName() {
+        return imScorePropertyName;
+    }
+
+    public void setImScorePropertyName(String imScorePropertyName) {
+        this.imScorePropertyName = imScorePropertyName;
     }
 }

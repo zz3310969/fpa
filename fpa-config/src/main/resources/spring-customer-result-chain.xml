@@ -19,6 +19,8 @@
                             <property name="cacheHander" ref="cacheHander"/>
                             <property name="color" value="red"/>
                             <property name="valPropertyName" value="redScore"/>
+                            <property name="adScorePropertyName" value="redAdScore"/>
+                            <property name="imScorePropertyName" value="redImScore"/>
                         </bean>
                     </property>
                     <property name="forwards">
@@ -38,6 +40,8 @@
                             <property name="cacheHander" ref="cacheHander"/>
                             <property name="color" value="yellow"/>
                             <property name="valPropertyName" value="yellowScore"/>
+                            <property name="adScorePropertyName" value="yellowAdScore"/>
+                            <property name="imScorePropertyName" value="yellowImScore"/>
                         </bean>
                     </property>
                     <property name="forwards">
@@ -57,6 +61,8 @@
                             <property name="cacheHander" ref="cacheHander"/>
                             <property name="color" value="blue"/>
                             <property name="valPropertyName" value="blueScore"/>
+                            <property name="adScorePropertyName" value="blueAdScore"/>
+                            <property name="imScorePropertyName" value="blueImScore"/>
                         </bean>
                     </property>
                     <property name="forwards">
@@ -76,6 +82,8 @@
                             <property name="cacheHander" ref="cacheHander"/>
                             <property name="color" value="green"/>
                             <property name="valPropertyName" value="greenScore"/>
+                            <property name="adScorePropertyName" value="greenAdScore"/>
+                            <property name="imScorePropertyName" value="greenImScore"/>
                         </bean>
                     </property>
                     <property name="forwards">
@@ -207,6 +215,19 @@
                             <property name="yVal" value="1"/>
                             <property name="cardScore" value="2"/>
                             <property name="propertyName" value="characterCareOther"/>
+                        </bean>
+                    </property>
+                    <property name="forwards">
+                        <map>
+                            <entry key="success" value="practiceAdvice"/>
+                        </map>
+                    </property>
+                </bean>
+
+                <bean class="com.roof.chain.support.NodeFactoryBean">
+                    <property name="name" value="practiceAdvice"/>
+                    <property name="target">
+                        <bean class="com.roof.fpa.cardtestresult.service.impl.PracticeAdvice">
                         </bean>
                     </property>
                     <property name="forwards">
