@@ -148,7 +148,26 @@ public class ConsultantService implements IConsultantService {
 
     @Override
     public ConsultantWechatVo loadForWechat(ConsultantWechatVo consultant) {
-        return (ConsultantWechatVo) consultantDao.reload(consultant);
+        //发送异步同步在线用户请求
+        imService.getAllUsers();
+        //获取在线咨询师
+        BoundValueOperations<String, List<String>> operations = redisTemplate.boundValueOps(ImService.ONLINE_USERS);
+        List<String> list = operations.get();
+
+        ConsultantWechatVo consultantWechatVo = (ConsultantWechatVo) consultantDao.reload(consultant);
+        Area area = new Area();
+        area.setCity(consultantWechatVo.getCity());
+        area.setProvince(consultantWechatVo.getProvince());
+        AreaVo vo = areaService.loadByCache(area);
+        consultantWechatVo.setAreaName(vo.getProvinceCn() + "-" + vo.getCityCn());
+        //更新在线状态
+        for (String s : list
+                ) {
+            if (consultantWechatVo.getUsername().equals(s)) {
+                consultantWechatVo.setIsOnline(1);
+            }
+        }
+        return consultantWechatVo;
     }
 
 
