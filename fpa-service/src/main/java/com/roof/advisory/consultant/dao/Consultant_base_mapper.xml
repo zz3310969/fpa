@@ -261,8 +261,8 @@
 	<select id="loadConsultantWechatVo" resultType="com.roof.advisory.consultant.entity.ConsultantWechatVo">
 		select
 		(SELECT level_name FROM z_level WHERE id = t1.level_id ) as levelName,
-		(1) as isOnline,
-		(1) as canOrder,
+		(0) as isOnline,
+		(0) as canOrder,
 		(SELECT count(id) FROM z_advisory_order WHERE cons_id = t1.id AND order_status in ('payed','completed')) as times,
 		(SELECT NAME FROM z_advisory_theme WHERE id = t1.theme_id ) as themeName,
 		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName,
