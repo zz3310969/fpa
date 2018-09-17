@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 
 /**
  * 得分计算
@@ -57,12 +58,12 @@ public class ScoreCalculator {
                 LOGGER.info("color:{}, cardUnitScore:{}, cardSlotWeight:{}, score:{}", color, cardUnit.getScore(), cardSlot.getWeight(), score);
             }
         }
-        advantageScore = advantageScore * 100 / 6;
-        imperfectScore = imperfectScore * 10;
+        BigDecimal adPercent = new BigDecimal(advantageScore).divide(BigDecimal.valueOf(6)).setScale(2);
+        BigDecimal imPercent = new BigDecimal(imperfectScore).divide(BigDecimal.valueOf(10)).setScale(2);
 
         try {
-            PropertyUtils.setProperty(generalCardTestCustomerResult, adScorePropertyName, String.valueOf(advantageScore));
-            PropertyUtils.setProperty(generalCardTestCustomerResult, imScorePropertyName, String.valueOf(imperfectScore));
+            PropertyUtils.setProperty(generalCardTestCustomerResult, adScorePropertyName, adPercent.toString());
+            PropertyUtils.setProperty(generalCardTestCustomerResult, imScorePropertyName, imPercent.toString());
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             LOGGER.error(e.getMessage(), e);
         }
