@@ -58,8 +58,8 @@ public class ScoreCalculator {
                 LOGGER.info("color:{}, cardUnitScore:{}, cardSlotWeight:{}, score:{}", color, cardUnit.getScore(), cardSlot.getWeight(), score);
             }
         }
-        BigDecimal adPercent = new BigDecimal(advantageScore).divide(BigDecimal.valueOf(6),2).setScale(2);
-        BigDecimal imPercent = new BigDecimal(imperfectScore).divide(BigDecimal.valueOf(10),2).setScale(2);
+        BigDecimal adPercent = new BigDecimal(advantageScore).setScale(2).divide(BigDecimal.valueOf(6), 2);
+        BigDecimal imPercent = new BigDecimal(imperfectScore).setScale(2).divide(BigDecimal.valueOf(10), 2);
 
         try {
             PropertyUtils.setProperty(generalCardTestCustomerResult, adScorePropertyName, adPercent.toString());
