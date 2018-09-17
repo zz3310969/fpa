@@ -19,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * 得分计算
@@ -58,8 +59,10 @@ public class ScoreCalculator {
                 LOGGER.info("color:{}, cardUnitScore:{}, cardSlotWeight:{}, score:{}", color, cardUnit.getScore(), cardSlot.getWeight(), score);
             }
         }
-        BigDecimal adPercent = new BigDecimal(advantageScore).setScale(2).divide(BigDecimal.valueOf(6), 2);
-        BigDecimal imPercent = new BigDecimal(imperfectScore).setScale(2).divide(BigDecimal.valueOf(10), 2);
+        BigDecimal adPercent = new BigDecimal(advantageScore).setScale(2, RoundingMode.CEILING)
+                .divide(BigDecimal.valueOf(6), RoundingMode.CEILING);
+        BigDecimal imPercent = new BigDecimal(imperfectScore).setScale(2, RoundingMode.CEILING)
+                .divide(BigDecimal.valueOf(10), RoundingMode.CEILING);
 
         try {
             PropertyUtils.setProperty(generalCardTestCustomerResult, adScorePropertyName, adPercent.toString());
