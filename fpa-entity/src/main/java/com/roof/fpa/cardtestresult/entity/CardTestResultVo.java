@@ -20,6 +20,10 @@ public class CardTestResultVo extends CardTestResult {
 	private List<CardTestResultDto> resultDtoList;
 	private List<CardTestResultDetailVo> cardTestResultDetailVoList;
 
+	private Score advantage;
+
+	private Score weakness;
+
 	private String customerName;
 
 	private String customerHeadImageUrl;
@@ -122,5 +126,21 @@ public class CardTestResultVo extends CardTestResult {
 
 	public void setCustomerHeadImageUrl(String customerHeadImageUrl) {
 		this.customerHeadImageUrl = customerHeadImageUrl;
+	}
+
+	public Score getAdvantage() {
+		return advantage;
+	}
+
+	public void setAdvantage(Score advantage) {
+		this.advantage = advantage;
+	}
+
+	public Score getWeakness() {
+		return weakness;
+	}
+
+	public void setWeakness(Score weakness) {
+		this.weakness = weakness;
 	}
 }
