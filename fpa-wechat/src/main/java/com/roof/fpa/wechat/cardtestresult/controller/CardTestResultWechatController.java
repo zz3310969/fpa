@@ -74,6 +74,7 @@ public class CardTestResultWechatController {
         GeneralCardTestCustomerResult cardTestCustomerResult = JSON.parseObject(cardTestResultVo.getResult(),GeneralCardTestCustomerResult.class);
         cardTestResultVo.setAdvantage(Score.toAd(cardTestCustomerResult));
         cardTestResultVo.setWeakness(Score.toIm(cardTestCustomerResult));
+        cardTestResultVo.setPracticeAdvice(cardTestCustomerResult.getPracticeAdvice());
 
         TemplateVo templateVo = templateService.loadByCache(cardTestResultVo.getTemplateId());
         try {

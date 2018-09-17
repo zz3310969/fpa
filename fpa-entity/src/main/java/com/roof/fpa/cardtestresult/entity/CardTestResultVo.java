@@ -24,6 +24,8 @@ public class CardTestResultVo extends CardTestResult {
 
 	private Score weakness;
 
+	private String practiceAdvice;
+
 	private String customerName;
 
 	private String customerHeadImageUrl;
@@ -142,5 +144,13 @@ public class CardTestResultVo extends CardTestResult {
 
 	public void setWeakness(Score weakness) {
 		this.weakness = weakness;
+	}
+
+	public String getPracticeAdvice() {
+		return practiceAdvice;
+	}
+
+	public void setPracticeAdvice(String practiceAdvice) {
+		this.practiceAdvice = practiceAdvice;
 	}
 }
