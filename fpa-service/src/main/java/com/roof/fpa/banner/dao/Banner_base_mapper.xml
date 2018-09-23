@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.fpa.banner.dao">
 
 	<sql id="columns">
-		id, path, image_url, type
+		id, path, image_url, type ,target,params
 	</sql>
 
 	<sql id="columns_as">
-		id as id , path as path , image_url as imageUrl , type as type 
+		id as id , path as path , image_url as imageUrl , type as type ,target as target ,params as params
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{path}, #{imageUrl}, #{type}
+		#{id}, #{path}, #{imageUrl}, #{type} ,#{target} ,#{params}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -27,6 +27,12 @@
 		</if>
 		<if test="type != null and type != ''">
 			and type = #{type}
+		</if>
+		<if test="target != null and target != ''">
+			and target = #{target}
+		</if>
+		<if test="params != null and params != ''">
+			and params = #{params}
 		</if>
 	</sql>
 
@@ -54,7 +60,9 @@
 		<set>
 			id=#{id}, 
 			path=#{path}, 
-			image_url=#{imageUrl}, 
+			image_url=#{imageUrl},
+			target=#{target},
+			params=#{params},
 			type=#{type}
 		</set>
 		where id=#{id} 
@@ -71,6 +79,12 @@
 		</if>
 		<if test="imageUrl != null and imageUrl != ''">
 			image_url=#{imageUrl}, 
+		</if>
+		<if test="target != null and target != ''">
+			target=#{target},
+		</if>
+		<if test="params != null and params != ''">
+			params=#{params},
 		</if>
 		<if test="type != null and type != ''">
 			type=#{type}
@@ -90,6 +104,12 @@
 			</if>
 			<if test="imageUrl != null and imageUrl != ''">
 			image_url=#{imageUrl}, 
+			</if>
+			<if test="target != null and target != ''">
+				target=#{target},
+			</if>
+			<if test="params != null and params != ''">
+				params=#{params},
 			</if>
 			<if test="type != null and type != ''">
 			type=#{type}

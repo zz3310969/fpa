@@ -3,7 +3,8 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.fpa.banner.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.path as path, t1.image_url as imageUrl, t1.type as type
+		t1.id as id, t1.path as path, t1.image_url as imageUrl, t1.type as type,
+		target as target ,params as params
 	</sql>
 	
 	<select id="selectBannerPage" resultType="com.roof.fpa.banner.entity.BannerVo">
