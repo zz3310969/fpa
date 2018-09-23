@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.roof.fpa.cardtestresult.entity.CardTestResult;
 import com.roof.fpa.cardtestresult.entity.CardTestResultVo;
 import com.roof.fpa.cardtestresult.entity.GeneralCardTestCustomerResult;
+import com.roof.fpa.cardtestresult.entity.Score;
 import com.roof.fpa.cardtestresult.service.api.ICardTestResultService;
 import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetail;
 import com.roof.fpa.cardtestresultdetail.service.api.ICardTestResultDetailService;
@@ -69,6 +70,12 @@ public class CardTestResultWechatController {
     public @ResponseBody
     Result<CardTestResultVo> load_v2(@PathVariable Long id) {
         CardTestResultVo cardTestResultVo = cardTestResultService.load(new CardTestResult(id));
+
+        GeneralCardTestCustomerResult cardTestCustomerResult = JSON.parseObject(cardTestResultVo.getResult(),GeneralCardTestCustomerResult.class);
+        cardTestResultVo.setAdvantage(Score.toAd(cardTestCustomerResult));
+        cardTestResultVo.setWeakness(Score.toIm(cardTestCustomerResult));
+        cardTestResultVo.setPracticeAdvice(cardTestCustomerResult.getPracticeAdvice());
+
         TemplateVo templateVo = templateService.loadByCache(cardTestResultVo.getTemplateId());
         try {
             cardTestResultVo.setResult(templateService.mergeTemplate(templateVo.getContent(), JSON.parseObject(cardTestResultVo.getResult())));

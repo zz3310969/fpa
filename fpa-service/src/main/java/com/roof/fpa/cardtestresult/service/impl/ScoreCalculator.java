@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * 得分计算
@@ -57,12 +59,14 @@ public class ScoreCalculator {
                 LOGGER.info("color:{}, cardUnitScore:{}, cardSlotWeight:{}, score:{}", color, cardUnit.getScore(), cardSlot.getWeight(), score);
             }
         }
-        advantageScore = advantageScore * 100 / 6;
-        imperfectScore = imperfectScore * 10;
+        BigDecimal adPercent = new BigDecimal(advantageScore).setScale(2, RoundingMode.CEILING)
+                .divide(BigDecimal.valueOf(6), RoundingMode.CEILING);
+        BigDecimal imPercent = new BigDecimal(imperfectScore).setScale(2, RoundingMode.CEILING)
+                .divide(BigDecimal.valueOf(10), RoundingMode.CEILING);
 
         try {
-            PropertyUtils.setProperty(generalCardTestCustomerResult, adScorePropertyName, String.valueOf(advantageScore));
-            PropertyUtils.setProperty(generalCardTestCustomerResult, imScorePropertyName, String.valueOf(imperfectScore));
+            PropertyUtils.setProperty(generalCardTestCustomerResult, adScorePropertyName, adPercent.toString());
+            PropertyUtils.setProperty(generalCardTestCustomerResult, imScorePropertyName, imPercent.toString());
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             LOGGER.error(e.getMessage(), e);
         }

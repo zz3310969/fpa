@@ -39,21 +39,21 @@ public class PracticeAdvice {
     }
 
     public String doNode(GeneralCardTestCustomerResult generalCardTestCustomerResult) {
-        Map<String, Integer> adScoreMap = new HashMap<>();
-        adScoreMap.put("red", Integer.valueOf(generalCardTestCustomerResult.getRedAdScore()));
-        adScoreMap.put("blue", Integer.valueOf(generalCardTestCustomerResult.getBlueAdScore()));
-        adScoreMap.put("yellow", Integer.valueOf(generalCardTestCustomerResult.getYellowAdScore()));
-        adScoreMap.put("green", Integer.valueOf(generalCardTestCustomerResult.getGreenAdScore()));
-        List<Map.Entry<String, Integer>> adSoreList = sortByValue(adScoreMap);
+        Map<String, Double> adScoreMap = new HashMap<>();
+        adScoreMap.put("red", Double.valueOf(generalCardTestCustomerResult.getRedAdScore()));
+        adScoreMap.put("blue", Double.valueOf(generalCardTestCustomerResult.getBlueAdScore()));
+        adScoreMap.put("yellow", Double.valueOf(generalCardTestCustomerResult.getYellowAdScore()));
+        adScoreMap.put("green", Double.valueOf(generalCardTestCustomerResult.getGreenAdScore()));
+        List<Map.Entry<String, Double>> adSoreList = sortByValue(adScoreMap);
         String adColor = adSoreList.get(adSoreList.size() - 1).getKey();
 
-        Map<String, Integer> imScoreMap = new HashMap<>();
-        imScoreMap.put("red", Integer.valueOf(generalCardTestCustomerResult.getRedImScore()));
-        imScoreMap.put("blue", Integer.valueOf(generalCardTestCustomerResult.getBlueImScore()));
-        imScoreMap.put("yellow", Integer.valueOf(generalCardTestCustomerResult.getYellowImScore()));
-        imScoreMap.put("green", Integer.valueOf(generalCardTestCustomerResult.getGreenImScore()));
+        Map<String, Double> imScoreMap = new HashMap<>();
+        imScoreMap.put("red", Double.valueOf(generalCardTestCustomerResult.getRedImScore()));
+        imScoreMap.put("blue", Double.valueOf(generalCardTestCustomerResult.getBlueImScore()));
+        imScoreMap.put("yellow", Double.valueOf(generalCardTestCustomerResult.getYellowImScore()));
+        imScoreMap.put("green", Double.valueOf(generalCardTestCustomerResult.getGreenImScore()));
 
-        List<Map.Entry<String, Integer>> imScoreList = sortByValue(imScoreMap);
+        List<Map.Entry<String, Double>> imScoreList = sortByValue(imScoreMap);
         String imColor = imScoreList.get(imScoreList.size() - 1).getKey();
 
         String key = adColor + "_" + imColor;
@@ -62,8 +62,8 @@ public class PracticeAdvice {
         return "success";
     }
 
-    private List<Map.Entry<String, Integer>> sortByValue(Map<String, Integer> map) {
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
+    private List<Map.Entry<String, Double>> sortByValue(Map<String, Double> map) {
+        List<Map.Entry<String, Double>> list = new ArrayList<>(map.entrySet());
         //升序排序
         list.sort(Comparator.comparing(Map.Entry::getValue));
         return list;
