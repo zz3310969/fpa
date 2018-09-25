@@ -22,6 +22,7 @@ import com.roof.fpa.theme.entity.ThemeVo;
 import com.roof.fpa.weixin.service.impl.WeChatDto;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
+import org.roof.roof.dataaccess.api.FastPage;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
@@ -45,10 +46,22 @@ public class CustomerWechatController {
 	private ExecutorService executorService = Executors.newFixedThreadPool(1);
 
 
+	@RequestMapping(value = "v2/customer/friends", method = {RequestMethod.GET})
+	public @ResponseBody Result<List<CustomerVo>> listv2(CustomerVo customer, HttpServletRequest request) {
+		List<CustomerVo> page = customerService.friends(customer);
+		return new Result(Result.SUCCESS, page);
+	}
+
 	@RequestMapping(value = "customer/friends", method = {RequestMethod.GET})
 	public @ResponseBody Result<Page> list(CustomerVo customer, HttpServletRequest request) {
 		Page page = PageUtils.createPage(request);
 		page = customerService.friendsPage(page, customer);
+		return new Result(Result.SUCCESS, page);
+	}
+
+	@RequestMapping(value = "customer/best/friends", method = {RequestMethod.GET})
+	public @ResponseBody Result<List<CustomerVo>> best_list(CustomerVo customer, HttpServletRequest request) {
+		List<CustomerVo> page = customerService.bestFriends( customer);
 		return new Result(Result.SUCCESS, page);
 	}
 

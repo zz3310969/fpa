@@ -54,6 +54,29 @@
 		where weixin_open_id=#{weixinOpenId}
 	</select>
 
+	<select id="selectCustomerFriends" resultType="com.roof.fpa.customer.entity.CustomerVo">
+		SELECT
+		<include refid="columnsAs"/>
+		FROM
+		(SELECT
+		share_customer_id AS customer_id
+		FROM
+		c_card_test_result
+		WHERE customer_id = #{id}
+		AND share_customer_id IS NOT NULL
+		AND share_customer_id != #{id}
+		UNION
+		SELECT
+		customer_id
+		FROM
+		c_card_test_result
+		WHERE share_customer_id =  #{id}
+		AND customer_id !=  #{id} limit 0, 100) f
+		LEFT JOIN c_customer t1
+		ON f.customer_id = t1.id
+		WHERE id != ''
+	</select>
+
 
 	<select id="selectCustomerFriendsPage" resultType="com.roof.fpa.customer.entity.CustomerVo">
 		SELECT
@@ -75,6 +98,7 @@
 		AND customer_id !=  #{id} limit #{firstrownum}, #{limit} ) f
 		LEFT JOIN c_customer t1
 		ON f.customer_id = t1.id
+		WHERE id != ''
 	</select>
 
 	<select id="selectCustomerFriendsCount" resultType="java.lang.Long">

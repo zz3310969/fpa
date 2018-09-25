@@ -2,10 +2,7 @@ package com.roof.fpa.customer.service.impl;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.roof.advisory.wxsession.service.api.IWxSessionService;
 import com.roof.fpa.DefaultUseableEnum;
@@ -150,6 +147,47 @@ public class CustomerService implements ICustomerService {
         }
         page.setDataList(vos);
         return page;
+    }
+
+    @Override
+    public List<CustomerVo> friends(Customer customer) {
+        List<CustomerVo> vos =(List<CustomerVo>) customerDao.selectForList("selectCustomerFriends", customer);
+        for (CustomerVo vo : vos) {
+            CardTestResult testResult = cardTestResultService.selectForLastByUserId(vo.getId(), null);
+            vo.setTestResult(testResult);
+        }
+        return vos;
+    }
+
+    @Override
+    public List<CustomerVo> bestFriends(Customer customer) {
+        List<CustomerVo> vos =(List<CustomerVo>) customerDao.selectForList("selectCustomerFriends", customer);
+        List<CustomerVo> customerVos = new ArrayList<>();
+
+        for (int i = vos.size() -1;i >= 0 && i >=  vos.size() -10 ;i -- ){
+            CardTestResult testResult = cardTestResultService.selectForLastByUserId(vos.get(i).getId(), null);
+
+            TreeMap<String,String> treeMap = new TreeMap(new Comparator<String>() {
+
+                @Override
+                public int compare(String o1, String o2) {
+                    return Integer.valueOf(o2).compareTo(Integer.valueOf(o1));
+                }
+
+            });
+            treeMap.put(testResult.getRedScore(),"red");
+            treeMap.put(testResult.getBlueScore(),"blue");
+            treeMap.put(testResult.getGreenScore(),"green");
+            treeMap.put(testResult.getYellowScore(),"yellow");
+            Iterator<String> it = treeMap.keySet().iterator();
+            String first = it.next();
+
+            vos.get(i).setFpaColor(treeMap.get(first));
+            customerVos.add(vos.get(i));
+        }
+
+
+        return customerVos;
     }
 
     public CustomerVo loadByOpenid(String openId) {

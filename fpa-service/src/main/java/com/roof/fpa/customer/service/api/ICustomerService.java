@@ -64,6 +64,10 @@ public interface ICustomerService {
 
 	public abstract Page friendsPage(Page page, Customer customer);
 
+	public abstract List<CustomerVo> friends(Customer customer);
+	public abstract List<CustomerVo> bestFriends(Customer customer);
+
+
 	/**
 	 * 根据openId查询
 	 */

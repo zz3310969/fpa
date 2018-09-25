@@ -30,6 +30,9 @@ public class CustomerVo extends Customer {
 
     private String[] types;
 
+    private String fpaColor;
+
+
 
     public CustomerVo() {
         super();
@@ -110,5 +113,13 @@ public class CustomerVo extends Customer {
 
     public void setTypes(String[] types) {
         this.types = types;
+    }
+
+    public String getFpaColor() {
+        return fpaColor;
+    }
+
+    public void setFpaColor(String fpaColor) {
+        this.fpaColor = fpaColor;
     }
 }
