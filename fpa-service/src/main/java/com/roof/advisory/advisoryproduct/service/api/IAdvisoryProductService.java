@@ -12,6 +12,7 @@ public interface IAdvisoryProductService {
 
 	/**
 	 * 将对象保存，返回该条记录的操作数量，保存成功之后，将主键填充到参数对象中
+	 * 同事保存价格等信息
 	 */
 	public abstract Serializable save(AdvisoryProduct advisoryProduct);
 

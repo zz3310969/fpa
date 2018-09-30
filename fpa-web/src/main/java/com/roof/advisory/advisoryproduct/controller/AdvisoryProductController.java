@@ -89,7 +89,7 @@ public class AdvisoryProductController {
     @RequestMapping(value = "advisoryproduct", method = {RequestMethod.POST})
     public @ResponseBody
     Result create(@RequestBody AdvisoryProduct advisoryProduct) {
-        if (advisoryProduct != null) {
+        if (advisoryProduct != null && advisoryProduct.getAdvisoryPricing() != null) {
             advisoryProductService.save(advisoryProduct);
             return new Result("保存成功!");
         } else {
@@ -109,7 +109,8 @@ public class AdvisoryProductController {
     @RequestMapping(value = "advisoryproduct/{id}", method = {RequestMethod.PUT})
     public @ResponseBody
     Result update(@PathVariable Long id, @RequestBody AdvisoryProduct advisoryProduct) {
-        if (id != null && advisoryProduct != null) {
+        if (id != null && advisoryProduct != null && advisoryProduct.getAdvisoryPricing() != null && advisoryProduct.getAdvisoryPricing().getId()
+                != null) {
             advisoryProduct.setId(id);
             advisoryProductService.updateIgnoreNull(advisoryProduct);
             return new Result("保存成功!");

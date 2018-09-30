@@ -3,21 +3,45 @@ package com.roof.advisory.advisoryproduct.service.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import com.roof.advisory.advisorypricing.entity.AdvisoryPricing;
+import com.roof.advisory.advisorypricing.entity.AdvisoryPricingVo;
+import com.roof.advisory.advisorypricing.service.api.IAdvisoryPricingService;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.advisory.advisoryproduct.dao.api.IAdvisoryProductDao;
 import com.roof.advisory.advisoryproduct.entity.AdvisoryProduct;
 import com.roof.advisory.advisoryproduct.entity.AdvisoryProductVo;
 import com.roof.advisory.advisoryproduct.service.api.IAdvisoryProductService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author liht
+ */
 @Service
 public class AdvisoryProductService implements IAdvisoryProductService {
     private IAdvisoryProductDao advisoryProductDao;
 
+    @Autowired
+    private IAdvisoryPricingService advisoryPricingService;
+
+    @Override
     public Serializable save(AdvisoryProduct advisoryProduct) {
         advisoryProduct.setState(1);
+        //保存价格
+        if (advisoryProduct.getAdvisoryPricing() != null) {
+            AdvisoryPricing pricing = advisoryProduct.getAdvisoryPricing();
+            pricing.setState(1);
+            pricing.setAppId(advisoryProduct.getAppId());
+            pricing.setConsultantId(advisoryProduct.getConsId());
+            pricing.setValidityStartTime(advisoryProduct.getValidityStartTime());
+            pricing.setValidityEndTime(advisoryProduct.getValidityEndTime());
+            pricing.setFixType("ALONE");
+            pricing.setStatus(1);
+            advisoryPricingService.save(pricing);
+            advisoryProduct.setAdvisId(pricing.getId());
+        }
         return advisoryProductDao.save(advisoryProduct);
     }
 
@@ -33,7 +57,11 @@ public class AdvisoryProductService implements IAdvisoryProductService {
         advisoryProductDao.update(advisoryProduct);
     }
 
+    @Override
     public void updateIgnoreNull(AdvisoryProduct advisoryProduct) {
+        if (advisoryProduct.getAdvisoryPricing() != null && advisoryProduct.getId() != null) {
+            advisoryPricingService.updateIgnoreNull(advisoryProduct.getAdvisoryPricing());
+        }
         advisoryProductDao.updateIgnoreNull(advisoryProduct);
     }
 
@@ -41,8 +69,15 @@ public class AdvisoryProductService implements IAdvisoryProductService {
         advisoryProductDao.update("updateByExampleAdvisoryProduct", advisoryProduct);
     }
 
+    @Override
     public AdvisoryProductVo load(AdvisoryProduct advisoryProduct) {
-        return (AdvisoryProductVo) advisoryProductDao.reload(advisoryProduct);
+        AdvisoryProductVo productVo = (AdvisoryProductVo) advisoryProductDao.reload(advisoryProduct);
+
+        AdvisoryPricingVo advisoryProductVo = advisoryPricingService.load(new AdvisoryPricing(productVo.getAdvisId()));
+        AdvisoryPricing advisoryPricing = new AdvisoryPricing();
+        BeanUtils.copyProperties(advisoryProductVo, advisoryPricing);
+        productVo.setAdvisoryPricing(advisoryPricing);
+        return productVo;
     }
 
     @Override
@@ -57,7 +92,16 @@ public class AdvisoryProductService implements IAdvisoryProductService {
 
     @Override
     public Page page(Page page, AdvisoryProduct advisoryProduct) {
-        return advisoryProductDao.page(page, advisoryProduct);
+        page = advisoryProductDao.page(page, advisoryProduct);
+        List<AdvisoryProductVo> list = (List<AdvisoryProductVo>) page.getDataList();
+        for (AdvisoryProductVo vo : list
+                ) {
+            AdvisoryPricingVo advisoryProductVo = advisoryPricingService.load(new AdvisoryPricing(vo.getAdvisId()));
+            AdvisoryPricing advisoryPricing = new AdvisoryPricing();
+            BeanUtils.copyProperties(advisoryProductVo, advisoryPricing);
+            vo.setAdvisoryPricing(advisoryPricing);
+        }
+        return page;
     }
 
     @Override
