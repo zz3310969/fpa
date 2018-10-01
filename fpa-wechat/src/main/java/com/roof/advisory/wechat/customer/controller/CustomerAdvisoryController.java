@@ -1,5 +1,6 @@
 package com.roof.advisory.wechat.customer.controller;
 
+import com.google.common.collect.Maps;
 import com.roof.advisory.OrderStatusEnum;
 import com.roof.advisory.WechatRecordTypeEnum;
 import com.roof.advisory.advisoryorder.entity.AdvisoryOrder;
@@ -25,6 +26,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jdom2.JDOMException;
+import org.roof.account.api.AccountType;
+import org.roof.account.api.IAccountOperateService;
+import org.roof.account.entity.Account;
 import org.roof.commons.RoofDateUtils;
 import org.roof.spring.Result;
 import org.slf4j.Logger;
@@ -50,6 +54,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -86,6 +91,9 @@ public class CustomerAdvisoryController {
 
     @Autowired
     private ICustomerService customerService;
+
+    @Autowired
+    private IAccountOperateService accountOperateService;
 
     protected Chain chatOrderCreateChain;
 
@@ -173,6 +181,11 @@ public class CustomerAdvisoryController {
             logger.info("充值成功！");
             //更新订单？
             AdvisoryOrderVo advisoryOrderVo = advisoryOrderService.loadByOrdernum(map.get("out_trade_no"));
+
+            Account account = accountOperateService.queryByUserType(advisoryOrderVo.getConsId(), AccountType.local);
+            //consId
+            Map<String,String> map1 = new HashMap<>();
+            accountOperateService.recharge(account.getId(), Integer.valueOf(map.get("cash_fee")), map1);
             if (advisoryOrderVo.getPayTime() == null) {
                 //更新订单
                 AdvisoryOrder order = new AdvisoryOrder();

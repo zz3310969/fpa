@@ -54,6 +54,14 @@
 		where weixin_open_id=#{weixinOpenId}
 	</select>
 
+
+	<select id="loadCustomerByOpenIdAndResultId" resultType="com.roof.fpa.customer.entity.CustomerVo">
+		select
+		<include refid="columns_as"/>,
+		(SELECT id FROM c_card_test_result WHERE customer_id = c.id ORDER BY  test_date DESC LIMIT 1) as 'testResult.id'
+		from c_customer c
+		where weixin_open_id=#{weixinOpenId}
+	</select>
 	<select id="selectCustomerFriends" resultType="com.roof.fpa.customer.entity.CustomerVo">
 		SELECT
 		<include refid="columnsAs"/>

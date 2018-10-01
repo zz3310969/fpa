@@ -1,5 +1,6 @@
 package com.roof.advisory.consultant.service.impl;
 
+import com.google.common.collect.Maps;
 import com.roof.advisory.area.entity.Area;
 import com.roof.advisory.area.entity.AreaVo;
 import com.roof.advisory.area.service.api.IAreaService;
@@ -13,6 +14,8 @@ import com.roof.advisory.im.service.impl.ImService;
 import com.roof.advisory.wxsession.service.api.IWxSessionService;
 import com.roof.fpa.DefaultStateEnum;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.roof.account.api.AccountType;
+import org.roof.account.api.IAccountOperateService;
 import org.roof.commons.PropertiesUtil;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.web.role.entity.BaseRole;
@@ -53,13 +56,18 @@ public class ConsultantService implements IConsultantService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    private IAccountOperateService accountOperateService;
+
 
     public Serializable save(Consultant consultant) {
         User user = counselorConsultant(consultant);
         userService.save(user);
         consultant.setUserId(user.getId());
         consultant.setState(DefaultStateEnum.usable.getCode());
-        return consultantDao.save(consultant);
+
+        Long id = (Long) consultantDao.save(consultant);
+        accountOperateService.create(id, AccountType.local, Maps.newHashMap());
+        return id;
     }
 
     private User counselorConsultant(Consultant consultant) {

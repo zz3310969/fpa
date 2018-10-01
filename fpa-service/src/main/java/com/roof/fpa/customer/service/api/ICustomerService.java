@@ -72,7 +72,7 @@ public interface ICustomerService {
 	 * 根据openId查询
 	 */
 	public CustomerVo loadByOpenid(String openId);
-
+	public CustomerVo loadByOpenidAndResultId(String openId) ;
 	/**
 	 * 存在openid就更新，没有就保存
 	 * @param customer

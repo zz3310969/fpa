@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.roof.account.jdbc.mapper.AccountFlowMapper" >
+  <resultMap id="BaseResultMap" type="org.roof.account.entity.AccountFlow" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="serial_number" property="serialNumber" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="account_id" property="accountId" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_time" property="lastTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="last_balance" property="lastBalance" jdbcType="INTEGER" />
+    <result column="tag1" property="tag1" jdbcType="VARCHAR" />
+    <result column="tag2" property="tag2" jdbcType="VARCHAR" />
+    <result column="tag3" property="tag3" jdbcType="VARCHAR" />
+    <result column="tag4" property="tag4" jdbcType="VARCHAR" />
+    <result column="tag5" property="tag5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, serial_number, user_id, account_id, amount, create_time, last_time, remark, last_balance, tag1, tag2, tag3, tag4, tag5
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from s_account_flow
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from s_account_flow
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.roof.account.entity.AccountFlow" >
+    insert into s_account_flow (id, serial_number, user_id, 
+      account_id, amount, create_time, 
+      last_time, remark, last_balance, tag1, tag2, tag3, tag4, tag5
+      )
+    values (#{id,jdbcType=BIGINT}, #{serialNumber,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
+      #{accountId,jdbcType=BIGINT}, #{amount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{lastBalance,jdbcType=INTEGER}, #{tag1,jdbcType=VARCHAR}, #{tag2,jdbcType=VARCHAR},
+            #{tag3,jdbcType=VARCHAR}, #{tag4,jdbcType=VARCHAR}, #{tag5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="org.roof.account.entity.AccountFlow" >
+    insert into s_account_flow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="serialNumber != null" >
+        serial_number,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="accountId != null" >
+        account_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastTime != null" >
+        last_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="lastBalance != null" >
+        last_balance,
+      </if>
+      <if test="tag1 != null" >
+        tag1,
+      </if>
+      <if test="tag2 != null" >
+        tag2,
+      </if>
+      <if test="tag3 != null" >
+        tag3,
+      </if>
+      <if test="tag4 != null" >
+        tag4,
+      </if>
+      <if test="tag5 != null" >
+        tag5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="serialNumber != null" >
+        #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastBalance != null" >
+        #{lastBalance,jdbcType=INTEGER},
+      </if>
+      <if test="tag1 != null" >
+        #{tag1,jdbcType=VARCHAR},
+      </if>
+      <if test="tag2 != null" >
+        #{tag2,jdbcType=VARCHAR},
+      </if>
+      <if test="tag3 != null" >
+        #{tag3,jdbcType=VARCHAR},
+      </if>
+      <if test="tag4 != null" >
+        #{tag4,jdbcType=VARCHAR},
+      </if>
+      <if test="tag5 != null" >
+        #{tag5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.roof.account.entity.AccountFlow" >
+    update s_account_flow
+    <set >
+      <if test="serialNumber != null" >
+        serial_number = #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="accountId != null" >
+        account_id = #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null" >
+        last_time = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastBalance != null" >
+        last_balance = #{lastBalance,jdbcType=INTEGER},
+      </if>
+      <if test="tag1 != null" >
+        tag1 = #{tag1,jdbcType=VARCHAR},
+      </if>
+      <if test="tag2 != null" >
+        tag2 = #{tag2,jdbcType=VARCHAR},
+      </if>
+      <if test="tag3 != null" >
+        tag3 = #{tag3,jdbcType=VARCHAR},
+      </if>
+      <if test="tag4 != null" >
+        tag4 = #{tag4,jdbcType=VARCHAR},
+      </if>
+      <if test="tag5 != null" >
+        tag5 = #{tag5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.roof.account.entity.AccountFlow" >
+    update s_account_flow
+    set serial_number = #{serialNumber,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      account_id = #{accountId,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_time = #{lastTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      last_balance = #{lastBalance,jdbcType=INTEGER},
+      tag1 = #{tag1,jdbcType=VARCHAR},
+      tag2 = #{tag2,jdbcType=VARCHAR},
+      tag3 = #{tag3,jdbcType=VARCHAR},
+      tag4 = #{tag4,jdbcType=VARCHAR},
+      tag5 = #{tag5,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="selectByUserId" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from s_account_flow
+    <where>
+      user_id = #{userId,jdbcType=BIGINT}
+    </where>
+    LIMIT #{offset}, #{limit}
+  </select>
+
+  <select id="queryByUserTypeTotalIncome" resultType="java.lang.Long" >
+    select
+    sum(amount)
+    from s_account_flow
+    <where>
+      user_id = #{userId,jdbcType=BIGINT}
+      and amount > 0
+      <if test="startTime != null and endTime != null" >
+        and create_time BETWEEN #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+
+</mapper>

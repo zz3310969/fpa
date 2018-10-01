@@ -20,6 +20,7 @@
         <module>fpa-entity</module>
         <module>fpa-web</module>
         <module>fpa-wechat</module>
+        <module>fpa-account</module>
     </modules>
 
     <properties>

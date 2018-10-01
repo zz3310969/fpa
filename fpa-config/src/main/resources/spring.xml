@@ -52,6 +52,7 @@
 
 	<!--activiti-->
 	<import resource="classpath*:/activiti/beans-activiti.xml"/>
+	<import resource="classpath*:spring-account.xml" />
 
 
 </beans>

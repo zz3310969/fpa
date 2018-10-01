@@ -62,7 +62,7 @@ public class CustomerController {
 		List<CustomerVo> list = Lists.newArrayList();
 		if(openids != null && openids.length > 0){
 			for (String openid :openids){
-				CustomerVo customerVo = customerService.loadByOpenid(openid);
+				CustomerVo customerVo = customerService.loadByOpenidAndResultId(openid);
 				if(customerVo != null){
 					list.add(customerVo);
 				}

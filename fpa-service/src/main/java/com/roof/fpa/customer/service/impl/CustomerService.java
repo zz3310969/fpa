@@ -196,6 +196,12 @@ public class CustomerService implements ICustomerService {
         return (CustomerVo) customerDao.selectForObject("loadCustomerByOpenId", customer);
     }
 
+    public CustomerVo loadByOpenidAndResultId(String openId) {
+        Customer customer = new Customer();
+        customer.setWeixinOpenId(openId);
+        return (CustomerVo) customerDao.selectForObject("loadCustomerByOpenIdAndResultId", customer);
+    }
+
 
     public WeChatDto saveOrUpdate(CustomerVo customerVo) {
         Customer customer = new Customer();
