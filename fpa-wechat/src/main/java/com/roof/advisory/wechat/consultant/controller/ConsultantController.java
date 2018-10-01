@@ -42,6 +42,7 @@ public class ConsultantController {
     public @ResponseBody
     Result<Page> list(ConsultantWechatVo consultantWechatVo, HttpServletResponse response, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
+        consultantWechatVo.setState(1);
         page = consultantService.pageWechat(page, consultantWechatVo);
         return new Result(Result.SUCCESS, page);
     }
