@@ -12,6 +12,7 @@ public class WeChatDto {
     private String errmsg;
 
     private Long userId;
+    private Long consId;
     private String[] userTags;
 
     public String getOpenid() {
@@ -76,5 +77,13 @@ public class WeChatDto {
 
     public void setUserTags(String[] userTags) {
         this.userTags = userTags;
+    }
+
+    public Long getConsId() {
+        return consId;
+    }
+
+    public void setConsId(Long consId) {
+        this.consId = consId;
     }
 }

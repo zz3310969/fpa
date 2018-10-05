@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.collect.Maps;
+import com.roof.DateUtil;
 import com.roof.fpa.DefaultStateEnum;
 import com.roof.fpa.GenderEnum;
 import com.roof.fpa.cardtestresult.entity.SimilerResult;
@@ -22,6 +23,10 @@ import com.roof.fpa.theme.entity.ThemeVo;
 import com.roof.fpa.weixin.service.impl.WeChatDto;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
+import org.roof.account.api.AccountType;
+import org.roof.account.api.IAccountOperateService;
+import org.roof.account.entity.Account;
+import org.roof.account.entity.AccountFlow;
 import org.roof.roof.dataaccess.api.FastPage;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
@@ -42,6 +47,9 @@ public class CustomerWechatController {
 
 	@Autowired
 	private IPartnerService partnerService;
+
+	@Autowired
+	private IAccountOperateService accountOperateService;
 
 	private ExecutorService executorService = Executors.newFixedThreadPool(1);
 
@@ -153,6 +161,38 @@ public class CustomerWechatController {
 		});
 		return new Result(Result.SUCCESS);
 	}
+
+
+
+	@RequestMapping(value = "customer/account/{userId}", method = {RequestMethod.GET})
+	public @ResponseBody
+	Result<Account> account(@PathVariable Long userId) {
+		Account account = accountOperateService.queryByUserType(userId, AccountType.local);
+		return new Result(Result.SUCCESS, account);
+	}
+
+	@RequestMapping(value = "customer/account/balance/{userId}", method = {RequestMethod.GET})
+	public @ResponseBody
+	Result<Map> balance(@PathVariable Long userId) {
+		Account account = accountOperateService.queryByUserType(userId, AccountType.local);
+		//Long totalIncome = accountOperateService.queryByUserTypeTotalIncome(userId, AccountType.local);
+		Long todayIncome = accountOperateService.queryByUserTypeTotalIncomeTime(userId, DateUtil.getNowDayStart(),DateUtil.getNowDayEnd());
+		Map<String,Object> map = Maps.newHashMap();
+		//map.put("totalIncome",totalIncome);
+		map.put("todayIncome",todayIncome);
+		map.put("deposit",account.getBalance());
+		return new Result(Result.SUCCESS, map);
+	}
+
+	@RequestMapping(value = "customer/accountflow/{userId}", method = {RequestMethod.GET})
+	public @ResponseBody
+	Result<List<AccountFlow>> accountFlows(@PathVariable Long userId, HttpServletRequest request) {
+		Page page = PageUtils.createPage(request);
+
+		List<AccountFlow> accountFlows = accountOperateService.queryFlowByUser(userId, page.getStart(), page.getLimit());
+		return new Result(Result.SUCCESS, accountFlows);
+	}
+
 
 
 	@Autowired(required = true)

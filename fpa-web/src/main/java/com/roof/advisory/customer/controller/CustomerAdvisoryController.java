@@ -56,7 +56,7 @@ public class CustomerAdvisoryController {
     @Autowired
     private ICustomerService customerService;
 
-    @ApiOperation(value = "客户咨询初始化")
+    @ApiOperation(value = "客户咨询关闭")
     @RequestMapping(value = "customer/closeseesion", method = {RequestMethod.POST})
     public @ResponseBody
     Result close(@RequestBody Map map,  HttpServletRequest request) {
@@ -65,9 +65,8 @@ public class CustomerAdvisoryController {
 
         String token = (String) map.get("token");
         String weixinOpenId = (String) map.get("weixinOpenId");
-        Long consultantId = Long.valueOf(map.get("consultantId")+"");
 
-        Long sessionId = (Long) map.get("sessionId");
+        Long sessionId = Long.valueOf(map.get("sessionId").toString());
 
         //创建订单,绑定sessionId
         /*AdvisoryOrder order = new AdvisoryOrder();
@@ -79,6 +78,7 @@ public class CustomerAdvisoryController {
         //开始远程调用openseesion
         ImRequest imRequest = new ImRequest();
         imRequest.setToken(token);
+        imRequest.setSessionId(sessionId);
         imRequest.setSender(weixinOpenId);
         imRequest.setReceiver(user.getUsername());
         imRequest.setRequestType(ImRequest.IM_CLOSENSESSION);

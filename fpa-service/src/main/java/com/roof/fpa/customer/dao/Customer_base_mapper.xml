@@ -5,7 +5,7 @@
 
 	<sql id="columns">
 		id, weixin_open_id, weixin_head_image, nick_name, name, mobile, gender, area,
-		follow_time, country, province, city, language,useable,unionid,user_id,binary_type
+		follow_time, country, province, city, language,useable,unionid,user_id,binary_type,cons_id
 	</sql>
 
 	<sql id="columns_as">
@@ -13,7 +13,7 @@
 		nick_name as nickName , name as name , mobile as mobile , gender as gender ,
 		area as area , follow_time as followTime , country as country , province as province ,
 		city as city , language as language ,useable as useable,unionid as unionid,user_id as userId ,
-		binary_type as binaryType
+		binary_type as binaryType,cons_id as consId
 	</sql>
 
 
@@ -21,7 +21,7 @@
 		#{id}, #{weixinOpenId}, #{weixinHeadImage}, #{nickName}, #{name}, #{mobile},
 		#{gender}, #{area}, #{followTime}, #{country}, #{province}, #{city},
 		#{language},#{useable},#{unionid},#{userId} ,
-		#{binaryType}
+		#{binaryType},#{consId}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -75,7 +75,9 @@
 		<if test="binaryType != null ">
 			and binary_type = #{binaryType}
 		</if>
-
+		<if test="consId != null ">
+			and cons_id = #{consId}
+		</if>
 	</sql>
 
 	<insert id="saveCustomer" parameterType="com.roof.fpa.customer.entity.Customer" useGeneratedKeys="true" keyProperty="id">
@@ -116,7 +118,9 @@
 			language=#{language},
 			unionid = #{unionid},
 			binary_type = #{binaryType},
-			user_id = #{userId}
+			user_id = #{userId},
+			cons_id = #{consId}
+
 		</set>
 		where id=#{id} 
 	</update>
@@ -173,7 +177,10 @@
 			user_id = #{userId},
 		</if>
 		<if test="binaryType != null ">
-			binary_type = #{binaryType}
+			binary_type = #{binaryType},
+		</if>
+		<if test="consId != null ">
+			 cons_id = #{consId}
 		</if>
 		</set>
 		where id=#{id} 
@@ -231,7 +238,10 @@
 				user_id = #{userId},
 			</if>
 			<if test="binaryType != null ">
-				binary_type = #{binaryType}
+				binary_type = #{binaryType},
+			</if>
+			<if test="consId != null ">
+				cons_id = #{consId}
 			</if>
 		</set>
 		where 1=1

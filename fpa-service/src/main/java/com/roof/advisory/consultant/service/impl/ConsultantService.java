@@ -55,7 +55,7 @@ public class ConsultantService implements IConsultantService {
 
     @Autowired
     private RedisTemplate redisTemplate;
-
+    @Autowired
     private IAccountOperateService accountOperateService;
 
 

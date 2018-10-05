@@ -19,6 +19,7 @@ import com.roof.advisory.im.service.api.IImService;
 import com.roof.chain.api.Chain;
 import com.roof.chain.api.ValueStack;
 import com.roof.chain.support.GenericValueStack;
+import com.roof.fpa.cache.api.ICacheHander;
 import com.roof.fpa.customer.entity.CustomerVo;
 import com.roof.fpa.customer.service.api.ICustomerService;
 import com.roof.fpa.order.entity.OrderVo;
@@ -31,6 +32,7 @@ import org.roof.account.api.IAccountOperateService;
 import org.roof.account.entity.Account;
 import org.roof.commons.RoofDateUtils;
 import org.roof.spring.Result;
+import org.roof.web.dictionary.entity.Dictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -51,6 +53,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.text.ParseException;
 import java.util.Date;
@@ -73,6 +76,9 @@ public class CustomerAdvisoryController {
 
     @Autowired
     private IImService imService;
+
+    @Autowired
+    private ICacheHander cacheHander;
 
     @Autowired
     private IConsultantService consultantService;
@@ -185,7 +191,13 @@ public class CustomerAdvisoryController {
             Account account = accountOperateService.queryByUserType(advisoryOrderVo.getConsId(), AccountType.local);
             //consId
             Map<String,String> map1 = new HashMap<>();
-            accountOperateService.recharge(account.getId(), Integer.valueOf(map.get("cash_fee")), map1);
+
+            Dictionary SHARING_RATIO =  cacheHander.loadDictionaryById(241L);
+            Integer cash_fee = Integer.valueOf(map.get("cash_fee"));
+            BigDecimal ratio = new BigDecimal(SHARING_RATIO.getVal());
+            map1.put("remark","咨询分成");
+            map1.put("tag1",map.get("out_trade_no"));
+            accountOperateService.recharge(account.getId(),ratio.multiply(BigDecimal.valueOf(cash_fee)).setScale(0).intValue() , map1);
             if (advisoryOrderVo.getPayTime() == null) {
                 //更新订单
                 AdvisoryOrder order = new AdvisoryOrder();

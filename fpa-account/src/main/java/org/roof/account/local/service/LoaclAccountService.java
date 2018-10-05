@@ -85,6 +85,12 @@ public class LoaclAccountService implements IAccountService, InitializingBean {
                 AccountFlow accountFlow = new AccountFlow(account.getUserId(), account.getId(), money);
                 accountFlow.setLastTime(new Date());
                 accountFlow.setLastBalance(account.getBalance() + money);
+                accountFlow.setRemark(map.get("remark"));
+                accountFlow.setTag1(map.get("tag1"));
+                accountFlow.setTag2(map.get("tag2"));
+                accountFlow.setTag3(map.get("tag3"));
+                accountFlow.setTag4(map.get("tag4"));
+                accountFlow.setTag5(map.get("tag5"));
                 accountFlowMapper.insert(accountFlow);
                 return;
             }

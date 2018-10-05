@@ -65,7 +65,7 @@ public class QuickReplyController {
 		List<QuickReplyVo>  publics  =  quickReplyService.selectForList(quickReply);
 
 		User user = (User) BaseUserContext.getCurrentUser(request);
-		//quickReply.setUserId(user.getId());
+		quickReply.setUserId(user.getId());
 		quickReply.setType("PRIVATE");
 		List<QuickReplyVo> privates =  quickReplyService.selectForList(quickReply);
 		publics.addAll(privates);
