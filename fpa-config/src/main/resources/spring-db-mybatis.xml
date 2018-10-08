@@ -79,6 +79,8 @@
 				<value>classpath:**/*_mapper.xml</value>
 				<value>classpath*:com/**/*_mapper.xml</value>
 				<value>classpath*:org/**/*_mapper.xml</value>
+				<value>classpath*:org/**/*Mapper.xml</value>
+
 			</array>
 		</property>
 	</bean>

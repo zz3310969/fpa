@@ -234,6 +234,7 @@ public class CustomerService implements ICustomerService {
                 weChatDto.setUserTags(CustomerTypeTransform.getAllUserTag(vo.getBinaryType()));
             }
             weChatDto.setUserId(vo.getId());
+            weChatDto.setConsId(vo.getConsId());
         }
         weChatDto.setSession_token(wxSessionService.createToken(weChatDto.getOpenid()));
         return weChatDto;

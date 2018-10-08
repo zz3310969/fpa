@@ -54,6 +54,8 @@ public class Customer implements Serializable {
 
     protected Long userId;
 
+    protected Long consId;
+
     public Customer() {
         super();
     }
@@ -198,5 +200,13 @@ public class Customer implements Serializable {
 
     public void setBinaryType(Long binaryType) {
         this.binaryType = binaryType;
+    }
+
+    public Long getConsId() {
+        return consId;
+    }
+
+    public void setConsId(Long consId) {
+        this.consId = consId;
     }
 }

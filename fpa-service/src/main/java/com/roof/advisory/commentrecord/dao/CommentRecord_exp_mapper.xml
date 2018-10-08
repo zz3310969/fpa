@@ -5,7 +5,7 @@
 	<sql id="columnsAs">
 		t1.app_id as appId, t1.item_id as itemId, t1.consultant_id as consultantId,
 		t1.eval_result as evalResult, t1.order_number as orderNumber, t1.evaluator as evaluator,
-		t1.eval_time as evalTime, t1.status as status, t1.state as state, t1.id as id
+		t1.eval_time as evalTime, t1.status as status, t1.state as state, t1.id as id, t1.score as score
 	</sql>
 	
 	<select id="selectCommentRecordPage" resultType="com.roof.advisory.commentrecord.entity.CommentRecordVo">

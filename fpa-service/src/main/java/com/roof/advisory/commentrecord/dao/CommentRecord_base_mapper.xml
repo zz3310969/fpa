@@ -4,16 +4,16 @@
 <mapper namespace="com.roof.advisory.commentrecord.dao">
 
     <sql id="columns">
-		app_id, item_id, consultant_id, eval_result, order_number, evaluator, eval_time, status, state, id
+		app_id, item_id, consultant_id, eval_result, order_number, evaluator, eval_time, status, state, id, score
 	</sql>
 
     <sql id="columns_as">
-		app_id as appId , item_id as itemId , consultant_id as consultantId , eval_result as evalResult , order_number as orderNumber , evaluator as evaluator , eval_time as evalTime , status as status , state as state , id as id 
+		app_id as appId , item_id as itemId , consultant_id as consultantId , eval_result as evalResult , order_number as orderNumber , evaluator as evaluator , eval_time as evalTime , status as status , state as state , id as id , score as score
 	</sql>
 
 
     <sql id="vals">
-		#{appId}, #{itemId}, #{consultantId}, #{evalResult}, #{orderNumber}, #{evaluator}, #{evalTime}, #{status}, #{state}, #{id}
+		#{appId}, #{itemId}, #{consultantId}, #{evalResult}, #{orderNumber}, #{evaluator}, #{evalTime}, #{status}, #{state}, #{id}, #{score}
 	</sql>
     <sql id="conds">
         <if test="appId != null">
@@ -46,6 +46,9 @@
         </if>
         <if test="id != null">
             and id = #{id}
+        </if>
+        <if test="score != null">
+            and score = #{score}
         </if>
     </sql>
 
@@ -81,7 +84,8 @@
             eval_time=#{evalTime},
             status=#{status},
             state=#{state},
-            id=#{id}
+            id=#{id},
+            score = #{score}
         </set>
         where id=#{id}
     </update>
@@ -117,7 +121,10 @@
                 state=#{state},
             </if>
             <if test="id != null">
-                id=#{id}
+                id=#{id},
+            </if>
+            <if test="score != null">
+                score = #{score}
             </if>
         </set>
         where id=#{id}
@@ -154,7 +161,10 @@
                 state=#{state},
             </if>
             <if test="id != null">
-                id=#{id}
+                id=#{id},
+            </if>
+            <if test="score != null">
+                score = #{score}
             </if>
         </set>
         where 1=1
