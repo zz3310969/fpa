@@ -1,6 +1,7 @@
 package com.roof.fpa.cardtestresult.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.roof.advisory.consultant.entity.Consultant;
+import com.roof.advisory.consultant.entity.ConsultantVo;
+import com.roof.advisory.consultant.service.api.IConsultantService;
 import com.roof.fpa.DefaultStateEnum;
 import com.roof.fpa.GenderEnum;
 import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetail;
@@ -34,6 +38,8 @@ import org.roof.spring.Result;
 import com.roof.fpa.cardtestresult.entity.CardTestResult;
 import com.roof.fpa.cardtestresult.entity.CardTestResultVo;
 import com.roof.fpa.cardtestresult.service.api.ICardTestResultService;
+import org.roof.web.user.entity.User;
+import org.roof.web.user.service.api.BaseUserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +63,9 @@ public class CardTestResultController {
 	@Autowired
 	private TemplateService templateService;
 
+	@Autowired
+	private IConsultantService consultantService;
+
 	@RequestMapping(value = "cardtestresult/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
 		Map<String,Object> map = Maps.newHashMap();
@@ -71,7 +80,16 @@ public class CardTestResultController {
     @RequestMapping(value = "cardtestresult", method = {RequestMethod.GET})
     public @ResponseBody Result<Page> list(CardTestResultVo cardTestResult, HttpServletRequest request) {
 	    Page page = PageUtils.createPage(request);
-	    page = cardTestResultService.page(page, cardTestResult);
+
+		User user = (User) BaseUserContext.getCurrentUser(request);
+		Consultant consultant1 = new Consultant();
+		consultant1.setUserId(user.getId());
+		ConsultantVo consultantVo = consultantService.selectForObject(consultant1);
+		if(consultantVo != null){
+			page.setDataList(new ArrayList<CardTestResultVo>());
+		}else {
+			page = cardTestResultService.page(page, cardTestResult);
+		}
 	    return new Result(Result.SUCCESS, page);
 	}
 	

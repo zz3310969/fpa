@@ -25,6 +25,8 @@ import org.roof.spring.Result;
 import com.roof.advisory.consultant.entity.Consultant;
 import com.roof.advisory.consultant.entity.ConsultantVo;
 import com.roof.advisory.consultant.service.api.IConsultantService;
+import org.roof.web.user.entity.User;
+import org.roof.web.user.service.api.BaseUserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -62,7 +64,15 @@ public class ConsultantController {
 	@ApiOperation(value = "获得咨询师分页列表")
     @RequestMapping(value = "consultant", method = {RequestMethod.GET})
     public @ResponseBody Result<Page> list(Consultant consultant, HttpServletRequest request) {
-	    Page page = PageUtils.createPage(request);
+
+		User user = (User) BaseUserContext.getCurrentUser(request);
+		Consultant consultant1 = new Consultant();
+		consultant1.setUserId(user.getId());
+		ConsultantVo consultantVo = consultantService.selectForObject(consultant1);
+		if(consultantVo != null){
+			consultant.setId(consultantVo.getId());
+		}
+		Page page = PageUtils.createPage(request);
 	    page = consultantService.page(page, consultant);
 	    return new Result(Result.SUCCESS, page);
 	}

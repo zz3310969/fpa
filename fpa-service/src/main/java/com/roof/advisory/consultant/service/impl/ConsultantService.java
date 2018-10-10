@@ -32,10 +32,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ConsultantService implements IConsultantService {
@@ -150,6 +147,20 @@ public class ConsultantService implements IConsultantService {
                 }
             }
         }
+        consultantWechatVos.sort(new Comparator<ConsultantWechatVo>() {
+            @Override
+            public int compare(ConsultantWechatVo o1, ConsultantWechatVo o2) {
+                if (o1.getIsOnline() - o2.getIsOnline() > 0 ){
+                    return -1;
+                }else if (o1.getLevelId() - o2.getLevelId() > 0){
+                    return -1;
+                }else if (o1.getTimes() - o2.getTimes() > 0){
+                    return -1;
+                }else {
+                    return 0;
+                }
+            }
+        });
         pageWechat.setDataList(consultantWechatVos);
         return pageWechat;
     }
