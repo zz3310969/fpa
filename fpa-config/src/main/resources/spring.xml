@@ -26,10 +26,10 @@
 		class="org.roof.commons.CustomizedPropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>file:${fpa.dir}/conf/app-ds.properties</value>
-				<value>file:${fpa.dir}/conf/project.properties</value>
+				<value>file:${fpa.dir}/app-ds.properties</value>
+				<value>file:${fpa.dir}/project.properties</value>
 				<value>classpath:tencent-ocs.properties</value>
-				<value>file:${fpa.dir}/conf/im.properties</value>
+				<value>file:${fpa.dir}/im.properties</value>
 				<value>classpath:/activiti/activiti.properties</value>
 			</list>
 		</property>
