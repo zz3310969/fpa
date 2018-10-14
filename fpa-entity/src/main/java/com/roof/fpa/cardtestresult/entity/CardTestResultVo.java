@@ -1,7 +1,9 @@
 package com.roof.fpa.cardtestresult.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.roof.fpa.cardtestresultdetail.entity.CardTestResultDetailVo;
 import com.roof.fpa.customer.entity.CustomerVo;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -37,6 +39,10 @@ public class CardTestResultVo extends CardTestResult {
 	private Date testDateEnd;// 测试时间
 
 	private CustomerVo customer;
+
+	@JSONField(format = "yyyy年MM月dd日")
+	@ApiModelProperty(value = "测试时间")
+	protected Date testDay;// 测试时间
 
 	private List<Map<String,Object>> chats;
 
@@ -153,4 +159,10 @@ public class CardTestResultVo extends CardTestResult {
 	public void setPracticeAdvice(String practiceAdvice) {
 		this.practiceAdvice = practiceAdvice;
 	}
+
+	public Date getTestDay() {
+		return super.testDate;
+	}
+
+
 }

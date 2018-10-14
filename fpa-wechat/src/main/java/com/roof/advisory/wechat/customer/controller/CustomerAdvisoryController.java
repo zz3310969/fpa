@@ -56,10 +56,7 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.*;
 
 /**
  * com.roof.advisory.wechat.customer.controller
@@ -145,6 +142,39 @@ public class CustomerAdvisoryController {
             AdvisoryOrder order = (AdvisoryOrder) valueStack.get("advisoryOrder");
             //同步发送系统消息至im
             advisoryOrderService.sendSystemMessage(order);
+
+            SortedMap<Object, Object> packageP = (SortedMap<Object, Object>) valueStack.get("packageP");
+            packageP.put("order", order);
+            return new Result(Result.SUCCESS, packageP);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return new Result(Result.FAIL, e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "续费")
+    @RequestMapping(value = "customer/xfOrder", method = {RequestMethod.GET})
+    protected @ResponseBody
+    Result xfOrder( AdvisoryOrderVo advisoryOrderVo, HttpServletRequest request) {
+        ValueStack valueStack = new GenericValueStack();
+        try {
+
+            AdvisoryOrder advisoryOrder = new AdvisoryOrder();
+            advisoryOrder.setSessionId(advisoryOrderVo.getSessionId());
+            List<AdvisoryOrderVo> list = advisoryOrderService.selectForList(advisoryOrder);
+            advisoryOrder = list.get(0);
+            advisoryOrderVo.setCustomId(advisoryOrder.getCustomId());
+            advisoryOrderVo.setConsId(advisoryOrder.getConsId());
+            advisoryOrderVo.setProductId(advisoryOrder.getProductId());
+            String addr = InetAddress.getLocalHost().getHostAddress();
+            valueStack.set("ip", addr);
+            valueStack.set("advisoryOrderVo", advisoryOrderVo);
+            valueStack.set("hasLink", true);
+            valueStack.set("sessionId", advisoryOrderVo.getSessionId());
+            chatOrderCreateChain.doChain(valueStack);
+
+            //执行完，取订单
+            AdvisoryOrder order = (AdvisoryOrder) valueStack.get("advisoryOrder");
 
             SortedMap<Object, Object> packageP = (SortedMap<Object, Object>) valueStack.get("packageP");
             packageP.put("order", order);
@@ -264,7 +294,7 @@ public class CustomerAdvisoryController {
         order.setState(1);
         order.setOrderStatus(OrderStatusEnum.submitted.getCode());
         order.setOrderTime(new Date());
-        advisoryOrderService.save(order);
+        //advisoryOrderService.save(order);
 
         return new Result(Result.SUCCESS);
     }

@@ -32,6 +32,8 @@ public class LinkOrder {
             AdvisoryOrder param = new AdvisoryOrder();
             param.setCustomId(advisoryOrder.getCustomId());
             param.setOrderStatus(OrderStatusEnum.payed.getCode());
+            Long sessionId = (Long) valueStack.get("sessionId");
+            param.setSessionId(sessionId);
             List<AdvisoryOrderVo> advisoryOrderVoList = advisoryOrderService.selectForList(param);
             Long parentOrderId = 0L;
             if (advisoryOrderVoList != null && advisoryOrderVoList.size() == 1) {

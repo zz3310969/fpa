@@ -18,12 +18,16 @@ import com.roof.advisory.advisoryproduct.service.api.IAdvisoryProductService;
 import com.roof.advisory.consultant.entity.Consultant;
 import com.roof.advisory.consultant.entity.ConsultantVo;
 import com.roof.advisory.consultant.service.api.IConsultantService;
+import com.roof.advisory.im.service.ImRequest;
+import com.roof.advisory.im.service.ImResponse;
+import com.roof.advisory.im.service.impl.ImService;
 import com.roof.advisory.wxsession.service.api.IWxSessionService;
 import com.roof.fpa.core.http.HttpClientUtil;
 import com.roof.fpa.customer.entity.Customer;
 import com.roof.fpa.customer.entity.CustomerVo;
 import com.roof.fpa.customer.service.api.ICustomerService;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.roof.commons.PropertiesUtil;
 import org.roof.commons.RoofDateUtils;
 import org.roof.roof.dataaccess.api.Page;
@@ -31,6 +35,7 @@ import com.roof.advisory.advisoryorder.dao.api.IAdvisoryOrderDao;
 import com.roof.advisory.advisoryorder.entity.AdvisoryOrder;
 import com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo;
 import com.roof.advisory.advisoryorder.service.api.IAdvisoryOrderService;
+import org.roof.spring.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -52,6 +57,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
     private String IM_BASEURL = PropertiesUtil.getPorpertyString("im.baseUrl");
 
 
+
     @Autowired
     private RedisTemplate redisTemplate;
 
@@ -67,6 +73,9 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
     @Autowired
     private IAdvisoryProductService advisoryProductService;
 
+
+    @Autowired
+    private IAdvisoryOrderService advisoryOrderService;
 
     @Override
     public void sendOpenSeesion(AdvisoryOrder order) throws IOException, ParseException {
@@ -88,6 +97,8 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
         } else {
             endTime = startTime + order.getLenTime() * 60000;//1分钟=60000毫秒(ms)
         }
+
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("token", token);
         map.put("sender", sender);
@@ -95,14 +106,51 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
         map.put("requestType", "openSession");
         map.put("startTime", startTime);
         map.put("endTime", endTime);
-        String rs = null;
-        try {
-            rs = HttpClientUtil.post(IM_BASEURL + "/session/open?requestType=openSession", JSON.toJSONString(map));
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-            throw e;
+
+        if (order.getSessionId() == null){
+            LOGGER.info("/session/open");
+
+            String rs = null;
+            try {
+                rs = HttpClientUtil.post(IM_BASEURL + "/session/open?requestType=openSession", JSON.toJSONString(map));
+                ImResponse response = JSON.parseObject(rs, ImResponse.class);
+                if (!StringUtils.equals(response.getState(), "success")) {
+                    LOGGER.error("openSession出错:", response.getMessage());
+                } else {
+                    Map map1 = response.getResult();
+                    Long sessionId = Long.valueOf(map1.get("id").toString());
+                    AdvisoryOrder advisoryOrder = new AdvisoryOrder(order.getId());
+                    advisoryOrder.setSessionId(sessionId);
+
+                    advisoryOrderService.updateIgnoreNull(advisoryOrder);
+
+                }
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage());
+                throw e;
+            }
+            LOGGER.info(rs);
+
+        }else {
+            LOGGER.info("/session/start");
+
+            map.put("sessionId",order.getSessionId());
+            map.put("requestType", "startSession");
+
+            String rs = null;
+            try {
+                rs = HttpClientUtil.post(IM_BASEURL + "/session/start", JSON.toJSONString(map));
+
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage());
+                throw e;
+            }
+            LOGGER.info(rs);
+
+
         }
-        LOGGER.info(rs);
+
+
     }
 
     @Override
