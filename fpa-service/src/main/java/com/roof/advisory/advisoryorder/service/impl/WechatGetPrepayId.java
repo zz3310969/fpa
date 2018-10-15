@@ -17,6 +17,8 @@ import com.roof.fpa.customer.entity.CustomerVo;
 import org.roof.commons.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.SortedMap;
@@ -42,6 +44,7 @@ public class WechatGetPrepayId {
 
     private IAdvisoryOrderRecordService advisoryOrderRecordService;
 
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String doNode(String ip, AdvisoryOrder advisoryOrder, CustomerVo customerVo, AdvisoryProductVo advisoryProductVo, ValueStack valueStack) {
         SortedMap<Object, Object> packageP = new TreeMap<Object, Object>();
         //
