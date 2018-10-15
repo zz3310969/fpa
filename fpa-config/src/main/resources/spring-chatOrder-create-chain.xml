@@ -29,6 +29,7 @@
                     <property name="name" value="calculateLenTime"/>
                     <property name="target">
                         <bean class="com.roof.advisory.advisoryorder.service.impl.CalculateLenTime">
+                            <property name="advisoryOrderService" ref="advisoryOrderService"/>
                         </bean>
                     </property>
                     <property name="forwards">

@@ -23,6 +23,8 @@ import com.roof.fpa.order.service.api.IOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -40,6 +42,7 @@ public class CreateOrder {
 
     private IAdvisoryOrderService advisoryOrderService;
 
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String doNode(AdvisoryOrderVo advisoryOrderVo, ValueStack valueStack) {
         //load product
         AdvisoryProductVo advisoryProductVo = (AdvisoryProductVo) valueStack.get("advisoryProductVo");
@@ -58,7 +61,6 @@ public class CreateOrder {
         order.setConsId(advisoryProductVo.getConsId());//咨询师id
         order.setOrderNum(advisoryOrderService.createOrderNum(new Date()));//订单编号
         order.setLenTime(Long.valueOf(valueStack.get("lenTime").toString()));//服务时长
-//        order.setCommentRecordId();// 评价记录id
         advisoryOrderService.save(order);
         valueStack.set("advisoryOrder", order);
 

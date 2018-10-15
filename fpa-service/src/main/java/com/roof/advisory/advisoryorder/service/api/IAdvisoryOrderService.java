@@ -55,6 +55,9 @@ public interface IAdvisoryOrderService {
 
     public abstract AdvisoryOrderVo loadByOrdernum(String orderNum);
 
+    public abstract AdvisoryOrderVo loadLastOrderBySeesionId(Long seesionId);
+
+
     /**
      * 按对象中的非空属性作为条件，进行查询实体
      */

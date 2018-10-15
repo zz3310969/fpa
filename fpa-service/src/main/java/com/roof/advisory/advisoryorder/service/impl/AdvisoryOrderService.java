@@ -57,7 +57,6 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
     private String IM_BASEURL = PropertiesUtil.getPorpertyString("im.baseUrl");
 
 
-
     @Autowired
     private RedisTemplate redisTemplate;
 
@@ -107,7 +106,7 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
         map.put("startTime", startTime);
         map.put("endTime", endTime);
 
-        if (order.getSessionId() == null){
+        if (order.getSessionId() == null) {
             LOGGER.info("/session/open");
 
             String rs = null;
@@ -131,10 +130,10 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
             }
             LOGGER.info(rs);
 
-        }else {
+        } else {
             LOGGER.info("/session/start");
 
-            map.put("sessionId",order.getSessionId());
+            map.put("sessionId", order.getSessionId());
             map.put("requestType", "startSession");
 
             String rs = null;
@@ -278,6 +277,15 @@ public class AdvisoryOrderService implements IAdvisoryOrderService {
         AdvisoryOrder order = new AdvisoryOrder();
         order.setOrderNum(orderNum);
         AdvisoryOrderVo advisoryOrderVo = (AdvisoryOrderVo) advisoryOrderDao.selectForObject("selectAdvisoryOrder", order);
+        return advisoryOrderVo;
+    }
+
+    @Override
+    public AdvisoryOrderVo loadLastOrderBySeesionId(Long seesionId) {
+        Assert.notNull(seesionId, "seesionId不能为空");
+        AdvisoryOrder order = new AdvisoryOrder();
+        order.setSessionId(seesionId);
+        AdvisoryOrderVo advisoryOrderVo = (AdvisoryOrderVo) advisoryOrderDao.selectForObject("selectAdvisoryOrderBySeesionId", order);
         return advisoryOrderVo;
     }
 

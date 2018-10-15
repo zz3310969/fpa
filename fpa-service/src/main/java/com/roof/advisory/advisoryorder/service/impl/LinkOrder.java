@@ -9,6 +9,8 @@ import com.roof.chain.api.ValueStack;
 import com.roof.chain.support.NodeResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,26 +27,27 @@ public class LinkOrder {
 
     private IAdvisoryOrderRecordService advisoryOrderRecordService;
 
-    public String doNode(AdvisoryOrder advisoryOrder, ValueStack valueStack) {
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public String doNode(AdvisoryOrder advisoryOrder, AdvisoryOrderVo oldAdvisoryOrderVo, ValueStack valueStack) {
         if (valueStack.get("hasLink") != null) {
             //找到这个客户的上级订单
             //判断是否已有未完成的订单，拒绝购买先？
-            AdvisoryOrder param = new AdvisoryOrder();
-            param.setCustomId(advisoryOrder.getCustomId());
-            param.setOrderStatus(OrderStatusEnum.payed.getCode());
-            Long sessionId = (Long) valueStack.get("sessionId");
-            param.setSessionId(sessionId);
-            List<AdvisoryOrderVo> advisoryOrderVoList = advisoryOrderService.selectForList(param);
-            Long parentOrderId = 0L;
-            if (advisoryOrderVoList != null && advisoryOrderVoList.size() == 1) {
-                parentOrderId = advisoryOrderVoList.get(0).getId();
-            } else {
-                LOGGER.error("不存在老订单，无法进行关联");
-                return NodeResult.FAIL;
-            }
+//            AdvisoryOrderVo param = new AdvisoryOrder();
+//            param.setCustomId(advisoryOrder.getCustomId());
+//            param.setOrderStatus(OrderStatusEnum.payed.getCode());
+//            Long sessionId = (Long) valueStack.get("sessionId");
+//            param.setSessionId(sessionId);
+//            List<AdvisoryOrderVo> advisoryOrderVoList = advisoryOrderService.selectForList(param);
+//            Long parentOrderId = 0L;
+//            if (advisoryOrderVoList != null && advisoryOrderVoList.size() == 1) {
+//                parentOrderId = advisoryOrderVoList.get(0).getId();
+//            } else {
+//                LOGGER.error("不存在老订单，无法进行关联");
+//                return NodeResult.FAIL;
+//            }
             //更新新订单
             AdvisoryOrder oldOrder = advisoryOrder;
-            advisoryOrder.setParentOrderId(parentOrderId);
+            advisoryOrder.setParentOrderId(oldAdvisoryOrderVo.getId());
             advisoryOrderService.updateIgnoreNull(advisoryOrder);
             //订单变更记录
             advisoryOrderRecordService.saveOrderChange(oldOrder, advisoryOrder);

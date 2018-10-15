@@ -90,4 +90,15 @@
         where session_id=#{sessionId}
     </update>
 
+
+    <select id="selectAdvisoryOrderBySeesionId" resultType="com.roof.advisory.advisoryorder.entity.AdvisoryOrderVo">
+        select
+        <include refid="columns_as"/>
+        from z_advisory_order
+        where 1=1
+        and session_id = #{sessionId}
+        order by im_end_time desc
+        limit 1
+    </select>
+
 </mapper>

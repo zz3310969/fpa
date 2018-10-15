@@ -155,7 +155,7 @@ public class CustomerAdvisoryController {
     @ApiOperation(value = "续费")
     @RequestMapping(value = "customer/xfOrder", method = {RequestMethod.GET})
     protected @ResponseBody
-    Result xfOrder( AdvisoryOrderVo advisoryOrderVo, HttpServletRequest request) {
+    Result xfOrder(AdvisoryOrderVo advisoryOrderVo, HttpServletRequest request) {
         ValueStack valueStack = new GenericValueStack();
         try {
 
@@ -220,14 +220,14 @@ public class CustomerAdvisoryController {
 
             Account account = accountOperateService.queryByUserType(advisoryOrderVo.getConsId(), AccountType.local);
             //consId
-            Map<String,String> map1 = new HashMap<>();
+            Map<String, String> map1 = new HashMap<>();
 
-            Dictionary SHARING_RATIO =  cacheHander.loadDictionaryById(241L);
+            Dictionary SHARING_RATIO = cacheHander.loadDictionaryById(241L);
             Integer cash_fee = Integer.valueOf(map.get("cash_fee"));
             BigDecimal ratio = new BigDecimal(SHARING_RATIO.getVal());
-            map1.put("remark","咨询分成");
-            map1.put("tag1",map.get("out_trade_no"));
-            accountOperateService.recharge(account.getId(),ratio.multiply(BigDecimal.valueOf(cash_fee)).setScale(0).intValue() , map1);
+            map1.put("remark", "咨询分成");
+            map1.put("tag1", map.get("out_trade_no"));
+            accountOperateService.recharge(account.getId(), ratio.multiply(BigDecimal.valueOf(cash_fee)).setScale(0).intValue(), map1);
             if (advisoryOrderVo.getPayTime() == null) {
                 //更新订单
                 AdvisoryOrder order = new AdvisoryOrder();
@@ -236,9 +236,18 @@ public class CustomerAdvisoryController {
                 order.setPayTime(new Date());
                 order.setOrderStatus(OrderStatusEnum.payed.getCode());
                 order.setPayAmount(map.get("cash_fee") == null ? 0 : Integer.valueOf(map.get("cash_fee")));
-                Date startTime = new Date();
-                order.setImStartTime(startTime);
-                order.setImEndTime(DateUtils.addMinutes(startTime, order.getLenTime().intValue()));
+                //判断是否有父订单
+                if (order.getParentOrderId() != null) {
+                    AdvisoryOrderVo parentOrderVo = advisoryOrderService.load(new AdvisoryOrder(order.getParentOrderId()));
+                    Date startTime = parentOrderVo.getOrderTimeEnd();
+                    order.setImStartTime(startTime);
+                    order.setImEndTime(DateUtils.addMinutes(startTime, order.getLenTime().intValue()));
+                } else {
+                    Date startTime = new Date();
+                    order.setImStartTime(startTime);
+                    order.setImEndTime(DateUtils.addMinutes(startTime, order.getLenTime().intValue()));
+                }
+
                 advisoryOrderService.updateIgnoreNull(order);
                 //记录订单变更记录
                 advisoryOrderRecordService.saveOrderChange(oldOrder, order);

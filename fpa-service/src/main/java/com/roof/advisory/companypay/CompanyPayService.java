@@ -1,12 +1,13 @@
 package com.roof.advisory.companypay;
 
 
-import com.jpay.ext.kit.IpKit;
 import com.jpay.ext.kit.PaymentKit;
 import com.jpay.ext.kit.StrKit;
 import com.jpay.weixin.api.WxPayApi;
+import org.roof.commons.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,30 +18,33 @@ import java.util.Map;
  * @author liht
  * @date 2018/10/1
  */
-public class CompanyPayService {
+@Service
+public class CompanyPayService implements ICompanyPayService {
 
     private static final Logger log = LoggerFactory.getLogger(CompanyPayService.class);
 
-    public static final String TRANSFERS_URL = "";
-    public static final String GETTRANSFERINFO_URL = "";
+    private String appid = PropertiesUtil.getPorpertyString("fpa.mini.appid");
+    private String mch_id = PropertiesUtil.getPorpertyString("wechat.pay.mch_id");
+    private String certPath = PropertiesUtil.getPorpertyString("wechat.pay.certPath");
+    private String partnerKey = PropertiesUtil.getPorpertyString("wechat.pay.paykey");
 
     /**
      * 企业付款到零钱
      */
-    public String transfers(String openId, String appid, String mch_id, String ip, String certPath, String partnerKey) {
-//        String openId = getSessionAttr("openId");
+    @Override
+    public String transfers(String openId, String ip) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("mch_appid", appid);
         params.put("mchid", mch_id);
         String nonceStr = String.valueOf(System.currentTimeMillis());
         params.put("nonce_str", nonceStr);
         String partnerTradeNo = String.valueOf(System.currentTimeMillis());
+        System.out.println("提款编号：" + partnerTradeNo);
         params.put("partner_trade_no", partnerTradeNo);
         params.put("openid", openId);
         params.put("check_name", "NO_CHECK");
         params.put("amount", "100");
-        params.put("desc", "IJPay提现测试-By Javen");
-//        String ip = IpKit.getRealIp(getRequest());
+        params.put("desc", "提现测试-By root");
         if (StrKit.isBlank(ip)) {
             ip = "127.0.0.1";
         }
@@ -69,9 +73,9 @@ public class CompanyPayService {
     /**
      * 查询企业付款到零钱
      */
-    public String transferInfo(String partner_trade_no, String mch_id, String appid, String partnerKey, String certPath) {
+    @Override
+    public String transferInfo(String partner_trade_no) {
         try {
-//            String partner_trade_no = getPara("partner_trade_no");
             Map<String, String> params = new HashMap<String, String>();
             params.put("nonce_str", System.currentTimeMillis() + "");
             params.put("partner_trade_no", partner_trade_no);
