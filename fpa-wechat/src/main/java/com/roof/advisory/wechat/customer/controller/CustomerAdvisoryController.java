@@ -1,5 +1,6 @@
 package com.roof.advisory.wechat.customer.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.roof.advisory.OrderStatusEnum;
 import com.roof.advisory.WechatRecordTypeEnum;
@@ -217,7 +218,7 @@ public class CustomerAdvisoryController {
             logger.info("充值成功！");
             //更新订单？
             AdvisoryOrderVo advisoryOrderVo = advisoryOrderService.loadByOrdernum(map.get("out_trade_no"));
-
+            logger.info("out_trade_no：" + map.get("out_trade_no") + "加载的数据为：" + JSON.toJSONString(advisoryOrderVo));
             Account account = accountOperateService.queryByUserType(advisoryOrderVo.getConsId(), AccountType.local);
             //consId
             Map<String, String> map1 = new HashMap<>();
@@ -239,7 +240,7 @@ public class CustomerAdvisoryController {
                 //判断是否有父订单
                 if (order.getParentOrderId() != null) {
                     AdvisoryOrderVo parentOrderVo = advisoryOrderService.load(new AdvisoryOrder(order.getParentOrderId()));
-                    Date startTime = parentOrderVo.getOrderTimeEnd();
+                    Date startTime = parentOrderVo.getImEndTime();
                     order.setImStartTime(startTime);
                     order.setImEndTime(DateUtils.addMinutes(startTime, order.getLenTime().intValue()));
                 } else {
@@ -247,7 +248,7 @@ public class CustomerAdvisoryController {
                     order.setImStartTime(startTime);
                     order.setImEndTime(DateUtils.addMinutes(startTime, order.getLenTime().intValue()));
                 }
-
+                logger.info("最后更新订单数据为：" + JSON.toJSONString(order));
                 advisoryOrderService.updateIgnoreNull(order);
                 //记录订单变更记录
                 advisoryOrderRecordService.saveOrderChange(oldOrder, order);
