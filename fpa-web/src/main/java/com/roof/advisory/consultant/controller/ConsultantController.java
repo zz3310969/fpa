@@ -1,7 +1,8 @@
 package com.roof.advisory.consultant.controller;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import com.google.common.collect.Maps;
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,16 +18,21 @@ import com.roof.advisory.level.entity.LevelVo;
 import com.roof.advisory.level.service.api.ILevelService;
 import com.roof.fpa.DefaultStateEnum;
 import com.roof.fpa.GenderEnum;
+import com.roof.fpa.cache.api.ICacheHander;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.roof.roof.dataaccess.api.Page;
 import org.roof.roof.dataaccess.api.PageUtils;
 import org.roof.spring.Result;
 import com.roof.advisory.consultant.entity.Consultant;
 import com.roof.advisory.consultant.entity.ConsultantVo;
 import com.roof.advisory.consultant.service.api.IConsultantService;
+import org.roof.web.dictionary.entity.Dictionary;
+import org.roof.web.dictionary.service.impl.DictionaryService;
 import org.roof.web.user.entity.User;
 import org.roof.web.user.service.api.BaseUserContext;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -44,6 +50,9 @@ public class ConsultantController {
 	@Autowired
 	private ILevelService levelService;
 
+	@Autowired
+	private DictionaryService dictionaryService;
+
 	@ApiOperation(value = "获得咨询师基础信息")
 	@RequestMapping(value = "consultant/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
@@ -58,6 +67,16 @@ public class ConsultantController {
 		map.put("genders",genderEnums);
 		DefaultStatusEnum[] status = DefaultStatusEnum.values();
 		map.put("status",status);
+		List<Dictionary> introductions = dictionaryService.findByType("INTRODUCTIONS");
+		List<Map<String,String>> maps = new ArrayList<>(introductions.size());
+		for (Dictionary dictionary:introductions){
+			Map<String,String> map1 = new HashMap<>(2);
+			map1.put("label",dictionary.getVal());
+			map1.put("value",dictionary.getVal());
+			maps.add(map1);
+		}
+		map.put("introductions",maps);
+
 		return new Result(Result.SUCCESS, map);
 	}
 
@@ -80,9 +99,17 @@ public class ConsultantController {
 
     @ApiOperation(value = "新增咨询师")
 	@RequestMapping(value = "consultant", method = {RequestMethod.POST})
-	public @ResponseBody Result create(@RequestBody Consultant consultant) {
-		if (consultant != null) {
+	public @ResponseBody Result create(@RequestBody ConsultantVo consultantVo) {
+		if (consultantVo != null) {
+			Consultant consultant = new Consultant();
+			BeanUtils.copyProperties(consultantVo,consultant);
+
+			if(consultantVo.getIntroductions() != null ){
+				consultant.setIntroduction(consultantVo.getIntroductions().stream()
+						.collect(Collectors.joining(",")));
+			}
 			consultantService.save(consultant);
+
 			return new Result("保存成功!");
 		} else {
 			return new Result(Result.FAIL,"数据传输失败!");
@@ -93,14 +120,26 @@ public class ConsultantController {
     @RequestMapping(value = "consultant/{id}", method = {RequestMethod.GET})
     public @ResponseBody Result<ConsultantVo> load(@PathVariable Long id) {
 		ConsultantVo consultantVo = consultantService.load(new Consultant(id));
+		if(StringUtils.isNotEmpty(consultantVo.getIntroduction())){
+			consultantVo.setIntroductions(Arrays.asList(consultantVo.getIntroduction().split(",")));
+
+		}
         return new Result(Result.SUCCESS,consultantVo);
     }
 
 	@ApiOperation(value = "根据ID更新咨询师")
 	@RequestMapping(value = "consultant/{id}", method = {RequestMethod.PUT})
-	public @ResponseBody Result update(@PathVariable Long id ,@RequestBody Consultant consultant) {
-		if (id != null && consultant != null) {
-			consultant.setId(id);
+	public @ResponseBody Result update(@PathVariable Long id ,@RequestBody ConsultantVo consultantVo) {
+		if (id != null && consultantVo != null) {
+			consultantVo.setId(id);
+			Consultant consultant = new Consultant();
+			BeanUtils.copyProperties(consultantVo,consultant);
+
+			if(consultantVo.getIntroductions() != null ){
+				consultant.setIntroduction(consultantVo.getIntroductions().stream()
+						.collect(Collectors.joining(",")));
+			}
+
 			consultantService.updateIgnoreNull(consultant);
 			return new Result("保存成功!");
 		} else {
