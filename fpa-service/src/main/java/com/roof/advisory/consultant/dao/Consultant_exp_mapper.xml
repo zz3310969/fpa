@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.advisory.consultant.dao">
 	<sql id="columnsAs">
-		t1.id as id, t1.app_id as appId, t1.name as name, t1.username as username, t1.head_image_url as headImageUrl, t1.level_id as levelId, t1.theme_id as themeId, t1.area_id as areaId, t1.gender as gender, t1.introduction as introduction, t1.user_id as userId, t1.mobile as mobile, t1.reg_time as regTime, t1.status as status, t1.state as state, t1.country as country, t1.province as province, t1.city as city,t1.grade as grade
+		t1.id as id, t1.app_id as appId, t1.name as name, t1.username as username, t1.head_image_url as headImageUrl, t1.level_id as levelId, t1.theme_id as themeId, t1.area_id as areaId, t1.gender as gender, t1.introduction as introduction, t1.user_id as userId, t1.mobile as mobile, t1.reg_time as regTime, t1.status as status, t1.state as state, t1.country as country, t1.province as province, t1.city as city,t1.grade as grade , t1.themes as themes
 	</sql>
 
 	 <select id="selectConsultantUsernames" resultType="java.lang.String">
@@ -47,7 +47,6 @@
 		(0) as isOnline,
 		(0) as canOrder,
 		if(times is null,0,times) as times,
-		(SELECT NAME FROM z_advisory_theme WHERE id = t1.theme_id ) as themeName,
 		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName
 		from
 		z_consultant t1

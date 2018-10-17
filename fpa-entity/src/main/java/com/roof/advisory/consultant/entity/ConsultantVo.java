@@ -18,7 +18,7 @@ public class ConsultantVo extends Consultant {
 	private GenderEnum genderEnum;
 	private String[] areas;
 
-	private List<String> introductions;
+	private List<String> themeList;
 
 
 	public ConsultantVo() {
@@ -77,11 +77,11 @@ public class ConsultantVo extends Consultant {
 		this.areas = areas;
 	}
 
-	public List<String> getIntroductions() {
-		return introductions;
+	public List<String> getThemeList() {
+		return themeList;
 	}
 
-	public void setIntroductions(List<String> introductions) {
-		this.introductions = introductions;
+	public void setThemeList(List<String> themeList) {
+		this.themeList = themeList;
 	}
 }

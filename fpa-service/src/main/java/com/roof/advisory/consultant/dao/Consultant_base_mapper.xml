@@ -8,12 +8,12 @@
 	</sql>
 
 	<sql id="columns_as">
-		id as id , app_id as appId , name as name , username as username , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , user_id as userId , mobile as mobile , reg_time as regTime , status as status , state as state , country as country , province as province , city as city ,grade as grade
+		id as id , app_id as appId , name as name , username as username , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , user_id as userId , mobile as mobile , reg_time as regTime , status as status , state as state , country as country , province as province , city as city ,grade as grade, themes as themes
 	</sql>
 
 
 	<sql id="vals">
-		#{id}, #{appId}, #{name}, #{username}, #{headImageUrl}, #{levelId}, #{themeId}, #{areaId}, #{gender}, #{introduction}, #{userId}, #{mobile}, #{regTime}, #{status}, #{state}, #{country}, #{province}, #{city} ,#{grade}
+		#{id}, #{appId}, #{name}, #{username}, #{headImageUrl}, #{levelId}, #{themeId}, #{areaId}, #{gender}, #{introduction}, #{userId}, #{mobile}, #{regTime}, #{status}, #{state}, #{country}, #{province}, #{city} ,#{grade} , #{themes}
 	</sql>
 	<sql id="conds">
 		<if test="id != null">
@@ -73,7 +73,9 @@
 		<if test="grade != null">
 			and grade = #{grade}
 		</if>
-
+		<if test="themes != null">
+			and themes = #{themes}
+		</if>
 	</sql>
 
 	<insert id="saveConsultant" parameterType="com.roof.advisory.consultant.entity.Consultant" useGeneratedKeys="true" keyProperty="id">
@@ -116,7 +118,8 @@
 			country=#{country}, 
 			province=#{province}, 
 			city=#{city},
-			grade=#{grade}
+			grade=#{grade},
+			themes = #{themes}
 		</set>
 		where id=#{id} 
 	</update>
@@ -179,9 +182,11 @@
 			city=#{city},
 		</if>
 		<if test="grade != null">
-			grade=#{grade}
+			grade=#{grade},
 		</if>
-
+		<if test="themes != null">
+			themes=#{themes}
+		</if>
 		</set>
 		where id=#{id} 
 	</update>
@@ -244,7 +249,10 @@
 			city=#{city},
 			</if>
 			<if test="grade != null">
-				grade=#{grade}
+				grade=#{grade},
+			</if>
+			<if test="themes != null">
+				themes=#{themes}
 			</if>
 		</set>
 		where 1=1
@@ -264,7 +272,6 @@
 		(0) as isOnline,
 		(0) as canOrder,
 		(SELECT count(id) FROM z_advisory_order WHERE cons_id = t1.id AND order_status in ('payed','completed')) as times,
-		(SELECT NAME FROM z_advisory_theme WHERE id = t1.theme_id ) as themeName,
 		(SELECT NAME FROM z_application WHERE id = t1.app_id ) as appName,
 		<include refid="columns_as"/>
 		from z_consultant t1

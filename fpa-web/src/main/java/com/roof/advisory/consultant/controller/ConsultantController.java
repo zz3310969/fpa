@@ -67,15 +67,14 @@ public class ConsultantController {
 		map.put("genders",genderEnums);
 		DefaultStatusEnum[] status = DefaultStatusEnum.values();
 		map.put("status",status);
-		List<Dictionary> introductions = dictionaryService.findByType("INTRODUCTIONS");
-		List<Map<String,String>> maps = new ArrayList<>(introductions.size());
-		for (Dictionary dictionary:introductions){
+		List<Map<String,String>> maps = new ArrayList<>(advisoryThemes.size());
+		for (AdvisoryThemeVo advisoryThemeVo:advisoryThemes){
 			Map<String,String> map1 = new HashMap<>(2);
-			map1.put("label",dictionary.getVal());
-			map1.put("value",dictionary.getVal());
+			map1.put("label",advisoryThemeVo.getName());
+			map1.put("value",advisoryThemeVo.getName());
 			maps.add(map1);
 		}
-		map.put("introductions",maps);
+		map.put("themeList",maps);
 
 		return new Result(Result.SUCCESS, map);
 	}
@@ -104,8 +103,8 @@ public class ConsultantController {
 			Consultant consultant = new Consultant();
 			BeanUtils.copyProperties(consultantVo,consultant);
 
-			if(consultantVo.getIntroductions() != null ){
-				consultant.setIntroduction(consultantVo.getIntroductions().stream()
+			if(consultantVo.getThemeList() != null ){
+				consultant.setIntroduction(consultantVo.getThemeList().stream()
 						.collect(Collectors.joining(",")));
 			}
 			consultantService.save(consultant);
@@ -120,8 +119,8 @@ public class ConsultantController {
     @RequestMapping(value = "consultant/{id}", method = {RequestMethod.GET})
     public @ResponseBody Result<ConsultantVo> load(@PathVariable Long id) {
 		ConsultantVo consultantVo = consultantService.load(new Consultant(id));
-		if(StringUtils.isNotEmpty(consultantVo.getIntroduction())){
-			consultantVo.setIntroductions(Arrays.asList(consultantVo.getIntroduction().split(",")));
+		if(StringUtils.isNotEmpty(consultantVo.getThemes())){
+			consultantVo.setThemeList(Arrays.asList(consultantVo.getThemes().split(",")));
 
 		}
         return new Result(Result.SUCCESS,consultantVo);
@@ -135,8 +134,8 @@ public class ConsultantController {
 			Consultant consultant = new Consultant();
 			BeanUtils.copyProperties(consultantVo,consultant);
 
-			if(consultantVo.getIntroductions() != null ){
-				consultant.setIntroduction(consultantVo.getIntroductions().stream()
+			if(consultantVo.getThemeList() != null ){
+				consultant.setThemes(consultantVo.getThemeList().stream()
 						.collect(Collectors.joining(",")));
 			}
 

@@ -82,14 +82,14 @@ public class ConsultantWechatVo extends Consultant {
         this.canOrder = canOrder;
     }
 
-    public List<AdvisoryTheme> getThemes() {
+    /*public List<AdvisoryTheme> getThemes() {
         return themes;
     }
 
     public void setThemes(List<AdvisoryTheme> themes) {
         this.themes = themes;
     }
-
+*/
 
     public Long getTimes() {
         return times;

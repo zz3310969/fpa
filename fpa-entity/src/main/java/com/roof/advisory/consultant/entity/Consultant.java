@@ -51,6 +51,8 @@ public class Consultant implements Serializable {
 	@ApiModelProperty(value = "分数")
 	protected Double grade;
 
+	protected String themes;// 服务主题
+
 	public Consultant() {
 		super();
 	}
@@ -200,5 +202,13 @@ public class Consultant implements Serializable {
 
 	public void setGrade(Double grade) {
 		this.grade = grade;
+	}
+
+	public String getThemes() {
+		return themes;
+	}
+
+	public void setThemes(String themes) {
+		this.themes = themes;
 	}
 }
