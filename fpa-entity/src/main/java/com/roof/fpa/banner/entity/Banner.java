@@ -29,6 +29,8 @@ public class Banner implements Serializable {
     protected String target;//目标地址
     @ApiModelProperty(value = "参数")
     protected String params;//参数
+    @ApiModelProperty(value = "类型1")
+    protected String type1;//类型1
 
 
     public Banner() {
@@ -87,5 +89,13 @@ public class Banner implements Serializable {
 
     public void setParams(String params) {
         this.params = params;
+    }
+
+    public String getType1() {
+        return type1;
+    }
+
+    public void setType1(String type1) {
+        this.type1 = type1;
     }
 }

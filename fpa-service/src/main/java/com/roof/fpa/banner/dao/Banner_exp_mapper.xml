@@ -4,7 +4,7 @@
 <mapper namespace="com.roof.fpa.banner.dao">
 	<sql id="columnsAs">
 		t1.id as id, t1.path as path, t1.image_url as imageUrl, t1.type as type,
-		target as target ,params as params
+		target as target ,params as params ,type1 as type1
 	</sql>
 	
 	<select id="selectBannerPage" resultType="com.roof.fpa.banner.entity.BannerVo">
