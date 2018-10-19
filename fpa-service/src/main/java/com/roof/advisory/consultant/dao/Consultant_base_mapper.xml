@@ -4,11 +4,11 @@
 <mapper namespace="com.roof.advisory.consultant.dao">
 
 	<sql id="columns">
-		id, app_id, name, username, head_image_url, level_id, theme_id, area_id, gender, introduction, user_id, mobile, reg_time, status, state, country, province, city,grade
+		id, app_id, name, username, head_image_url, level_id, theme_id, area_id, gender, introduction, user_id, mobile, reg_time, status, state, country, province, city,grade,themes
 	</sql>
 
 	<sql id="columns_as">
-		id as id , app_id as appId , name as name , username as username , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , user_id as userId , mobile as mobile , reg_time as regTime , status as status , state as state , country as country , province as province , city as city ,grade as grade, themes as themes
+		id as id , app_id as appId , name as name , username as username , head_image_url as headImageUrl , level_id as levelId , theme_id as themeId , area_id as areaId , gender as gender , introduction as introduction , user_id as userId , mobile as mobile , reg_time as regTime , status as status , state as state , country as country , province as province , city as city ,grade as grade , themes as themes
 	</sql>
 
 
