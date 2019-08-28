@@ -27,6 +27,12 @@ public class AccountService implements IAccountService {
     @Autowired
     private IAccountDetailService accountDetailService;
 
+    @Override
+    public Long countAllUser() {
+        return (Long) accountDao.selectForObject("selectUserCount");
+    }
+
+    @Override
     public Serializable save(Account account) {
         return accountDao.save(account);
     }
@@ -92,7 +98,7 @@ public class AccountService implements IAccountService {
         Account account_ = this.selectForObject(account);
         Assert.notNull(account_, counselorId + "不存在账户");
         Integer afterAmount = account_.getAmount() + money;
-        accountDao.updateAccount(account_.getId(),afterAmount,money);
+        accountDao.updateAccount(account_.getId(), afterAmount, money);
         AccountDetail detail = new AccountDetail();
         detail.setAccountId(account_.getId());
         detail.setBeforeAmount(account_.getAmount());
@@ -105,7 +111,8 @@ public class AccountService implements IAccountService {
 
     @Autowired
     public void setIAccountDao(
-            @Qualifier("accountDao") IAccountDao accountDao) {
+            @Qualifier("accountDao") IAccountDao accountDao
+    ) {
         this.accountDao = accountDao;
     }
 
