@@ -29,7 +29,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public Long countAllUser() {
-        return (Long) accountDao.selectForObject("selectUserCount");
+        return (Long) accountDao.selectForObject("com.roof.fpa.account.dao.selectUserCount");
     }
 
     @Override

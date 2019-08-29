@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
  * Created by zhenglt on 2017/11/29.
  */
 @Controller
+@RequestMapping("fpa/wechat")
 public class HomeController {
     @Autowired
     private IAccountService accountService;
